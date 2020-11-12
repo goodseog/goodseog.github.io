@@ -1,7 +1,5 @@
 import { Wall } from "./wall.js";
 import { Ball } from "./ball.js";
-import { Block } from "./block.js";
-import { vec2D } from "./vec2d.js";
 
 class App {
   constructor() {
@@ -22,10 +20,7 @@ class App {
     this.objs.push(new Wall(0, this.stageHeight, this.stageWidth, this.stageHeight));
     this.objs.push(new Wall(this.stageWidth, this.stageHeight, this.stageWidth, 0));
     this.objs.push(new Wall(this.stageWidth, 0, 0, 0));
-
-    // this.objs.push(new Ball(30, 30, 30, 5, 5));
     this.objs.push(new Ball(340, 60, 30, -5, 5));
-    // this.objs.push(new Block(100, 100, 100, 200, "green"));
   }
 
   resize() {
