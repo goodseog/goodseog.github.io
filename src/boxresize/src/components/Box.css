@@ -1,0 +1,23 @@
+@keyframes createbox {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.box {
+  animation-name: createbox;
+  animation-duration: 0.5s;
+  animation-direction: normal;
+}
+
+.box:hover {
+  outline: 1px solid black;
+}
+
+polygon:hover {
+  stroke: black;
+  stroke-width: 1px;
+}
