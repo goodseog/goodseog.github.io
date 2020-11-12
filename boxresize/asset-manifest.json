@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/boxresize/static/css/main.5fd886da.chunk.css",
-    "main.js": "/boxresize/static/js/main.b71b9578.chunk.js",
-    "main.js.map": "/boxresize/static/js/main.b71b9578.chunk.js.map",
-    "runtime-main.js": "/boxresize/static/js/runtime-main.e0553bf8.js",
-    "runtime-main.js.map": "/boxresize/static/js/runtime-main.e0553bf8.js.map",
-    "static/js/2.5aec678e.chunk.js": "/boxresize/static/js/2.5aec678e.chunk.js",
-    "static/js/2.5aec678e.chunk.js.map": "/boxresize/static/js/2.5aec678e.chunk.js.map",
-    "static/js/3.7f54c735.chunk.js": "/boxresize/static/js/3.7f54c735.chunk.js",
-    "static/js/3.7f54c735.chunk.js.map": "/boxresize/static/js/3.7f54c735.chunk.js.map",
-    "index.html": "/boxresize/index.html",
-    "static/css/main.5fd886da.chunk.css.map": "/boxresize/static/css/main.5fd886da.chunk.css.map",
-    "static/js/2.5aec678e.chunk.js.LICENSE.txt": "/boxresize/static/js/2.5aec678e.chunk.js.LICENSE.txt"
+    "main.css": "https://goodseog.github.io/static/css/main.5fd886da.chunk.css",
+    "main.js": "https://goodseog.github.io/static/js/main.b71b9578.chunk.js",
+    "main.js.map": "https://goodseog.github.io/static/js/main.b71b9578.chunk.js.map",
+    "runtime-main.js": "https://goodseog.github.io/static/js/runtime-main.99711827.js",
+    "runtime-main.js.map": "https://goodseog.github.io/static/js/runtime-main.99711827.js.map",
+    "static/js/2.5aec678e.chunk.js": "https://goodseog.github.io/static/js/2.5aec678e.chunk.js",
+    "static/js/2.5aec678e.chunk.js.map": "https://goodseog.github.io/static/js/2.5aec678e.chunk.js.map",
+    "static/js/3.7f54c735.chunk.js": "https://goodseog.github.io/static/js/3.7f54c735.chunk.js",
+    "static/js/3.7f54c735.chunk.js.map": "https://goodseog.github.io/static/js/3.7f54c735.chunk.js.map",
+    "index.html": "https://goodseog.github.io/index.html",
+    "static/css/main.5fd886da.chunk.css.map": "https://goodseog.github.io/static/css/main.5fd886da.chunk.css.map",
+    "static/js/2.5aec678e.chunk.js.LICENSE.txt": "https://goodseog.github.io/static/js/2.5aec678e.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.e0553bf8.js",
+    "static/js/runtime-main.99711827.js",
     "static/js/2.5aec678e.chunk.js",
     "static/css/main.5fd886da.chunk.css",
     "static/js/main.b71b9578.chunk.js"
