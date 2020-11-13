@@ -71,9 +71,6 @@ function main() {
   // Link the two shaders into a program
   let program = createProgram(gl, vertexShader, fragmentShader);
 
-  // look up where the vertex data needs to go.
-  let positionAttributeLocation = gl.getAttribLocation(program, "a_position");
-
   // Create a buffer and put three 2d clip space points in it
   // Bind it to ARRAY_BUFFER (think of it as ARRAY_BUFFER = positionBuffer)
   let positionBuffer = gl.createBuffer();
@@ -82,9 +79,11 @@ function main() {
   let positions = [0, 0, 0, 0.5, 0.7, 0];
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
 
+  // look up where the vertex data needs to go.
   // Create a vertex array object (attribute state)
   // and make it the one we're currently working with
   // Turn on the attribute
+  let positionAttributeLocation = gl.getAttribLocation(program, "a_position");
   let vao = gl.createVertexArray();
   gl.bindVertexArray(vao);
   gl.enableVertexAttribArray(positionAttributeLocation);
@@ -102,18 +101,17 @@ function main() {
 
   // Tell WebGL how to convert from clip space to pixels
   // Clear the canvas
-  gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);  
+  gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
   gl.clearColor(0, 0, 0, 0);
   gl.clear(gl.COLOR_BUFFER_BIT);
 
   // Tell it to use our program (pair of shaders)
   // Bind the attribute/buffer set we want.
   gl.useProgram(program);
-  gl.bindVertexArray(vao);
 
   // draw
   let primitiveType = gl.TRIANGLES;
-  let offset = 0;
+  offset = 0;
   let count = 3;
   gl.drawArrays(primitiveType, offset, count);
 }
