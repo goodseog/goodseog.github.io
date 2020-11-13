@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import DragBox from "./components/DragBox";
 import Box from "./components/Box";
 import * as BoxConfig from "./components/BoxConfig";
+import AboutText from "./components/AboutText";
 import "./App.css";
 
 const BUTTON_LEFT = 0;
@@ -88,7 +89,6 @@ export default function App() {
   function handleMouseDown(evt) {
     if (evt.button === BUTTON_LEFT) {
       let selectedIndex = getIndex(evt.clientX, evt.clientY);
-      console.log(selectedIndex);
       if (selectedIndex !== undefined && selectedIndex !== -1) {
         // SHIFT
         let startX =
@@ -198,14 +198,7 @@ export default function App() {
           fill={box.fill}
         />
       ))}
-      <text
-        fontSize={13}
-        textAnchor="end"
-        x={windowWidth * 0.99}
-        y={windowHeight * 0.99}
-      >
-        Box Resize@goodseog.yoo
-      </text>
+      <AboutText windowWidth={windowWidth} windowHeight={windowHeight} />
       <DragBox
         isDragging={isAdding}
         x1={addStart.x}
