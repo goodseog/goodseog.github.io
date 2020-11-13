@@ -17,7 +17,7 @@ export default function AboutText({ windowWidth, windowHeight }) {
         L-Drag on Tip : Box Resize
       </text>
       <text fontSize={11} x={xLD} y={y(-1)} textAnchor="start">
-        DBL L-Click : Move on Top
+        DBL L-Click : Bring to front
       </text>
       <text fontSize={13} x={xRD} y={y(-1)} textAnchor="end">
         Box Resize@goodseog.yoo
