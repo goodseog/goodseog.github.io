@@ -1,4 +1,4 @@
-import { vec2D } from "./vec2d.js";
+import { vec2D } from "./vector.js";
 
 export class Wall {
   constructor(x1, y1, x2, y2, color = "black") {

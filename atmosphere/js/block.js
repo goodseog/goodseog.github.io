@@ -18,8 +18,14 @@ export class Block {
   move() {}
 
   collision(obj) {
-    if (obj.type == "ball")
-      this.walls.forEach((wall) => obj.collisionWall(wall));
+    if (obj.type == "ball") {
+      for (let i = 0; i < this.walls.length; i++) {
+        let wall = this.walls[i];
+        if (obj.collisionWall(wall)) {
+          break;
+        }
+      }
+    }
   }
 
   redraw(ctx) {

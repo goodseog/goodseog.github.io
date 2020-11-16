@@ -1,4 +1,4 @@
-import { vec2D } from "./vec2d.js";
+import { vec2D } from "./vector.js";
 
 export class Ball {
   constructor(x, y, r, vx, vy, color = "black") {
@@ -8,7 +8,6 @@ export class Ball {
     this.m = 1;
     this.vel = new vec2D(vx, vy);
     this.color = color;
-    this.epsilon = 1e-1;
   }
 
   move() {
@@ -33,26 +32,30 @@ export class Ball {
     var dist = wall.distance(this.pos.x, this.pos.y);
     var near = this.pos.subtract(wall.normal.multiply(dist));
 
-    if (this.pos.subtract(wall.start).length() <= this.r + this.epsilon) {
+    if (this.pos.subtract(wall.start).length() <= this.r ) {
       console.log("collision at start");
       var newNormS = this.pos.subtract(wall.start).unit();
       this.vel = this.vel.subtract(newNormS.multiply(2 * newNormS.dot(this.vel)));
       this.pos = this.pos.add(this.vel)
-    } else if (this.pos.subtract(wall.end).length() <= this.r + this.epsilon) {
-      console.log("collision at end");
+      return true;
+    } else if (this.pos.subtract(wall.end).length() <= this.r ) {
+      console.log("collision at end " + wall.end.x + " "  + wall.end.y);
       var newNormE = this.pos.subtract(wall.end).unit();
       this.vel = this.vel.subtract(newNormE.multiply(2 * newNormE.dot(this.vel)));
       this.pos = this.pos.add(this.vel)
+      return true;
     } else if (
-      dist <= this.r + this.epsilon &&
+      dist <= this.r &&
       this.beetween(wall.start.x, near.x, wall.end.x) &&
       this.beetween(wall.start.y, near.y, wall.end.y)
     ) {
-      console.log("hello??")
+      console.log("collision at wall");
       this.vel = this.vel.subtract(
         wall.normal.multiply(2 * wall.normal.dot(this.vel))
       );
+      return true;
     }
+    return false;
   }
 
   beetween(a, x, b) {
