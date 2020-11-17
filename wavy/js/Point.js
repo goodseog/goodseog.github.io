@@ -1,4 +1,4 @@
-import { vec2D } from "./Vector.js";
+import { vec2D } from "/static/libs/Vector.js";
 
 export class Point {
   constructor(center, amp, w, pi) {
