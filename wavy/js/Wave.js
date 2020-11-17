@@ -1,5 +1,5 @@
 import { Point } from "./Point.js";
-import { vec2D } from "/static/libs/Vector.js";
+import { vec2D } from "/static/js/Vector.js";
 
 export default class Wave {
   constructor(freq, amp, w, pi, color) {

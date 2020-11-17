@@ -1,4 +1,4 @@
-import { vec2D } from "/static/libs/Vector.js";
+import { vec2D } from "/static/js/Vector.js";
 
 export class Ball {
   constructor(x, y, r, vx, vy, color = "black") {
