@@ -24,7 +24,7 @@ body {
 
 #container {
   display: flex;
-  width: 540px;
+  width: 320px;
   height: 100%;
   border: 1px solid var(--main);
   flex-direction: column;
