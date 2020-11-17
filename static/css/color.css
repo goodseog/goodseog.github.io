@@ -1,0 +1,10 @@
+:root {
+  --black: #231815; /* 검정색 */
+  --white: #FFFFFF; /* 하양색 */
+
+  --main: #9e9e9f; /* 쥐색 */
+
+  --divtext: #9e9e9f; /* 쥐색 */
+  --divborder: #c8c9ca; /* 시멘트색 */
+  --divbackground: #dbdcdc; /* 은회색 */
+}
