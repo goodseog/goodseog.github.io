@@ -24,8 +24,8 @@ body {
 
 #container {
   display: flex;
-  width : 50%;
-  min-width: 320px;
+  width: 100%;
+  min-width: 360px;
   max-width: 540px;
   height: 100%;
   border: 1px solid var(--main);
