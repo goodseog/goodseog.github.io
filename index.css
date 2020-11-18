@@ -34,13 +34,13 @@ body {
 
 #header {
   display: flex;
-  flex: 0 0 20px;
+  flex: 0 0 23px;
   justify-content: center;
   flex-direction: column;
   letter-spacing: -0.5px;
-  word-spacing: 3px;
+  word-spacing: 2px;
 
-  padding: 5px;
+  padding: 5px 8px;
   background-color: var(--main);
   color: white;
 }
@@ -66,6 +66,7 @@ body {
   height: 120px;
   justify-content: center;
   flex-direction: row;
+  gap: 6px
 }
 
 #picture {
@@ -83,27 +84,69 @@ body {
 #profile {
   flex: 1;
   flex-direction: column;
+  justify-content: center;
 }
 
 #profile-name {
-  flex: 0 0 50px;
-  flex-direction: column;
-  justify-content: center;
-  font-size: 15px;
+  flex: 0 0 30px;
+  flex-direction: row;
+  align-items: start;
+  font-size: 16px;
+  gap: 6px;
+}
+
+#profile-name-kor, #profile-name-eng {
+  font-size: 16px;
+  align-items: center;
 }
 
 #profile-major {
-  flex: 1;
+  flex: 0 0 20px;
   flex-direction: column;
+  justify-content: center;
+  font-size: 13px;
+}
+
+#profile-minor {
+  flex: 0 0 20px;
+  flex-direction: column;
+  justify-content: center;
   font-size: 13px;
 }
 
 #divider {
   flex: 0 0 15px;
-  padding: 5px;
+  padding: 5px 8px;
 
   background-color: var(--divbackground);
+  color: var(--divtext);
 
   border-top: 1px solid var(--divborder);
   border-bottom: 1px solid var(--divborder);
 }
+
+#detail {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  grid-template-rows: repeat(4, 28px);
+  align-items: center;
+  margin-top: 5px;
+}
+
+#detail .question {
+  padding-left: 13px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+#detail .answer {
+  padding-left: 0px;
+  font-size: 13px;
+}
+
+.scroll {
+  flex-direction: column;
+  height: 100%;
+  overflow-y: scroll;
+}
+
