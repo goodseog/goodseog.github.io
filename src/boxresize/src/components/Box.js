@@ -1,5 +1,5 @@
+import { RESIZE_LENGTH, RESIZE_MARGIN } from "components/BoxConfig";
 import "./Box.css";
-import { RESIZE_LENGTH, RESIZE_MARGIN } from "./BoxConfig";
 
 export default function Box({ x, y, width, height, fill }) {
   let points = `

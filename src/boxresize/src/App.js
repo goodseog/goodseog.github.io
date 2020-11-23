@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import DragBox from "./components/DragBox";
-import Box from "./components/Box";
-import * as BoxConfig from "./components/BoxConfig";
-import AboutText from "./components/AboutText";
+import DragBox from "components/DragBox";
+import Box from "components/Box";
+import * as BoxConfig from "components/BoxConfig";
+import AboutText from "components/AboutText";
 import "./App.css";
 
 const BUTTON_LEFT = 0;
@@ -33,6 +33,70 @@ export default function App() {
     window.addEventListener("resize", resizeWindow);
     return () => window.removeEventListener("resize", resizeWindow);
   }, []);
+
+  function handleDoubleClick(evt) {
+    if (evt.button === BUTTON_LEFT) {
+      let BringToFrontIndex = getIndex(evt.clientX, evt.clientY);
+      BringToFront(BringToFrontIndex);
+    }
+  }
+
+  function handleMouseDown(evt) {
+    if (evt.button === BUTTON_LEFT) {
+      let selectedIndex = getIndex(evt.clientX, evt.clientY);
+      if (selectedIndex !== undefined && selectedIndex !== -1) {
+        let startX =
+          boxes[selectedIndex].x +
+          boxes[selectedIndex].width -
+          BoxConfig.RESIZE_LENGTH -
+          BoxConfig.RESIZE_MARGIN;
+        let endX = startX + BoxConfig.RESIZE_LENGTH + BoxConfig.RESIZE_MARGIN;
+        let startY =
+          boxes[selectedIndex].y +
+          boxes[selectedIndex].height -
+          BoxConfig.RESIZE_LENGTH -
+          BoxConfig.RESIZE_MARGIN;
+        let endY = startY + BoxConfig.RESIZE_LENGTH + BoxConfig.RESIZE_MARGIN;
+        if (
+          startX < evt.clientX &&
+          evt.clientX < endX &&
+          startY < evt.clientY &&
+          evt.clientY < endY
+        ) {
+          // Resize
+          setIsResizing(true);
+          setResizeIndex(selectedIndex);
+        } else {
+          // Shift
+          setIsShifting(true);
+          setShiftIndex(selectedIndex);
+        }
+      }
+    }
+    if (evt.button === BUTTON_RIGHT) {
+      setIsAdding(true);
+      setAddStart({ x: evt.clientX, y: evt.clientY });
+      setAddEnd({ x: evt.clientX, y: evt.clientY });
+    }
+  }
+
+  function handleMouseOver(evt) {
+    isResizing && resizeBox(resizingIndex, evt.movementX, evt.movementY);
+    isShifting && shiftBox(shiftIndex, evt.movementX, evt.movementY);
+    isAdding && setAddEnd({ x: evt.clientX, y: evt.clientY });
+  }
+
+  function handleMouseUp(evt) {
+    // console.log(`Drag end on : (${evt.clientX}, ${evt.clientY})`);
+    if (evt.button === BUTTON_LEFT) {
+      setIsShifting(false);
+      setIsResizing(false);
+    }
+    if (evt.button === BUTTON_RIGHT) {
+      setIsAdding(false);
+      addNewBox(addStart.x, addStart.y, evt.clientX, evt.clientY);
+    }
+  }
 
   function addNewBox(x1, y1, x2, y2) {
     if (x1 > x2) {
@@ -71,112 +135,46 @@ export default function App() {
     }
   }
 
-  function handleDoubleClick(evt) {
-    if (evt.button === BUTTON_LEFT) {
-      let moveToTopIndex = getIndex(evt.clientX, evt.clientY);
-      if (-1 < moveToTopIndex && moveToTopIndex < boxes.length - 1) {
-        setBoxes((prev) => {
-          let next = prev
-            .slice(0, moveToTopIndex)
-            .concat(prev.slice(moveToTopIndex + 1));
-          next.push(prev[moveToTopIndex]);
-          return next;
-        });
-      }
-    }
+  function shiftBox(targetIndex, dx, dy) {
+    setBoxes((prev) => {
+      return prev.map((box, index) => {
+        return index === targetIndex
+          ? {
+              ...box,
+              x: box.x + dx,
+              y: box.y + dy,
+            }
+          : box;
+      });
+    });
   }
 
-  function handleMouseDown(evt) {
-    if (evt.button === BUTTON_LEFT) {
-      let selectedIndex = getIndex(evt.clientX, evt.clientY);
-      if (selectedIndex !== undefined && selectedIndex !== -1) {
-        // SHIFT
-        let startX =
-          boxes[selectedIndex].x +
-          boxes[selectedIndex].width -
-          BoxConfig.RESIZE_LENGTH -
-          BoxConfig.RESIZE_MARGIN;
-        let endX = startX + BoxConfig.RESIZE_LENGTH + BoxConfig.RESIZE_MARGIN;
-        let startY =
-          boxes[selectedIndex].y +
-          boxes[selectedIndex].height -
-          BoxConfig.RESIZE_LENGTH -
-          BoxConfig.RESIZE_MARGIN;
-        let endY = startY + BoxConfig.RESIZE_LENGTH + BoxConfig.RESIZE_MARGIN;
-        if (
-          startX < evt.clientX &&
-          evt.clientX < endX &&
-          startY < evt.clientY &&
-          evt.clientY < endY
-        ) {
-          // Resize
-          setIsResizing(true);
-          setResizeIndex(selectedIndex);
+  function resizeBox(targetIndex, dx, dy) {
+    setBoxes((prev) => {
+      let next = prev.map((box, index) => {
+        if (index === targetIndex) {
+          return {
+            ...box,
+            width: Math.max(box.width + dx, BoxConfig.MIN_WIDTH),
+            height: Math.max(box.height + dy, BoxConfig.MIN_HEIGHT),
+          };
         } else {
-          // Shift
-          setIsShifting(true);
-          setShiftIndex(selectedIndex);
+          return box;
         }
-      }
-    }
-    if (evt.button === BUTTON_RIGHT) {
-      setIsAdding(true);
-      setAddStart({ x: evt.clientX, y: evt.clientY });
-      setAddEnd({ x: evt.clientX, y: evt.clientY });
-    }
+      });
+      return next;
+    });
   }
 
-  function handleMouseOver(evt) {
-    if (isResizing) {
+  function BringToFront(targetIndex) {
+    if (-1 < targetIndex && targetIndex < boxes.length - 1) {
       setBoxes((prev) => {
-        let next = prev.map((box, index) => {
-          if (index === resizingIndex) {
-            let nextWidth = box.width + evt.movementX;
-            let nextHeight = box.height + evt.movementY;
-            return {
-              ...box,
-              width: Math.max(nextWidth, BoxConfig.MIN_WIDTH),
-              height: Math.max(nextHeight, BoxConfig.MIN_HEIGHT),
-            };
-          } else {
-            return box;
-          }
-        });
-
+        let next = prev
+          .slice(0, targetIndex)
+          .concat(prev.slice(targetIndex + 1));
+        next.push(prev[targetIndex]);
         return next;
       });
-    }
-    if (isShifting) {
-      setBoxes((prev) => {
-        let next = prev.map((box, index) => {
-          if (index === shiftIndex) {
-            return {
-              ...box,
-              x: box.x + evt.movementX,
-              y: box.y + evt.movementY,
-            };
-          } else {
-            return box;
-          }
-        });
-
-        return next;
-      });
-    }
-    if (isAdding) {
-      setAddEnd({ x: evt.clientX, y: evt.clientY });
-    }
-  }
-
-  function handleMouseUp(evt) {
-    // console.log(`Drag end on : (${evt.clientX}, ${evt.clientY})`);
-    if (evt.button === BUTTON_LEFT) {
-      setIsShifting(false);
-      setIsResizing(false);
-    }
-    if (evt.button === BUTTON_RIGHT) {
-      setIsAdding(false);
-      addNewBox(addStart.x, addStart.y, evt.clientX, evt.clientY);
     }
   }
 

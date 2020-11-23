@@ -1,4 +1,4 @@
-import * as BoxConfig from "./BoxConfig";
+import * as BoxConfig from "components/BoxConfig";
 
 export default function DragBox({ isDragging, x1, y1, x2, y2 }) {
   if (x1 > x2) {
