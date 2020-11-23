@@ -9,8 +9,13 @@ class App {
 
     window.addEventListener("resize", this.resize.bind(this), false);
     window.addEventListener("click", this.click.bind(this), false);
+    window.addEventListener("touchstart", this.touch.bind(this), false);
     this.resize();
     window.requestAnimationFrame(this.animate.bind(this));
+  }
+
+  touch(evt) {
+    this.wavePoints.push(new WavePoint(evt.touches[0].clientX, evt.touches[0].clientY));
   }
 
   click(evt) {
