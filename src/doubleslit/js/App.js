@@ -34,7 +34,7 @@ class App {
     this.wavePoints.forEach((wavePoint) => wavePoint.redraw(this.ctx, this.maxRadius));
     
 
-    this.ctx.font = "20px serif";
+    this.ctx.font = "30px sans-serif";
     this.ctx.textAlign = "center";
     this.ctx.fillStyle = "black";
     this.ctx.fillText(
