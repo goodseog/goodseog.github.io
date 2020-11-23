@@ -11,16 +11,21 @@ export default class WavePoint {
     this.highOpacity = 0.1;
   }
 
-  redraw(ctx, maxRadius) {
+  redraw(ctx, availRadius) {
     let wCnt = 0;
     let getColor = (opacity) => `rgba(0, 0, 0, ${opacity})`;
     let moveTime = (Date.now() - this.createTime) / 1000; // seconds
+
+    let minRadius = this.vel * moveTime - this.lambda * (this.waveCnt + 1);
+    if (minRadius > availRadius) {
+      return;
+    }
 
     for (let radius = this.vel * moveTime; radius > 0; radius -= this.lambda) {
       if (++wCnt > this.waveCnt) {
         break;
       }
-      if (radius <= maxRadius) {
+      if (radius <= availRadius) {
         ctx.beginPath();
         ctx.arc(this.center.x, this.center.y, radius, 0, 2 * Math.PI);
 
@@ -36,7 +41,10 @@ export default class WavePoint {
           let startRatio = (radius - this.lambda) / radius;
           gradient.addColorStop(0, getColor(0.0));
           gradient.addColorStop(startRatio, getColor(0.0));
-          gradient.addColorStop((1 + startRatio) / 2, getColor(this.highOpacity));
+          gradient.addColorStop(
+            (1 + startRatio) / 2,
+            getColor(this.highOpacity)
+          );
           gradient.addColorStop(1, getColor(0.0));
         } else if (radius < 0.5 * this.lambda) {
           let opacity = (this.highOpacity * radius) / (0.5 * this.lambda);
