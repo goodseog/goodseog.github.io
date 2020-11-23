@@ -1,5 +1,4 @@
-import { vec2D } from "/static/js/Vector.js";
-
+import WavePoint from "./WavePoint.js";
 class App {
   constructor() {
     this.canvas = document.querySelector("#canvas");
@@ -15,10 +14,7 @@ class App {
   }
 
   click(evt) {
-    console.log(evt.clientX, evt.clientY);
-    this.wavePoints.push({
-      pos: { x: evt.clientX, y: evt.clientY },
-    });
+    this.wavePoints.push(new WavePoint(evt.clientX, evt.clientY));
   }
 
   resize() {
@@ -27,11 +23,24 @@ class App {
     this.canvas.width = this.stageWidth * this.pixelRatio;
     this.canvas.height = this.stageHeight * this.pixelRatio;
     this.ctx.scale(this.pixelRatio, this.pixelRatio);
+
+    this.maxRadius = Math.sqrt(this.stageWidth ** 2 + this.stageHeight ** 2);
   }
 
   animate() {
     window.requestAnimationFrame(this.animate.bind(this));
-    this.ctx.clearRect(0, 0, this.stageWidth, this.stageHeight);
+    this.ctx.clearRect(0, 0, this.stageWidth, this.stageHeight);    
+
+    this.wavePoints.forEach((wavePoint) => wavePoint.redraw(this.ctx, this.maxRadius));
+
+    this.ctx.font = "20px serif";
+    this.ctx.textAlign = "center";
+    this.ctx.fillStyle = "black";
+    this.ctx.fillText(
+      "Click for liquid wave",
+      this.stageWidth / 2,
+      this.stageHeight / 2
+    );
   }
 }
 
