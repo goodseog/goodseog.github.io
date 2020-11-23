@@ -11,15 +11,16 @@ export default class WavePoint {
     this.highOpacity = 0.1;
   }
 
+  isEnd(availRadius) {
+    let moveTime = (Date.now() - this.createTime) / 1000; // seconds
+    let minRadius = this.vel * moveTime - this.lambda * (this.waveCnt + 1);
+    return minRadius > availRadius;
+  }
+
   redraw(ctx, availRadius) {
     let wCnt = 0;
     let getColor = (opacity) => `rgba(0, 0, 0, ${opacity})`;
     let moveTime = (Date.now() - this.createTime) / 1000; // seconds
-
-    let minRadius = this.vel * moveTime - this.lambda * (this.waveCnt + 1);
-    if (minRadius > availRadius) {
-      return;
-    }
 
     for (let radius = this.vel * moveTime; radius > 0; radius -= this.lambda) {
       if (++wCnt > this.waveCnt) {

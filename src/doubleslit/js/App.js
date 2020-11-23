@@ -27,11 +27,12 @@ class App {
     this.maxRadius = Math.sqrt(this.stageWidth ** 2 + this.stageHeight ** 2);
   }
 
-  animate() {
+  animate() {    
     window.requestAnimationFrame(this.animate.bind(this));
-    this.ctx.clearRect(0, 0, this.stageWidth, this.stageHeight);    
-
+    this.ctx.clearRect(0, 0, this.stageWidth, this.stageHeight);
+    this.wavePoints = this.wavePoints.filter((wavePoint) => !wavePoint.isEnd(this.maxRadius));
     this.wavePoints.forEach((wavePoint) => wavePoint.redraw(this.ctx, this.maxRadius));
+    
 
     this.ctx.font = "20px serif";
     this.ctx.textAlign = "center";
