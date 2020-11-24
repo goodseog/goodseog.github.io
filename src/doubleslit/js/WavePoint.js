@@ -49,7 +49,6 @@ export default class WavePoint {
         gradient.addColorStop(1.0, getColor(endOpacity));
       } else {
         let highRatio = ((1 - start) * 0.5 * this.lambda) / startRadius;
-        console.log(highRatio);
         let endOpacity = this.highOpacity * (1 - 2 * highRatio);
         gradient.addColorStop(start, getColor(0.0));
         gradient.addColorStop(start + highRatio, getColor(this.highOpacity));
