@@ -61,7 +61,7 @@ export default class WavePoint {
 
         ctx.fillStyle = gradient;
         ctx.fill();
-        // ctx.stroke();
+        ctx.stroke();
       }
     }
   }
