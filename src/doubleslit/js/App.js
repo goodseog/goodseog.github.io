@@ -9,13 +9,15 @@ class App {
 
     window.addEventListener("resize", this.resize.bind(this), false);
     window.addEventListener("click", this.click.bind(this), false);
-    window.addEventListener("touchstart", this.touch.bind(this), false);
+    window.addEventListener("touch", this.touch.bind(this), false);
     this.resize();
     window.requestAnimationFrame(this.animate.bind(this));
   }
 
   touch(evt) {
-    this.wavePoints.push(new WavePoint(evt.touches[0].clientX, evt.touches[0].clientY));
+    this.wavePoints.push(
+      new WavePoint(evt.touches[0].clientX, evt.touches[0].clientY)
+    );
   }
 
   click(evt) {
@@ -32,12 +34,15 @@ class App {
     this.maxRadius = Math.sqrt(this.stageWidth ** 2 + this.stageHeight ** 2);
   }
 
-  animate() {    
+  animate() {
     window.requestAnimationFrame(this.animate.bind(this));
     this.ctx.clearRect(0, 0, this.stageWidth, this.stageHeight);
-    this.wavePoints = this.wavePoints.filter((wavePoint) => !wavePoint.isEnd(this.maxRadius));
-    this.wavePoints.forEach((wavePoint) => wavePoint.redraw(this.ctx, this.maxRadius));
-    
+    this.wavePoints = this.wavePoints.filter(
+      (wavePoint) => !wavePoint.isEnd(this.maxRadius)
+    );
+    this.wavePoints.forEach((wavePoint) =>
+      wavePoint.redraw(this.ctx, this.maxRadius)
+    );
 
     this.ctx.font = "30px sans-serif";
     this.ctx.textAlign = "center";
