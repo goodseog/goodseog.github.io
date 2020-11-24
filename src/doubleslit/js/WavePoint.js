@@ -17,6 +17,50 @@ export default class WavePoint {
     return minRadius > availRadius;
   }
 
+  redraw2(ctx, availRadius) {
+    let getColor = (opacity) => `rgba(0, 0, 0, ${opacity})`;
+    let moveTime = (Date.now() - this.createTime) / 1000; // seconds
+    let radius = this.vel * moveTime;
+
+    ctx.beginPath();
+    ctx.arc(this.center.x, this.center.y, radius, 0, 2 * Math.PI);
+
+    let gradient = ctx.createRadialGradient(
+      this.center.x,
+      this.center.y,
+      radius,
+      this.center.x,
+      this.center.y,
+      0
+    );
+
+    for (let i = 0; radius - i * this.lambda > 0 && i < this.waveCnt; i++) {
+      let startRadius = radius - i * this.lambda;
+      let start = (i * this.lambda) / radius;
+      let end = ((i + 1) * this.lambda) / radius;
+
+      if (end <= 1) {
+        gradient.addColorStop(start, getColor(0.0));
+        gradient.addColorStop(0.5 * (start + end), getColor(this.highOpacity));
+        gradient.addColorStop(end, getColor(0, 0));
+      } else if (startRadius <= 0.5 * this.lambda) {
+        let endOpacity = (this.highOpacity * startRadius) / (0.5 * this.lambda);
+        gradient.addColorStop(start, getColor(0.0));
+        gradient.addColorStop(1.0, getColor(endOpacity));
+      } else {
+        let highRatio = ((1 - start) * 0.5 * this.lambda) / startRadius;
+        console.log(highRatio);
+        let endOpacity = this.highOpacity * (1 - 2 * highRatio);
+        gradient.addColorStop(start, getColor(0.0));
+        gradient.addColorStop(start + highRatio, getColor(this.highOpacity));
+        gradient.addColorStop(1, getColor(endOpacity));
+      }
+    }
+
+    ctx.fillStyle = gradient;
+    ctx.fill();
+  }
+
   redraw(ctx, availRadius) {
     let wCnt = 0;
     let getColor = (opacity) => `rgba(0, 0, 0, ${opacity})`;
@@ -61,7 +105,6 @@ export default class WavePoint {
 
         ctx.fillStyle = gradient;
         ctx.fill();
-        // ctx.stroke();
       }
     }
   }

@@ -41,7 +41,7 @@ class App {
       (wavePoint) => !wavePoint.isEnd(this.maxRadius)
     );
     this.wavePoints.forEach((wavePoint) =>
-      wavePoint.redraw(this.ctx, this.maxRadius)
+      wavePoint.redraw2(this.ctx, this.maxRadius)
     );
 
     this.ctx.font = "30px sans-serif";
