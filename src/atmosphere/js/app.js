@@ -22,7 +22,7 @@ class App {
     this.objs.push(new Wall(this.stageWidth, this.stageHeight, this.stageWidth, 0));
     this.objs.push(new Wall(this.stageWidth, 0, 0, 0));
     this.objs.push(new Block(300,300, 500, 300));
-    this.objs.push(new Ball(30, 30, 30, 5, 5));
+    this.objs.push(new Ball(30, 30, 30, 5, 7));
   }
 
   resize() {
