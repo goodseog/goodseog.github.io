@@ -171,22 +171,25 @@ body {
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  background-position: center; 
+  opacity: 0.5;
 }
 
 .project .title {
   font-size: 30px;
-  opacity: 0.5;
 }
 
 .project .abstract {
   font-size: 13px;
-  opacity: 0.5;
 }
 
 .project:hover {
-  background-color: #EEEEEE;  
+  animation-name: focusOn;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
 }
 
-.project:hover .title {
-  opacity: 1;
+@keyframes focusOn {
+  from { opacity: 0.5; }
+  to { opacity: 1.0; }
 }

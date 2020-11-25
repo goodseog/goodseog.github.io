@@ -21,8 +21,21 @@ class App {
     this.objs.push(new Wall(0, this.stageHeight, this.stageWidth, this.stageHeight));
     this.objs.push(new Wall(this.stageWidth, this.stageHeight, this.stageWidth, 0));
     this.objs.push(new Wall(this.stageWidth, 0, 0, 0));
-    this.objs.push(new Block(300,300, 500, 300));
-    this.objs.push(new Ball(30, 30, 30, 5, 7));
+    // this.objs.push(new Block(300,300, 500, 300));
+
+    for(let i = 0 ; i < 30 ; i++){
+      this.objs.push(
+        new Ball(
+          Math.random() * document.body.clientWidth,
+          Math.random() * document.body.clientHeight,
+          8,
+          (Math.random()- 0.5) * 10,
+          (Math.random()- 0.5) * 10
+        )
+      );
+    }
+    // this.objs.push(new Ball(60, 30, 10, 5, 7));
+    // this.objs.push(new Ball(70, 30, 10, 5, 7));
   }
 
   resize() {
