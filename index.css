@@ -70,14 +70,6 @@ body {
   gap: 6px
 }
 
-#detail-container {
-  flex: 1 1 0px;
-  flex-direction: column;
-  overflow-y: scroll;
-  scrollbar-width: thin;
-  scrollbar-color: var(--divbackground) transparent;
-} 
-
 #picture {
   flex: 0 0 30%;
   justify-content: center;
@@ -153,6 +145,19 @@ body {
   font-size: 13px;
 }
 
-::-webkit-scrollbar {
+#detail-container {
+  flex: 1 1 0px;
+  flex-direction: column;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: var(--divbackground) transparent;
+} 
 
+::-webkit-scrollbar {
+  width: 7px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--divbackground);
 }
