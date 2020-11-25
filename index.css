@@ -145,6 +145,7 @@ body {
   font-size: 13px;
 }
 
+/* scroll bar options on here */
 #detail-container {
   flex: 1 1 0px;
   flex-direction: column;
@@ -160,4 +161,32 @@ body {
 
 ::-webkit-scrollbar-thumb {
   background-color: var(--divbackground);
+}
+
+/* project options on here */
+.project {
+  flex: 0 0 80px;
+  flex-direction: column;
+  gap: 3px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.project .title {
+  font-size: 30px;
+  opacity: 0.5;
+}
+
+.project .abstract {
+  font-size: 13px;
+  opacity: 0.5;
+}
+
+.project:hover {
+  background-color: #EEEEEE;  
+}
+
+.project:hover .title {
+  opacity: 1;
 }
