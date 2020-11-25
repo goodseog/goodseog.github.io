@@ -171,8 +171,8 @@ body {
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  background-position: center; 
   opacity: 0.5;
+  overflow: hidden;
 }
 
 .project .title {
