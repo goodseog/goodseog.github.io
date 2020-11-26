@@ -11,8 +11,9 @@ class App {
     this.ctx = this.canvas.getContext("2d");
     this.pixelRatio = window.devicePixelRatio > 1 ? 2 : 1;
     this.objs = [];
-    this.cnt = 20;
-    this.vel = 1;
+    this.rowCnt = 15;
+    this.vel = 0.5;
+    this.size = 5;
 
     window.addEventListener("resize", this.resize.bind(this), false);
     this.initWorld();
@@ -35,19 +36,19 @@ class App {
     this.objs[3].setPos(this.stageWidth, 0, 0, 0);
   }
 
-  initObjs() {    
+  initObjs() {
     // this.objs.push(new Block(300,300, 500, 300));
 
     let width = this.stageWidth;
     let height = this.stageHeight;
-    for (let w = 0; w < this.cnt; w++) {
-      for (let h = 0; h < this.cnt; h++) {
+    for (let w = 0; w < this.rowCnt; w++) {
+      for (let h = 0; h < this.rowCnt; h++) {
         let angle = 2 * Math.random() * Math.PI;
         this.objs.push(
           new Ball(
-            (width / this.cnt) * (w + 0.5),
-            (height / this.cnt) * (h + 0.5),
-            3.5,
+            (width / this.rowCnt) * (w + 0.5),
+            (height / this.rowCnt) * (h + 0.5),
+            this.size,
             this.vel * Math.cos(angle),
             this.vel * Math.sin(angle),
             Util.getRandomColor()
@@ -70,6 +71,7 @@ class App {
     window.requestAnimationFrame(this.animate.bind(this));
     this.ctx.clearRect(0, 0, this.stageWidth, this.stageHeight);
     this.objs.forEach((obj) => obj.move());
+
     for (var i = 0; i < this.objs.length - 1; i++) {
       for (var j = i + 1; j < this.objs.length; j++) {
         collision(this.objs[i], this.objs[j]);
