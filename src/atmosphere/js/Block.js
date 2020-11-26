@@ -1,6 +1,6 @@
-import { Wall } from "./wall.js";
+import Wall from "./Wall.js";
 
-export class Block {
+export default class Block {
   constructor(x, y, width, height, color = "black") {
     this.type = "block";
     this.x = x || 0;
@@ -16,17 +16,6 @@ export class Block {
   }
 
   move() {}
-
-  collision(obj) {
-    if (obj.type == "ball") {
-      for (let i = 0; i < this.walls.length; i++) {
-        let wall = this.walls[i];
-        if (obj.collisionWall(wall)) {
-          break;
-        }
-      }
-    }
-  }
 
   redraw(ctx) {
     ctx.fillStyle = this.color;

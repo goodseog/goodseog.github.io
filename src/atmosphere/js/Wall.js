@@ -1,6 +1,6 @@
 import { vec2D } from "/static/js/Vector.js";
 
-export class Wall {
+export default class Wall {
   constructor(x1, y1, x2, y2, color = "black") {
     this.type = "wall";
     this.start = new vec2D(x1, y1);
@@ -26,10 +26,6 @@ export class Wall {
   }
 
   move() {}
-
-  collision(obj) {
-    if (obj.type == "ball") obj.collisionWall(this);
-  }
 
   distance(x, y) {
     return (
