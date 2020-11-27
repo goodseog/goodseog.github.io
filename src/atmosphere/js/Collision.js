@@ -2,7 +2,7 @@ import Ball from "./Ball.js";
 import Wall from "./Wall.js";
 import Block from "./Block.js";
 
-const EPSILON = 1e-2;
+const EPSILON = 1;
 
 export default function collision(A, B) {
   if (B instanceof Ball) {
@@ -11,9 +11,12 @@ export default function collision(A, B) {
 
   if (A instanceof Ball) {
     switch (B.constructor.name) {
-      case "Ball": return ball2ball(A, B);
-      case "Wall": return ball2wall(A, B);
-      case "Block": return ball2block(A, B);
+      case "Ball":
+        return ball2ball(A, B);
+      case "Wall":
+        return ball2wall(A, B);
+      case "Block":
+        return ball2block(A, B);
     }
   }
   return false;
@@ -61,7 +64,9 @@ function ball2wall(ball, wall) {
     between(wall.start.x, near.x, wall.end.x) &&
     between(wall.start.y, near.y, wall.end.y)
   ) {
-    ball.vel = ball.vel.subtract(wall.normal.multiply(2 * wall.normal.dot(ball.vel)));
+    ball.vel = ball.vel.subtract(
+      wall.normal.multiply(2 * wall.normal.dot(ball.vel))
+    );
     ball.pos = ball.pos.add(ball.vel);
     return true;
   }

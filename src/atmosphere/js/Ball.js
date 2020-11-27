@@ -8,8 +8,6 @@ export default class Ball {
     this.m = 1;
     this.vel = new vec2D(vx, vy);
     this.color = color;
-
-    this.epsilon = 1;
   }
 
   move() {

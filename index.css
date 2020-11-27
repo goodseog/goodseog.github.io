@@ -37,13 +37,29 @@ body {
   display: flex;
   flex: 0 0 23px;
   justify-content: center;
-  flex-direction: column;
+  flex-direction: row;
   letter-spacing: -0.5px;
   word-spacing: 2px;
+  gap: 5px;
 
   padding: 5px 8px;
   background-color: var(--main);
   color: white;
+}
+
+#header .title {
+  flex: 1;
+}
+
+#header svg {
+  width: 18px;
+  height: 18px;
+  fill:white;
+}
+
+#header svg:hover {
+  cursor:pointer;
+  fill: var(--divbackground);
 }
 
 #body {
