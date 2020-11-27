@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "https://goodseog.github.io/src/boxresize/build/static/css/main.5b7ff286.chunk.css",
-    "main.js": "https://goodseog.github.io/src/boxresize/build/static/js/main.2601520f.chunk.js",
-    "main.js.map": "https://goodseog.github.io/src/boxresize/build/static/js/main.2601520f.chunk.js.map",
+    "main.css": "https://goodseog.github.io/src/boxresize/build/static/css/main.0c7feb8a.chunk.css",
+    "main.js": "https://goodseog.github.io/src/boxresize/build/static/js/main.0189552f.chunk.js",
+    "main.js.map": "https://goodseog.github.io/src/boxresize/build/static/js/main.0189552f.chunk.js.map",
     "runtime-main.js": "https://goodseog.github.io/src/boxresize/build/static/js/runtime-main.ee86fed4.js",
     "runtime-main.js.map": "https://goodseog.github.io/src/boxresize/build/static/js/runtime-main.ee86fed4.js.map",
-    "static/js/2.5aec678e.chunk.js": "https://goodseog.github.io/src/boxresize/build/static/js/2.5aec678e.chunk.js",
-    "static/js/2.5aec678e.chunk.js.map": "https://goodseog.github.io/src/boxresize/build/static/js/2.5aec678e.chunk.js.map",
+    "static/js/2.a4fdb170.chunk.js": "https://goodseog.github.io/src/boxresize/build/static/js/2.a4fdb170.chunk.js",
+    "static/js/2.a4fdb170.chunk.js.map": "https://goodseog.github.io/src/boxresize/build/static/js/2.a4fdb170.chunk.js.map",
     "static/js/3.b2f29a4e.chunk.js": "https://goodseog.github.io/src/boxresize/build/static/js/3.b2f29a4e.chunk.js",
     "static/js/3.b2f29a4e.chunk.js.map": "https://goodseog.github.io/src/boxresize/build/static/js/3.b2f29a4e.chunk.js.map",
     "index.html": "https://goodseog.github.io/src/boxresize/build/index.html",
-    "static/css/main.5b7ff286.chunk.css.map": "https://goodseog.github.io/src/boxresize/build/static/css/main.5b7ff286.chunk.css.map",
-    "static/js/2.5aec678e.chunk.js.LICENSE.txt": "https://goodseog.github.io/src/boxresize/build/static/js/2.5aec678e.chunk.js.LICENSE.txt"
+    "static/css/main.0c7feb8a.chunk.css.map": "https://goodseog.github.io/src/boxresize/build/static/css/main.0c7feb8a.chunk.css.map",
+    "static/js/2.a4fdb170.chunk.js.LICENSE.txt": "https://goodseog.github.io/src/boxresize/build/static/js/2.a4fdb170.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.ee86fed4.js",
-    "static/js/2.5aec678e.chunk.js",
-    "static/css/main.5b7ff286.chunk.css",
-    "static/js/main.2601520f.chunk.js"
+    "static/js/2.a4fdb170.chunk.js",
+    "static/css/main.0c7feb8a.chunk.css",
+    "static/js/main.0189552f.chunk.js"
   ]
 }
