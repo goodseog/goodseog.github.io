@@ -1,14 +1,5 @@
-@keyframes createbox {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
 .box {
-  animation-name: createbox;
+  animation-name: fadein;
   animation-duration: 0.5s;
   animation-direction: normal;
 }
@@ -20,4 +11,50 @@
 polygon:hover {
   stroke: black;
   stroke-width: 1px;
+}
+
+#trash.visible {
+  animation: zoomin 0.2s;
+  -moz-animation: zoomin 0.2s;
+  -webkit-animation: zoomin 0.2s;
+  -o-animation: zoomin 0.2s;
+}
+
+#trash.invisible {
+  animation: zoomout 0.2s;
+  -moz-animation: zoomout 0.2s;
+  -webkit-animation: zoomout 0.2s;
+  -o-animation: zoomout 0.2s;
+  animation-fill-mode: forwards;
+}
+
+#trash:hover rect {
+  fill: firebrick;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes zoomin {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes zoomout {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0);
+  }
 }

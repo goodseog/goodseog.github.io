@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import DragBox from "components/DragBox";
 import Box from "components/Box";
+import BoxTrash from "components/BoxTrash";
 import * as BoxConfig from "components/BoxConfig";
 import AboutText from "components/AboutText";
 import "./App.css";
@@ -46,23 +47,12 @@ export default function App() {
       let selectedIndex = getIndex(evt.clientX, evt.clientY);
       if (selectedIndex !== undefined && selectedIndex !== -1) {
         let startX =
-          boxes[selectedIndex].x +
-          boxes[selectedIndex].width -
-          BoxConfig.RESIZE_LENGTH -
-          BoxConfig.RESIZE_MARGIN;
-        let endX = startX + BoxConfig.RESIZE_LENGTH + BoxConfig.RESIZE_MARGIN;
+          boxes[selectedIndex].x + boxes[selectedIndex].width - BoxConfig.RESIZE_LENGTH - BoxConfig.RESIZE_MARGIN;
         let startY =
-          boxes[selectedIndex].y +
-          boxes[selectedIndex].height -
-          BoxConfig.RESIZE_LENGTH -
-          BoxConfig.RESIZE_MARGIN;
+          boxes[selectedIndex].y + boxes[selectedIndex].height - BoxConfig.RESIZE_LENGTH - BoxConfig.RESIZE_MARGIN;
+        let endX = startX + BoxConfig.RESIZE_LENGTH + BoxConfig.RESIZE_MARGIN;
         let endY = startY + BoxConfig.RESIZE_LENGTH + BoxConfig.RESIZE_MARGIN;
-        if (
-          startX < evt.clientX &&
-          evt.clientX < endX &&
-          startY < evt.clientY &&
-          evt.clientY < endY
-        ) {
+        if (startX < evt.clientX && startY < evt.clientY && evt.clientX < endX && evt.clientY < endY) {
           // Resize
           setIsResizing(true);
           setResizeIndex(selectedIndex);
@@ -89,6 +79,9 @@ export default function App() {
   function handleMouseUp(evt) {
     // console.log(`Drag end on : (${evt.clientX}, ${evt.clientY})`);
     if (evt.button === BUTTON_LEFT) {
+      if (isShifting && evt.clientX <= 80 && evt.clientY <= 80) {
+        removeBox(shiftIndex);
+      }
       setIsShifting(false);
       setIsResizing(false);
     }
@@ -125,12 +118,7 @@ export default function App() {
 
   function getIndex(x, y) {
     for (let i = boxes.length - 1; i >= 0; i--) {
-      if (
-        boxes[i].x < x &&
-        x < boxes[i].x + boxes[i].width &&
-        boxes[i].y < y &&
-        y < boxes[i].y + boxes[i].height
-      )
+      if (boxes[i].x < x && x < boxes[i].x + boxes[i].width && boxes[i].y < y && y < boxes[i].y + boxes[i].height)
         return i;
     }
   }
@@ -166,12 +154,14 @@ export default function App() {
     });
   }
 
+  function removeBox(targetIndex) {
+    setBoxes((prev) => [...prev.slice(0, targetIndex), ...prev.slice(targetIndex + 1)]);
+  }
+
   function BringToFront(targetIndex) {
     if (-1 < targetIndex && targetIndex < boxes.length - 1) {
       setBoxes((prev) => {
-        let next = prev
-          .slice(0, targetIndex)
-          .concat(prev.slice(targetIndex + 1));
+        let next = prev.slice(0, targetIndex).concat(prev.slice(targetIndex + 1));
         next.push(prev[targetIndex]);
         return next;
       });
@@ -187,23 +177,11 @@ export default function App() {
       onMouseUp={handleMouseUp}
     >
       {boxes.map((box) => (
-        <Box
-          key={box.key}
-          x={box.x}
-          y={box.y}
-          width={box.width}
-          height={box.height}
-          fill={box.fill}
-        />
+        <Box key={box.key} x={box.x} y={box.y} width={box.width} height={box.height} fill={box.fill} />
       ))}
+      <BoxTrash isShifting={isShifting} windowWidth={windowWidth} />
       <AboutText windowWidth={windowWidth} windowHeight={windowHeight} />
-      <DragBox
-        isDragging={isAdding}
-        x1={addStart.x}
-        y1={addStart.y}
-        x2={addEnd.x}
-        y2={addEnd.y}
-      />
+      <DragBox isAdding={isAdding} x1={addStart.x} y1={addStart.y} x2={addEnd.x} y2={addEnd.y} />
     </svg>
   );
 }

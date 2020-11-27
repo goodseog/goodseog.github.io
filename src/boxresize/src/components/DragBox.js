@@ -1,6 +1,6 @@
 import * as BoxConfig from "components/BoxConfig";
 
-export default function DragBox({ isDragging, x1, y1, x2, y2 }) {
+export default function DragBox({ isAdding, x1, y1, x2, y2 }) {
   if (x1 > x2) {
     [x1, x2] = [x2, x1];
   }
@@ -13,7 +13,7 @@ export default function DragBox({ isDragging, x1, y1, x2, y2 }) {
   let height = y2 - y1;
   let color = BoxConfig.isAvailable(width, height) ? "black" : "red";
 
-  return isDragging ? (
+  return isAdding ? (
     <rect
       id="dragbox"
       x={x1}
