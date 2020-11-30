@@ -1,5 +1,3 @@
-import styled from "styled-components";
-
 export default function AboutText({ windowWidth, windowHeight }) {
   const xRD = windowWidth * 0.99;
   const xLD = windowWidth * 0.01;
