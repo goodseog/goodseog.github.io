@@ -13,8 +13,8 @@ export default function App() {
   const [boxes, setBoxes] = useState([]);
 
   const [isAdding, setIsAdding] = useState(false);
-  const [addStart, setAddStart] = useState({ x: 0, y: 0 });
-  const [addEnd, setAddEnd] = useState({ x: 0, y: 0 });
+  const [clickStart, setClickStart] = useState({ x: 0, y: 0 });
+  const [clickEnd, setClickEnd] = useState({ x: 0, y: 0 });
 
   const [isShifting, setIsShifting] = useState(false);
   const [shiftIndex, setShiftIndex] = useState(-1);
@@ -47,12 +47,23 @@ export default function App() {
       let selectedIndex = getIndex(evt.clientX, evt.clientY);
       if (selectedIndex !== undefined && selectedIndex !== -1) {
         let startX =
-          boxes[selectedIndex].x + boxes[selectedIndex].width - BoxConfig.RESIZE_LENGTH - BoxConfig.RESIZE_MARGIN;
+          boxes[selectedIndex].x +
+          boxes[selectedIndex].width -
+          BoxConfig.RESIZE_LENGTH -
+          BoxConfig.RESIZE_MARGIN;
         let startY =
-          boxes[selectedIndex].y + boxes[selectedIndex].height - BoxConfig.RESIZE_LENGTH - BoxConfig.RESIZE_MARGIN;
+          boxes[selectedIndex].y +
+          boxes[selectedIndex].height -
+          BoxConfig.RESIZE_LENGTH -
+          BoxConfig.RESIZE_MARGIN;
         let endX = startX + BoxConfig.RESIZE_LENGTH + BoxConfig.RESIZE_MARGIN;
         let endY = startY + BoxConfig.RESIZE_LENGTH + BoxConfig.RESIZE_MARGIN;
-        if (startX < evt.clientX && startY < evt.clientY && evt.clientX < endX && evt.clientY < endY) {
+        if (
+          startX < evt.clientX &&
+          startY < evt.clientY &&
+          evt.clientX < endX &&
+          evt.clientY < endY
+        ) {
           // Resize
           setIsResizing(true);
           setResizeIndex(selectedIndex);
@@ -60,20 +71,21 @@ export default function App() {
           // Shift
           setIsShifting(true);
           setShiftIndex(selectedIndex);
+          setClickStart({ x: evt.clientX, y: evt.clientY });
         }
       }
     }
     if (evt.button === BUTTON_RIGHT) {
       setIsAdding(true);
-      setAddStart({ x: evt.clientX, y: evt.clientY });
-      setAddEnd({ x: evt.clientX, y: evt.clientY });
+      setClickStart({ x: evt.clientX, y: evt.clientY });
+      setClickEnd({ x: evt.clientX, y: evt.clientY });
     }
   }
 
-  function handleMouseOver(evt) {
+  function handleMouseMove(evt) {
     isResizing && resizeBox(resizingIndex, evt.movementX, evt.movementY);
     isShifting && shiftBox(shiftIndex, evt.movementX, evt.movementY);
-    isAdding && setAddEnd({ x: evt.clientX, y: evt.clientY });
+    isAdding && setClickEnd({ x: evt.clientX, y: evt.clientY });
   }
 
   function handleMouseUp(evt) {
@@ -87,7 +99,7 @@ export default function App() {
     }
     if (evt.button === BUTTON_RIGHT) {
       setIsAdding(false);
-      addNewBox(addStart.x, addStart.y, evt.clientX, evt.clientY);
+      addNewBox(clickStart.x, clickStart.y, evt.clientX, evt.clientY);
     }
   }
 
@@ -118,7 +130,12 @@ export default function App() {
 
   function getIndex(x, y) {
     for (let i = boxes.length - 1; i >= 0; i--) {
-      if (boxes[i].x < x && x < boxes[i].x + boxes[i].width && boxes[i].y < y && y < boxes[i].y + boxes[i].height)
+      if (
+        boxes[i].x < x &&
+        x < boxes[i].x + boxes[i].width &&
+        boxes[i].y < y &&
+        y < boxes[i].y + boxes[i].height
+      )
         return i;
     }
   }
@@ -155,13 +172,18 @@ export default function App() {
   }
 
   function removeBox(targetIndex) {
-    setBoxes((prev) => [...prev.slice(0, targetIndex), ...prev.slice(targetIndex + 1)]);
+    setBoxes((prev) => [
+      ...prev.slice(0, targetIndex),
+      ...prev.slice(targetIndex + 1),
+    ]);
   }
 
   function BringToFront(targetIndex) {
     if (-1 < targetIndex && targetIndex < boxes.length - 1) {
       setBoxes((prev) => {
-        let next = prev.slice(0, targetIndex).concat(prev.slice(targetIndex + 1));
+        let next = prev
+          .slice(0, targetIndex)
+          .concat(prev.slice(targetIndex + 1));
         next.push(prev[targetIndex]);
         return next;
       });
@@ -173,15 +195,28 @@ export default function App() {
       className="App"
       onDoubleClick={handleDoubleClick}
       onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseOver}
+      onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
     >
       {boxes.map((box) => (
-        <Box key={box.key} x={box.x} y={box.y} width={box.width} height={box.height} fill={box.fill} />
+        <Box
+          key={box.key}
+          x={box.x}
+          y={box.y}
+          width={box.width}
+          height={box.height}
+          fill={box.fill}
+        />
       ))}
       <BoxTrash isShifting={isShifting} windowWidth={windowWidth} />
       <AboutText windowWidth={windowWidth} windowHeight={windowHeight} />
-      <DragBox isAdding={isAdding} x1={addStart.x} y1={addStart.y} x2={addEnd.x} y2={addEnd.y} />
+      <DragBox
+        isAdding={isAdding}
+        x1={clickStart.x}
+        y1={clickStart.y}
+        x2={clickEnd.x}
+        y2={clickEnd.y}
+      />
     </svg>
   );
 }
