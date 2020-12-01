@@ -8,6 +8,6 @@ const Trash = ({ className }) => (
   </g>
 );
 
-export default function BoxTrash({ isShifting, windowWidth }) {
-  return <Trash className={isShifting ? "visible" : "invisible"} />;
+export default function BoxTrash({ visible, windowWidth }) {
+  return <Trash className={visible ? "visible" : "invisible"} />;
 }

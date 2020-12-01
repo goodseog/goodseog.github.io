@@ -12,12 +12,15 @@ const BUTTON_RIGHT = 2;
 export default function App() {
   const [boxes, setBoxes] = useState([]);
 
+  const [touches, setTouches] = useState([]);
+
   const [isAdding, setIsAdding] = useState(false);
   const [clickStart, setClickStart] = useState({ x: 0, y: 0 });
   const [clickEnd, setClickEnd] = useState({ x: 0, y: 0 });
 
   const [isShifting, setIsShifting] = useState(false);
   const [shiftIndex, setShiftIndex] = useState(-1);
+  const [showTrash, setShowTrash] = useState(false);
 
   const [isResizing, setIsResizing] = useState(false);
   const [resizingIndex, setResizeIndex] = useState(-1);
@@ -34,6 +37,36 @@ export default function App() {
     window.addEventListener("resize", resizeWindow);
     return () => window.removeEventListener("resize", resizeWindow);
   }, []);
+
+  function handleTouchStart(evt) {
+    evt.touches.length === 1 && handleOneTouch(evt);
+    evt.touches.length === 2 && handleTwoTouch(evt);
+  }
+
+  function handleOneTouch(evt) {
+    console.log(evt.identifier);
+  }
+  function handleTwoTouch(evt) {}
+
+  function handleTouchMove(evt) {
+    evt.preventDefault();
+    // let idx = ongoingTouchIndexById(evt.identifier);
+    // touches.splice(idx, 1, copyTouch(touches[i]));
+  }
+
+  function handleTouchEnd(evt) {}
+
+  function copyTouch(touch) {
+    return {
+      identifier: touch.identifier,
+      pageX: touch.pageX,
+      pageY: touch.pageY,
+    };
+  }
+
+  function ongoingTouchIndexById(idToFind) {
+    touches.findIndex((touch) => touch.identifier === idToFind);
+  }
 
   function handleDoubleClick(evt) {
     if (evt.button === BUTTON_LEFT) {
@@ -72,6 +105,7 @@ export default function App() {
           setIsShifting(true);
           setShiftIndex(selectedIndex);
           setClickStart({ x: evt.clientX, y: evt.clientY });
+          setClickEnd({ x: evt.clientX, y: evt.clientY });
         }
       }
     }
@@ -86,6 +120,9 @@ export default function App() {
     isResizing && resizeBox(resizingIndex, evt.movementX, evt.movementY);
     isShifting && shiftBox(shiftIndex, evt.movementX, evt.movementY);
     isAdding && setClickEnd({ x: evt.clientX, y: evt.clientY });
+    isShifting &&
+      (clickStart.x !== evt.clientX || clickStart.y !== evt.clientY) &&
+      setShowTrash(true);
   }
 
   function handleMouseUp(evt) {
@@ -95,6 +132,7 @@ export default function App() {
         removeBox(shiftIndex);
       }
       setIsShifting(false);
+      setShowTrash(false);
       setIsResizing(false);
     }
     if (evt.button === BUTTON_RIGHT) {
@@ -172,20 +210,19 @@ export default function App() {
   }
 
   function removeBox(targetIndex) {
-    setBoxes((prev) => [
-      ...prev.slice(0, targetIndex),
-      ...prev.slice(targetIndex + 1),
-    ]);
+    setBoxes((prev) => {
+      let next = [...prev];
+      next.splice(targetIndex, 1);
+      return next;
+    });
   }
 
   function BringToFront(targetIndex) {
     if (-1 < targetIndex && targetIndex < boxes.length - 1) {
       setBoxes((prev) => {
-        let next = prev
-          .slice(0, targetIndex)
-          .concat(prev.slice(targetIndex + 1));
-        next.push(prev[targetIndex]);
-        return next;
+        let next = [...prev];
+        let bringUpBox = next.splice(targetIndex, 1);
+        return next.concat(bringUpBox);
       });
     }
   }
@@ -193,6 +230,9 @@ export default function App() {
   return (
     <svg
       className="App"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
       onDoubleClick={handleDoubleClick}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
@@ -208,7 +248,10 @@ export default function App() {
           fill={box.fill}
         />
       ))}
-      <BoxTrash isShifting={isShifting} windowWidth={windowWidth} />
+      <BoxTrash visible={showTrash} windowWidth={windowWidth} />
+      <text x={10} y={50}>
+        hello
+      </text>
       <AboutText windowWidth={windowWidth} windowHeight={windowHeight} />
       <DragBox
         isAdding={isAdding}
