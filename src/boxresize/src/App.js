@@ -6,7 +6,7 @@ import * as Setting from "components/BoxConfig";
 import AboutText from "components/AboutText";
 import "./App.css";
 
-const VERSION = "v0.8";
+const VERSION = "v0.8.1";
 const BUTTON_LEFT = 0;
 const BUTTON_RIGHT = 2;
 
@@ -55,6 +55,8 @@ export default function App() {
         return;
     }
     let mouseEvent = document.createEvent("MouseEvent");
+    let selected = getZIndex(theTouch.clientX, theTouch.clientY);
+    let buttonArg = selected === undefined ? BUTTON_RIGHT : BUTTON_LEFT;
     mouseEvent.initMouseEvent(
       mouseEventType,
       true,
@@ -68,7 +70,7 @@ export default function App() {
       false,
       false,
       false,
-      0,
+      buttonArg,
       null
     );
     theTouch.target.dispatchEvent(mouseEvent);
