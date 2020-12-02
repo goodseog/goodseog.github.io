@@ -18,7 +18,7 @@ export default function AboutText({ windowWidth, windowHeight, version }) {
         DBL L-Click : Bring to front
       </text>
       <text fontSize={13} x={xRD} y={y(-10)} textAnchor="end">
-        Box Resize@goodseog.yoo {version}
+        Box Resize {version}@goodseog.yoo
       </text>
     </>
   );

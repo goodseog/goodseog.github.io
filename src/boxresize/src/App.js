@@ -13,8 +13,6 @@ const BUTTON_RIGHT = 2;
 export default function App() {
   const [boxes, setBoxes] = useState([]);
 
-  const [touches, setTouches] = useState([]);
-
   const [isAdding, setIsAdding] = useState(false);
   const [clickStart, setClickStart] = useState({ x: 0, y: 0 });
   const [clickEnd, setClickEnd] = useState({ x: 0, y: 0 });
@@ -39,63 +37,42 @@ export default function App() {
     return () => window.removeEventListener("resize", resizeWindow);
   }, []);
 
-  function handleTouchStart(evt) {
-    evt.preventDefault();
-    evt.changedTouches.forEach((touch) =>
-      setTouches((prev) => {
-        let next = [...prev];
-        next.push(copyTouch(touch));
-        if (next.length === 2) {
-          setIsAdding(true);
-          setClickStart({ identifier: next[0].identifier, x: next[0].x, y: next[0].y });
-          setClickEnd({ identifier: next[1].identifier, x: next[1].x, y: next[1].y });
-        }
-        return next;
-      })
+  function touch2Mouse(evt) {
+    let theTouch = evt.changeedTouches[0];
+    let mouseEventType;
+
+    switch (evt.type) {
+      case "touchstart":
+        mouseEventType = "mousedown";
+        break;
+      case "touchend":
+        mouseEventType = "mouseup";
+        break;
+      case "touchmove":
+        mouseEventType = "mousemove";
+        break;
+      default:
+        return;
+    }
+    let mouseEvent = document.createEvent("MouseEvent");
+    mouseEvent.initMouseEvent(
+      mouseEventType,
+      true,
+      true,
+      window,
+      1,
+      theTouch.screenX,
+      theTouch.screenY,
+      theTouch.clientX,
+      theTouch.clientY,
+      false,
+      false,
+      false,
+      0,
+      null
     );
-  }
-
-  function handleTouchMove(evt) {
+    theTouch.target.dispatchEvent(mouseEvent);
     evt.preventDefault();
-    evt.changedTouches.forEach((ctouch) => {
-      let idx = touchIndexById(ctouch.identifier);
-      setTouches((prev) => {
-        let next = [...prev];
-        next[idx] = copyTouch(ctouch);
-        if (clickStart.identifier === ctouch.identifier) {
-          setClickStart({ identifier: next[idx].identifier, x: next[idx].x, y: next[idx].y });
-        } else if (clickEnd.identifier === ctouch.identifier) {
-          setClickEnd({ identifier: next[idx].identifier, x: next[idx].x, y: next[idx].y });
-        }
-        return next;
-      });
-    });
-  }
-
-  function handleTouchEnd(evt) {
-    evt.changedTouches.forEach((ctouch) => {
-      let idx = touchIndexById(ctouch.identifier);
-      setTouches((prev) => {
-        let next = [...prev];
-        next.splice(idx, 1);
-        if (next.length !== 2) {
-          setIsAdding(false);
-        }
-        return next;
-      });
-    });
-  }
-
-  function copyTouch(touch) {
-    return {
-      identifier: touch.identifier,
-      x: touch.x,
-      y: touch.y,
-    };
-  }
-
-  function touchIndexById(idToFind) {
-    touches.findIndex((touch) => touch.identifier === idToFind);
   }
 
   function handleDoubleClick(evt) {
@@ -250,9 +227,9 @@ export default function App() {
   return (
     <svg
       className="App"
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
+      onTouchStart={touch2Mouse}
+      onTouchMove={touch2Mouse}
+      onTouchEnd={touch2Mouse}
       onDoubleClick={handleDoubleClick}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
