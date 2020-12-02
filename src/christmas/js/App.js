@@ -1,10 +1,20 @@
+import { vec2D } from "/static/js/Vector.js";
+import Tree from "./Tree.js";
+
 class App {
   constructor() {
     this.canvas = document.createElement("canvas");
     document.body.appendChild(this.canvas);
     this.ctx = this.canvas.getContext("2d");
+    this.ctx.imageSmoothingEnabled = true;
 
     this.pixelRatio = window.devicePixelRatio > 1 ? 2 : 1;
+
+    this.trees = [
+      new Tree(0, new vec2D(100, 500), 400),
+      // new Tree(1000, new vec2D(220, 500), 200),
+      // new Tree(2000, new vec2D(340, 500), 100),
+    ];
 
     window.addEventListener("resize", this.resize.bind(this), false);
     this.resize();
@@ -23,13 +33,8 @@ class App {
 
   animate() {
     window.requestAnimationFrame(this.animate.bind(this));
-
     this.ctx.clearRect(0, 0, this.stageWidth, this.stageHeight);
-
-    this.ctx.fillStyle = "#cddb49";
-    this.ctx.beginPath();
-    this.ctx.arc(this.stageWidth / 2, this.stageHeight / 2, 100, 0, 2 * Math.PI);
-    this.ctx.fill();
+    this.trees.forEach((tree) => tree.redraw(this.ctx));
   }
 }
 
