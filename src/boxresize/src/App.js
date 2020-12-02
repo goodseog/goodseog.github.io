@@ -39,27 +39,51 @@ export default function App() {
   }, []);
 
   function handleTouchStart(evt) {
-    // evt.touches.length === 1 && handleOneTouch(evt);
-    // evt.touches.length === 2 && handleTwoTouch(evt);
-
     evt.preventDefault();
-    evt.touches.array.forEach((touch) => {
-      setTouches((prev) => prev.concat(copyTouch(touch)));
-    });
+    evt.changedTouches.forEach((touch) =>
+      setTouches((prev) => {
+        let next = [...prev];
+        next.push(copyTouch(touch));
+        if (next.length === 2) {
+          setIsAdding(true);
+          setClickStart({ identifier: next[0].identifier, x: next[0].x, y: next[0].y });
+          setClickEnd({ identifier: next[1].identifier, x: next[1].x, y: next[1].y });
+        }
+        return next;
+      })
+    );
   }
-
-  function handleOneTouch(evt) {
-    console.log(evt.identifier);
-  }
-  function handleTwoTouch(evt) {}
 
   function handleTouchMove(evt) {
     evt.preventDefault();
-    let idx = touchIndexById(evt.identifier);
-    // touches.splice(idx, 1, copyTouch(touches[i]));
+    evt.changedTouches.forEach((ctouch) => {
+      let idx = touchIndexById(ctouch.identifier);
+      setTouches((prev) => {
+        let next = [...prev];
+        next[idx] = copyTouch(ctouch);
+        if (clickStart.identifier === ctouch.identifier) {
+          setClickStart({ identifier: next[idx].identifier, x: next[idx].x, y: next[idx].y });
+        } else if (clickEnd.identifier === ctouch.identifier) {
+          setClickEnd({ identifier: next[idx].identifier, x: next[idx].x, y: next[idx].y });
+        }
+        return next;
+      });
+    });
   }
 
-  function handleTouchEnd(evt) {}
+  function handleTouchEnd(evt) {
+    evt.changedTouches.forEach((ctouch) => {
+      let idx = touchIndexById(ctouch.identifier);
+      setTouches((prev) => {
+        let next = [...prev];
+        next.splice(idx, 1);
+        if (next.length !== 2) {
+          setIsAdding(false);
+        }
+        return next;
+      });
+    });
+  }
 
   function copyTouch(touch) {
     return {
@@ -244,9 +268,6 @@ export default function App() {
         />
       ))}
       <BoxTrash visible={showTrash} windowWidth={windowWidth} />
-      {touches.map((touch) => (
-        <circle cx={touch.x} cy={touch.y} r={1} />
-      ))}
       <AboutText windowWidth={windowWidth} windowHeight={windowHeight} />
       <DragBox
         isAdding={isAdding}
