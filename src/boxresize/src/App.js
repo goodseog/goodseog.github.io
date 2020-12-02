@@ -6,6 +6,7 @@ import * as Setting from "components/BoxConfig";
 import AboutText from "components/AboutText";
 import "./App.css";
 
+const VERSION = "v0.8";
 const BUTTON_LEFT = 0;
 const BUTTON_RIGHT = 2;
 
@@ -268,7 +269,7 @@ export default function App() {
         />
       ))}
       <BoxTrash visible={showTrash} windowWidth={windowWidth} />
-      <AboutText windowWidth={windowWidth} windowHeight={windowHeight} />
+      <AboutText windowWidth={windowWidth} windowHeight={windowHeight} version={VERSION} />
       <DragBox
         isAdding={isAdding}
         x1={clickStart.x}

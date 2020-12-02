@@ -1,4 +1,4 @@
-export default function AboutText({ windowWidth, windowHeight }) {
+export default function AboutText({ windowWidth, windowHeight, version }) {
   const xRD = windowWidth * 0.99;
   const xLD = windowWidth * 0.01;
   const y = (dy) => windowHeight + dy;
@@ -18,7 +18,7 @@ export default function AboutText({ windowWidth, windowHeight }) {
         DBL L-Click : Bring to front
       </text>
       <text fontSize={13} x={xRD} y={y(-10)} textAnchor="end">
-        Box Resize@goodseog.yoo
+        Box Resize@goodseog.yoo {version}
       </text>
     </>
   );
