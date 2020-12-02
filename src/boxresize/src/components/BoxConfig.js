@@ -1,5 +1,5 @@
-export const MIN_WIDTH = 100;
-export const MIN_HEIGHT = 100;
+export const MIN_WIDTH = 50;
+export const MIN_HEIGHT = 50;
 
 export const RESIZE_MARGIN = 5;
 export const RESIZE_LENGTH = 20;
@@ -27,8 +27,8 @@ export function guid() {
 }
 
 export function getRandomColor() {
-  var letters = '0123456789ABCDEF';
-  var color = '#';
+  var letters = "0123456789ABCDEF";
+  var color = "#";
   for (var i = 0; i < 6; i++) {
     color += letters[Math.floor(Math.random() * 16)];
   }

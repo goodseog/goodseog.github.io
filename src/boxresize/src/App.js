@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import DragBox from "components/DragBox";
 import Box from "components/Box";
 import BoxTrash from "components/BoxTrash";
-import * as BoxConfig from "components/BoxConfig";
+import * as Setting from "components/BoxConfig";
 import AboutText from "components/AboutText";
 import "./App.css";
 
@@ -39,8 +39,13 @@ export default function App() {
   }, []);
 
   function handleTouchStart(evt) {
-    evt.touches.length === 1 && handleOneTouch(evt);
-    evt.touches.length === 2 && handleTwoTouch(evt);
+    // evt.touches.length === 1 && handleOneTouch(evt);
+    // evt.touches.length === 2 && handleTwoTouch(evt);
+
+    evt.preventDefault();
+    evt.touches.array.forEach((touch) => {
+      setTouches((prev) => prev.concat(copyTouch(touch)));
+    });
   }
 
   function handleOneTouch(evt) {
@@ -50,7 +55,7 @@ export default function App() {
 
   function handleTouchMove(evt) {
     evt.preventDefault();
-    // let idx = ongoingTouchIndexById(evt.identifier);
+    let idx = touchIndexById(evt.identifier);
     // touches.splice(idx, 1, copyTouch(touches[i]));
   }
 
@@ -59,44 +64,27 @@ export default function App() {
   function copyTouch(touch) {
     return {
       identifier: touch.identifier,
-      pageX: touch.pageX,
-      pageY: touch.pageY,
+      x: touch.x,
+      y: touch.y,
     };
   }
 
-  function ongoingTouchIndexById(idToFind) {
+  function touchIndexById(idToFind) {
     touches.findIndex((touch) => touch.identifier === idToFind);
   }
 
   function handleDoubleClick(evt) {
     if (evt.button === BUTTON_LEFT) {
-      let BringToFrontIndex = getIndex(evt.clientX, evt.clientY);
-      BringToFront(BringToFrontIndex);
+      const [selected] = getZIndex(evt.clientX, evt.clientY);
+      BringToFront(selected);
     }
   }
 
   function handleMouseDown(evt) {
     if (evt.button === BUTTON_LEFT) {
-      let selectedIndex = getIndex(evt.clientX, evt.clientY);
-      if (selectedIndex !== undefined && selectedIndex !== -1) {
-        let startX =
-          boxes[selectedIndex].x +
-          boxes[selectedIndex].width -
-          BoxConfig.RESIZE_LENGTH -
-          BoxConfig.RESIZE_MARGIN;
-        let startY =
-          boxes[selectedIndex].y +
-          boxes[selectedIndex].height -
-          BoxConfig.RESIZE_LENGTH -
-          BoxConfig.RESIZE_MARGIN;
-        let endX = startX + BoxConfig.RESIZE_LENGTH + BoxConfig.RESIZE_MARGIN;
-        let endY = startY + BoxConfig.RESIZE_LENGTH + BoxConfig.RESIZE_MARGIN;
-        if (
-          startX < evt.clientX &&
-          startY < evt.clientY &&
-          evt.clientX < endX &&
-          evt.clientY < endY
-        ) {
+      const [selectedIndex, pickCorner] = getZIndex(evt.clientX, evt.clientY);
+      if (selectedIndex !== undefined) {
+        if (pickCorner) {
           // Resize
           setIsResizing(true);
           setResizeIndex(selectedIndex);
@@ -120,9 +108,9 @@ export default function App() {
     isResizing && resizeBox(resizingIndex, evt.movementX, evt.movementY);
     isShifting && shiftBox(shiftIndex, evt.movementX, evt.movementY);
     isAdding && setClickEnd({ x: evt.clientX, y: evt.clientY });
-    isShifting &&
-      (clickStart.x !== evt.clientX || clickStart.y !== evt.clientY) &&
-      setShowTrash(true);
+
+    let pickAndMove = isShifting && (clickStart.x !== evt.clientX || clickStart.y !== evt.clientY);
+    pickAndMove && setShowTrash(true);
   }
 
   function handleMouseUp(evt) {
@@ -151,31 +139,38 @@ export default function App() {
     let width = x2 - x1;
     let height = y2 - y1;
 
-    if (BoxConfig.isAvailable(width, height)) {
+    if (Setting.isAvailable(width, height)) {
       setBoxes((prev) => {
         let newBox = {
-          key: BoxConfig.guid(),
+          key: Setting.guid(),
           x: x1,
           y: y1,
           width: width,
           height: height,
-          fill: BoxConfig.getRandomColor(),
+          fill: Setting.getRandomColor(),
         };
         return [...prev, newBox];
       });
     }
   }
 
-  function getIndex(x, y) {
+  function getZIndex(x, y) {
     for (let i = boxes.length - 1; i >= 0; i--) {
       if (
         boxes[i].x < x &&
         x < boxes[i].x + boxes[i].width &&
         boxes[i].y < y &&
         y < boxes[i].y + boxes[i].height
-      )
-        return i;
+      ) {
+        let startX = boxes[i].x + boxes[i].width - Setting.RESIZE_LENGTH - Setting.RESIZE_MARGIN;
+        let startY = boxes[i].y + boxes[i].height - Setting.RESIZE_LENGTH - Setting.RESIZE_MARGIN;
+        let endX = startX + Setting.RESIZE_LENGTH + Setting.RESIZE_MARGIN;
+        let endY = startY + Setting.RESIZE_LENGTH + Setting.RESIZE_MARGIN;
+        let pickCorner = startX < x && startY < y && x < endX && y < endY;
+        return [i, pickCorner];
+      }
     }
+    return [undefined, false];
   }
 
   function shiftBox(targetIndex, dx, dy) {
@@ -198,8 +193,8 @@ export default function App() {
         if (index === targetIndex) {
           return {
             ...box,
-            width: Math.max(box.width + dx, BoxConfig.MIN_WIDTH),
-            height: Math.max(box.height + dy, BoxConfig.MIN_HEIGHT),
+            width: Math.max(box.width + dx, Setting.MIN_WIDTH),
+            height: Math.max(box.height + dy, Setting.MIN_HEIGHT),
           };
         } else {
           return box;
@@ -249,9 +244,9 @@ export default function App() {
         />
       ))}
       <BoxTrash visible={showTrash} windowWidth={windowWidth} />
-      <text x={10} y={50}>
-        hello
-      </text>
+      {touches.map((touch) => (
+        <circle cx={touch.x} cy={touch.y} r={1} />
+      ))}
       <AboutText windowWidth={windowWidth} windowHeight={windowHeight} />
       <DragBox
         isAdding={isAdding}
