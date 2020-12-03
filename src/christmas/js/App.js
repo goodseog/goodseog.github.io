@@ -1,6 +1,6 @@
 import { vec2D } from "/static/js/Vector.js";
 import Tree from "./Tree.js";
-
+import Flake from "./Flake.js";
 class App {
   constructor() {
     this.canvas = document.createElement("canvas");
@@ -10,14 +10,19 @@ class App {
 
     this.pixelRatio = window.devicePixelRatio > 1 ? 2 : 1;
 
-    this.trees = [
-      new Tree(0, new vec2D(100, 400), 400),
-      // new Tree(1000, new vec2D(220, 500), 200),
-      // new Tree(2000, new vec2D(340, 500), 100),
-    ];
-
     window.addEventListener("resize", this.resize.bind(this), false);
     this.resize();
+    this.tree = new Tree(
+      0,
+      new vec2D(this.stageWidth / 2, this.stageHeight),
+      Math.max(800, this.stageHeight * 0.7)
+    );
+
+    this.flakes = [];
+    for (let i = 0; i < 200; i++) {
+      this.flakes.push(new Flake(this.stageWidth, this.stageHeight));
+    }
+
     window.requestAnimationFrame(this.animate.bind(this));
   }
 
@@ -34,7 +39,20 @@ class App {
   animate() {
     window.requestAnimationFrame(this.animate.bind(this));
     this.ctx.clearRect(0, 0, this.stageWidth, this.stageHeight);
-    this.trees.forEach((tree) => tree.redraw(this.ctx));
+
+    this.ctx.fillStyle = "black";
+    this.ctx.fillRect(0, 0, this.stageWidth, this.stageHeight);
+
+    let stackHeight = 20;
+    let grd = this.ctx.createLinearGradient(0, this.stageHeight, 0, this.stageHeight - stackHeight);
+    grd.addColorStop(0, "white");
+    grd.addColorStop(0.6, "white");
+    grd.addColorStop(1, "black");
+    this.ctx.fillStyle = grd;
+    this.ctx.fillRect(0, this.stageHeight - stackHeight, this.stageWidth, this.stageHeight);
+
+    this.tree.redraw(this.ctx);
+    this.flakes.forEach((flake) => flake.redraw(this.ctx, this.stageWidth, this.stageHeight));
   }
 }
 

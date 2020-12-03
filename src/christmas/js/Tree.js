@@ -1,14 +1,14 @@
 import { vec2D } from "/static/js/Vector.js";
 
-const stemRatio = 0.01;
+const stemRatio = 0.01618;
 const branch2stem = 0.35;
-const branchCount = 80;
-const branchStart = 7;
-const branchStartJitter = 0.02;
+const branchCount = [60, 40, 20, 10];
+const branchStart = [5, 4, 2, 1];
+const branchStartJitter = 0.005;
 const branchAngle = Math.PI / 3;
-const branchAngleJitter = Math.PI / 60;
+const branchAngleJitter = Math.PI / 20;
 const recurseLevel = 2;
-const animateTime = 5000;
+const animateTime = 10000;
 
 function myRand() {
   return (Math.random() - 0.5) * 2;
@@ -30,7 +30,7 @@ export default class Tree {
 
   genBranches(startTime, start, direction, level) {
     let genBranchesLR = (i, LR) => {
-      let ratio = i / (branchCount + 3);
+      let ratio = i / (branchCount[level] + 3);
       let newStartTime = startTime + (animateTime - startTime) * ratio;
       let newStart = start.add(direction.multiply(ratio + branchStartJitter * myRand()));
       let newDir = direction
@@ -40,9 +40,10 @@ export default class Tree {
       return this.genBranches(newStartTime, newStart, newDir, level + 1);
     };
 
-    let branches = [new Branch(startTime, animateTime, start, direction)];
+    let color = level == recurseLevel ? "green" : "brown";
+    let branches = [new Branch(startTime, animateTime, start, direction, color)];
     if (level < recurseLevel) {
-      for (let i = branchStart; i < branchCount + 3; i++) {
+      for (let i = branchStart[level]; i < branchCount[level] + 3; i++) {
         branches = branches.concat(genBranchesLR(i, +1));
         branches = branches.concat(genBranchesLR(i, -1));
       }
@@ -62,11 +63,12 @@ export default class Tree {
 }
 
 class Branch {
-  constructor(startTime, endTime, start, direction) {
+  constructor(startTime, endTime, start, direction, color) {
     this.startTime = startTime;
     this.endTime = endTime;
     this.start = start;
     this.direction = direction;
+    this.color = color;
   }
 
   redraw(ctx, currentTime) {
@@ -81,15 +83,11 @@ class Branch {
     let bot1 = this.start.add(vert);
     let top = this.start.add(this.direction.multiply(progress));
 
-    // ctx.beginPath();
-    // ctx.moveTo(this.start.x, this.start.y);
-    // ctx.lineTo(top.x, top.y);
-    // ctx.stroke();
     ctx.beginPath();
     ctx.moveTo(bot0.x, bot0.y);
     ctx.lineTo(bot1.x, bot1.y);
     ctx.lineTo(top.x, top.y);
-    ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+    ctx.fillStyle = "white";
     ctx.fill();
   }
 }
