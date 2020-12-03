@@ -6,8 +6,6 @@ class App {
     this.canvas = document.createElement("canvas");
     document.body.appendChild(this.canvas);
     this.ctx = this.canvas.getContext("2d");
-    this.ctx.imageSmoothingEnabled = true;
-
     this.pixelRatio = window.devicePixelRatio > 1 ? 2 : 1;
 
     window.addEventListener("resize", this.resize.bind(this), false);
@@ -15,7 +13,7 @@ class App {
     this.tree = new Tree(
       0,
       new vec2D(this.stageWidth / 2, this.stageHeight),
-      Math.max(500, this.stageHeight * 0.7)
+      this.stageHeight * 0.7
     );
 
     this.flakes = [];
