@@ -1,10 +1,13 @@
 import { vec2D } from "/static/js/Vector.js";
 import Tree from "./Tree.js";
 import Flake from "./Flake.js";
+
+let app;
+let flakes = [];
+
 class App {
   constructor() {
-    this.canvas = document.createElement("canvas");
-    document.body.appendChild(this.canvas);
+    this.canvas = document.querySelector("#canvas");
     this.ctx = this.canvas.getContext("2d");
     this.pixelRatio = window.devicePixelRatio > 1 ? 2 : 1;
 
@@ -16,12 +19,17 @@ class App {
       this.stageHeight * 0.7
     );
 
-    this.flakes = [];
-    for (let i = 0; i < 100; i++) {
-      this.flakes.push(new Flake(this.stageWidth, this.stageHeight));
+    if (flakes.length == 0) {
+      for (let i = 0; i < 100; i++) {
+        flakes.push(new Flake(this.stageWidth, this.stageHeight));
+      }
     }
 
-    window.requestAnimationFrame(this.animate.bind(this));
+    this.animId = window.requestAnimationFrame(this.animate.bind(this));
+  }
+
+  onStop() {
+    window.cancelAnimationFrame(this.animId);
   }
 
   resize() {
@@ -35,7 +43,7 @@ class App {
   }
 
   animate() {
-    window.requestAnimationFrame(this.animate.bind(this));
+    this.animId = window.requestAnimationFrame(this.animate.bind(this));
     this.ctx.clearRect(0, 0, this.stageWidth, this.stageHeight);
 
     this.ctx.fillStyle = "black";
@@ -50,12 +58,15 @@ class App {
     this.ctx.fillRect(0, this.stageHeight - stackHeight, this.stageWidth, this.stageHeight);
 
     this.tree.redraw(this.ctx);
-    this.flakes.forEach((flake) => flake.redraw(this.ctx, this.stageWidth, this.stageHeight));
+    flakes.forEach((flake) => flake.redraw(this.ctx, this.stageWidth, this.stageHeight));
   }
 }
 
-window.onresize = () => {};
+window.onresize = () => {
+  app.onStop();
+  app = new App();
+};
 
 window.onload = () => {
-  new App();
+  app = new App();
 };
