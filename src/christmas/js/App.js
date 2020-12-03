@@ -15,11 +15,11 @@ class App {
     this.tree = new Tree(
       0,
       new vec2D(this.stageWidth / 2, this.stageHeight),
-      Math.max(800, this.stageHeight * 0.7)
+      Math.max(500, this.stageHeight * 0.7)
     );
 
     this.flakes = [];
-    for (let i = 0; i < 200; i++) {
+    for (let i = 0; i < 100; i++) {
       this.flakes.push(new Flake(this.stageWidth, this.stageHeight));
     }
 
@@ -55,6 +55,8 @@ class App {
     this.flakes.forEach((flake) => flake.redraw(this.ctx, this.stageWidth, this.stageHeight));
   }
 }
+
+window.onresize = () => {};
 
 window.onload = () => {
   new App();

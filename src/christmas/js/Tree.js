@@ -2,7 +2,7 @@ import { vec2D } from "/static/js/Vector.js";
 
 const stemRatio = 0.01618;
 const branch2stem = 0.35;
-const branchCount = [60, 40, 20, 10];
+const branchCount = [60, 30, 20, 10];
 const branchStart = [5, 4, 2, 1];
 const branchStartJitter = 0.005;
 const branchAngle = Math.PI / 3;
