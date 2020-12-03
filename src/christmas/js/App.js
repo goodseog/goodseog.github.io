@@ -11,7 +11,7 @@ class App {
     this.pixelRatio = window.devicePixelRatio > 1 ? 2 : 1;
 
     this.trees = [
-      new Tree(0, new vec2D(100, 500), 400),
+      new Tree(0, new vec2D(100, 400), 400),
       // new Tree(1000, new vec2D(220, 500), 200),
       // new Tree(2000, new vec2D(340, 500), 100),
     ];

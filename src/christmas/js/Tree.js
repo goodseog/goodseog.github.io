@@ -1,11 +1,24 @@
 import { vec2D } from "/static/js/Vector.js";
 
 const stemRatio = 0.01;
-const branch2stem = 0.3;
-const branchCount = 10;
+const branch2stem = 0.35;
+const branchCount = 80;
+const branchStart = 7;
+const branchStartJitter = 0.02;
 const branchAngle = Math.PI / 3;
-const recurseLevel = 3;
+const branchAngleJitter = Math.PI / 60;
+const recurseLevel = 2;
 const animateTime = 5000;
+
+function myRand() {
+  return (Math.random() - 0.5) * 2;
+}
+
+function scaler(val) {
+  let threshold = 0.4;
+  let power = 0.3;
+  return val < threshold ? val : val ** power - threshold ** power + threshold;
+}
 
 export default class Tree {
   constructor(createTime, start, height) {
@@ -17,19 +30,19 @@ export default class Tree {
 
   genBranches(startTime, start, direction, level) {
     let genBranchesLR = (i, LR) => {
-      let ratio = i / (branchCount + 2);
+      let ratio = i / (branchCount + 3);
       let newStartTime = startTime + (animateTime - startTime) * ratio;
-      let newStart = start.add(direction.multiply(ratio));
+      let newStart = start.add(direction.multiply(ratio + branchStartJitter * myRand()));
       let newDir = direction
-        .rotate(LR * branchAngle + (Math.random() - 0.5) * 0.1)
+        .rotate(LR * branchAngle + myRand() * branchAngleJitter)
         .unit()
-        .multiply(branch2stem * (1 - ratio) * direction.length());
+        .multiply(branch2stem * scaler(1 - ratio) * direction.length());
       return this.genBranches(newStartTime, newStart, newDir, level + 1);
     };
 
     let branches = [new Branch(startTime, animateTime, start, direction)];
     if (level < recurseLevel) {
-      for (let i = 1; i < branchCount + 2; i++) {
+      for (let i = branchStart; i < branchCount + 3; i++) {
         branches = branches.concat(genBranchesLR(i, +1));
         branches = branches.concat(genBranchesLR(i, -1));
       }
@@ -76,7 +89,7 @@ class Branch {
     ctx.moveTo(bot0.x, bot0.y);
     ctx.lineTo(bot1.x, bot1.y);
     ctx.lineTo(top.x, top.y);
-    ctx.fillStyle = "rgba(0, 0, 0, 0.4)";
+    ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
     ctx.fill();
   }
 }
