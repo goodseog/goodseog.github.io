@@ -6,7 +6,7 @@ const branchCount = [60, 30, 20, 10];
 const branchStart = [5, 4, 2, 1];
 const branchStartJitter = 0.005;
 const branchAngle = Math.PI / 3;
-const branchAngleJitter = Math.PI / 20;
+const branchAngleJitter = Math.PI / 40;
 const recurseLevel = 2;
 const animateTime = 10000;
 
