@@ -9,7 +9,7 @@ export default class Wave {
     this.color = color;
     this.points = [];
     for (let i = 0; i < pointCnt; i++) {
-      this.points.push(Utils.movingPoint(5));
+      this.points.push(Utils.movingPoint(5, 60));
     }
   }
 
@@ -32,7 +32,7 @@ export default class Wave {
     this.points.forEach((point, idx) => {
       a = s.multiply((pcnt - idx + 1) / (pcnt + 2));
       b = e.multiply((idx + 1) / (pcnt + 2));
-      next = a.add(b).subtract(new vec2D(0, point[frame] * 20));
+      next = a.add(b).subtract(new vec2D(0, point[frame] * 17));
       cx = (prev.x + next.x) / 2;
       cy = (prev.y + next.y) / 2;
       ctx.quadraticCurveTo(prev.x, prev.y, cx, cy);
