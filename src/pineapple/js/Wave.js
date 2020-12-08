@@ -17,12 +17,12 @@ export default class Wave {
     let s = Coord.getPos(this.start);
     let e = Coord.getPos(this.end);
 
-    // ctx.beginPath();
-    // ctx.moveTo(s.x, s.y);
-    // ctx.lineTo(e.x, e.y);
-    // ctx.lineWidth = 1;
-    // ctx.strokeStyle = this.color;
-    // ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(s.x, s.y);
+    ctx.lineTo(e.x, e.y);
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = this.color;
+    ctx.stroke();
 
     let prev = s;
     let pcnt = this.points.length;
