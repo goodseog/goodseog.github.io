@@ -20,7 +20,7 @@ export default class Wave {
     ctx.beginPath();
     ctx.moveTo(s.x, s.y);
     ctx.lineTo(e.x, e.y);
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 2;
     ctx.strokeStyle = this.color;
     ctx.stroke();
 
