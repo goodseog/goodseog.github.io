@@ -28,6 +28,7 @@ class App {
     this.canvas.width = this.stageWidth;
     this.canvas.height = this.stageHeight;
     this.ctx.scale(this.pixelRatio, this.pixelRatio);
+
     Coord.resize(this.canvas.width, this.canvas.height);
   }
 

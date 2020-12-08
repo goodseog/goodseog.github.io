@@ -9,11 +9,6 @@ export default class Waves {
     this.points = [];
   }
 
-  resize(width, height) {
-    this.width = width;
-    this.height = height;
-  }
-
   redraw(ctx) {
     let line = (start, end, color) => {
       ctx.beginPath();
@@ -23,11 +18,6 @@ export default class Waves {
       ctx.strokeStyle = color || "black";
       ctx.stroke();
     };
-
-    // const image = new Image(150, 150);
-    // image.src = "./apple.png";
-    // let center = Coord.getPos(0, 0);
-    // ctx.drawImage(image, center[0] - 75, center[1] - 75, 150, 150);
 
     line(Coord.getPos(0.0689, 0.3167), Coord.getPos(0.1267, 0.3167), "rgb(115, 185, 68)");
     line(Coord.getPos(0.0278, 0.2778), Coord.getPos(0.1222, 0.2778), "rgb(115, 185, 68)");
