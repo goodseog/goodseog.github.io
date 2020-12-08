@@ -20,10 +20,13 @@ class App {
   }
 
   resize() {
-    this.stageWidth = document.body.clientWidth;
+    this.stageWidth = Math.min(
+      document.body.clientWidth * this.pixelRatio,
+      (document.body.clientHeight / 16) * 9 * this.pixelRatio
+    );
     this.stageHeight = document.body.clientHeight;
-    this.canvas.width = (this.stageHeight / 16) * 9 * this.pixelRatio;
-    this.canvas.height = this.stageHeight * this.pixelRatio;
+    this.canvas.width = this.stageWidth;
+    this.canvas.height = this.stageHeight;
     this.ctx.scale(this.pixelRatio, this.pixelRatio);
     Coord.resize(this.canvas.width, this.canvas.height);
   }
