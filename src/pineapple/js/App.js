@@ -25,7 +25,7 @@ class App {
     this.canvas.width = this.stageWidth * this.pixelRatio;
     this.canvas.height = this.stageHeight * this.pixelRatio;
     this.ctx.scale(this.pixelRatio, this.pixelRatio);
-    Coord.resize(this.stageWidth * this.pixelRatio, this.stageHeight * this.pixelRatio);
+    Coord.resize(this.stageWidth, this.stageHeight);
   }
 
   animate() {
@@ -33,7 +33,6 @@ class App {
     this.ctx.clearRect(0, 0, this.stageWidth, this.stageHeight);
     this.ctx.fillStyle = "black";
     this.ctx.fillRect(0, 0, this.stageWidth, this.stageHeight);
-
     this.waves.redraw(this.ctx);
   }
 }
