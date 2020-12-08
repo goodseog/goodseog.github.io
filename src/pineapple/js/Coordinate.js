@@ -1,3 +1,5 @@
+import { vec2D } from "/static/js/Vector.js";
+
 export default (function () {
   let width = undefined;
   let height = undefined;
@@ -7,10 +9,10 @@ export default (function () {
     resize: function (stageWidth, stageHeight) {
       width = stageWidth;
       height = stageHeight;
-      ratio = width / 2;
+      ratio = stageWidth / 2;
     },
-    getPos: function (x, y) {
-      return [width / 2 + x * ratio, height / 2 - y * ratio];
+    getPos: function (vec) {
+      return new vec2D(width / 2 + vec.x * ratio, height / 2 - vec.y * ratio);
     },
   };
 })();
