@@ -3,6 +3,7 @@ import Coord from "./Coordinate.js";
 let app;
 class App {
   constructor() {
+    this.frame = 0;
     this.canvas = document.querySelector("#canvas");
     this.ctx = this.canvas.getContext("2d");
     this.pixelRatio = window.devicePixelRatio > 1 ? 2 : 1;
@@ -27,11 +28,15 @@ class App {
   }
 
   animate() {
+    this.frame += 1;
+
     this.animId = window.requestAnimationFrame(this.animate.bind(this));
     this.ctx.clearRect(0, 0, this.stageWidth, this.stageHeight);
     this.ctx.fillStyle = "black";
     this.ctx.fillRect(0, 0, this.stageWidth, this.stageHeight);
-    this.waves.redraw(this.ctx);
+    if (this.frame < 420) {
+      this.waves.redraw(this.ctx, this.frame);
+    }
   }
 }
 
