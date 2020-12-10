@@ -1,5 +1,8 @@
-import Waves from "./Waves.js";
+import LinePop from "./animations/linepop/LinePop.js";
+import Waves from "./animations/waves/Waves.js";
 import Coord from "./Coordinate.js";
+
+
 let app;
 class App {
   constructor() {
@@ -10,7 +13,13 @@ class App {
 
     window.addEventListener("resize", this.resize.bind(this), false);
     this.resize();
-    this.anims = [new Waves()];
+
+    this.anims = [
+      new Waves(), 
+      new LinePop()
+    ];
+    this.endFrame = this.anims.map((anim) => anim.getFrames()).reduce((a, b) => a + b);
+
     this.animId = window.requestAnimationFrame(this.animate.bind(this));
   }
 
@@ -34,16 +43,18 @@ class App {
     this.ctx.fillStyle = "black";
     this.ctx.fillRect(0, 0, this.stageWidth, this.stageHeight);
 
-    let frameSum = 0;
+    let animOffset = 0;
     for (let i = 0; i < this.anims.length; i++) {
       let anim = this.anims[i];
-      frameSum += anim.getFrames();
-      if (this.frame <= frameSum) {
-        anim.redraw(this.ctx, this.frame);
+      let animEndFrame = animOffset + anim.getFrames();
+      if (this.frame <= animEndFrame) {
+        anim.redraw(this.ctx, this.frame - animOffset);
         break;
       }
+      animOffset = animEndFrame;
     }
-    if (this.frame == frameSum) {
+
+    if (this.frame == this.endFrame) {
       this.frame = -1;
     }
   }
