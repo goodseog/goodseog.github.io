@@ -3,14 +3,14 @@ import Coord from "./Coordinate.js";
 let app;
 class App {
   constructor() {
-    this.frame = 0;
+    this.frame = -1;
     this.canvas = document.querySelector("#canvas");
     this.ctx = this.canvas.getContext("2d");
-    this.pixelRatio = window.devicePixelRatio > 1 ? 2 : 1;
+    this.pixelRatio = window.devicePixelRatio;
 
     window.addEventListener("resize", this.resize.bind(this), false);
     this.resize();
-    this.waves = new Waves();
+    this.anims = [new Waves()];
     this.animId = window.requestAnimationFrame(this.animate.bind(this));
   }
 
@@ -19,7 +19,11 @@ class App {
   }
 
   resize() {
-    this.stageWidth = Math.min(document.body.clientWidth, (document.body.clientHeight / 16) * 9);
+    console.log(document.body.clientWidth, document.body.clientHeight, this.pixelRatio);
+    this.stageWidth = Math.min(
+      Math.min(window.innerWidth, document.body.clientWidth),
+      Math.min(window.innerHeight, (document.body.clientHeight / 16) * 9)
+    );
     this.stageHeight = document.body.clientHeight;
     this.canvas.width = this.stageWidth * this.pixelRatio;
     this.canvas.height = this.stageHeight * this.pixelRatio;
@@ -28,14 +32,23 @@ class App {
   }
 
   animate() {
-    this.frame += 1;
-
+    this.frame++;
     this.animId = window.requestAnimationFrame(this.animate.bind(this));
     this.ctx.clearRect(0, 0, this.stageWidth, this.stageHeight);
     this.ctx.fillStyle = "black";
     this.ctx.fillRect(0, 0, this.stageWidth, this.stageHeight);
-    if (this.frame < 420) {
-      this.waves.redraw(this.ctx, this.frame);
+
+    let frameSum = 0;
+    for (let i = 0; i < this.anims.length; i++) {
+      let anim = this.anims[i];
+      frameSum += anim.getFrames();
+      if (this.frame <= frameSum) {
+        anim.redraw(this.ctx, this.frame);
+        break;
+      }
+    }
+    if (this.frame == frameSum) {
+      this.frame = -1;
     }
   }
 }

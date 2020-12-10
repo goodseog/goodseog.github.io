@@ -2,6 +2,8 @@ import { vec2D } from "/static/js/Vector.js";
 import Coord from "./Coordinate.js";
 import * as Utils from "./Utils.js";
 
+import { EDGES, FRAMES } from "./Waves.js";
+
 export default class Wave {
   constructor(start, end, color, pointCnt) {
     this.start = new vec2D(start[0], start[1]);
@@ -9,7 +11,7 @@ export default class Wave {
     this.color = color;
     this.points = [];
     for (let i = 0; i < pointCnt; i++) {
-      this.points.push(Utils.movingPoint(5, 60));
+      this.points.push(Utils.movingPoint(EDGES, FRAMES));
     }
   }
 
@@ -20,7 +22,7 @@ export default class Wave {
     ctx.beginPath();
     ctx.moveTo(s.x, s.y);
     ctx.lineTo(e.x, e.y);
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 1;
     ctx.strokeStyle = this.color;
     ctx.stroke();
 
@@ -32,7 +34,7 @@ export default class Wave {
     this.points.forEach((point, idx) => {
       a = s.multiply((pcnt - idx + 1) / (pcnt + 2));
       b = e.multiply((idx + 1) / (pcnt + 2));
-      next = a.add(b).subtract(new vec2D(0, point[frame] * 17));
+      next = a.add(b).subtract(new vec2D(0, point[frame] * 15));
       cx = (prev.x + next.x) / 2;
       cy = (prev.y + next.y) / 2;
       ctx.quadraticCurveTo(prev.x, prev.y, cx, cy);
@@ -43,6 +45,7 @@ export default class Wave {
     ctx.quadraticCurveTo(prev.x, prev.y, cx, cy);
     ctx.lineTo(e.x, e.y);
     ctx.fillStyle = this.color;
+    ctx.strokeStyle = this.color;
     ctx.closePath();
     ctx.fill();
   }
