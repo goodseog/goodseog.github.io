@@ -20,10 +20,7 @@ class App {
 
   resize() {
     console.log(document.body.clientWidth, document.body.clientHeight, this.pixelRatio);
-    this.stageWidth = Math.min(
-      Math.min(window.innerWidth, document.body.clientWidth),
-      Math.min(window.innerHeight, (document.body.clientHeight / 16) * 9)
-    );
+    this.stageWidth = Math.min(document.body.clientWidth, (document.body.clientHeight / 16) * 9);
     this.stageHeight = document.body.clientHeight;
     this.canvas.width = this.stageWidth * this.pixelRatio;
     this.canvas.height = this.stageHeight * this.pixelRatio;
