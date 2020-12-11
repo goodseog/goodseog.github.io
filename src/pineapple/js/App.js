@@ -1,5 +1,6 @@
 import LinePop from "./animations/linepop/LinePop.js";
 import Waves from "./animations/waves/Waves.js";
+import Keep from "./animations/keep/Keep.js";
 import Coord from "./Coordinate.js";
 
 let app;
@@ -13,7 +14,11 @@ class App {
     window.addEventListener("resize", this.resize.bind(this), false);
     this.resize();
 
-    this.anims = [new Waves(), new LinePop()];
+    this.anims = [
+      new Waves(),
+      new LinePop(),
+      new Keep(100),
+    ];
     this.endFrame = this.anims.map((anim) => anim.getFrames()).reduce((a, b) => a + b);
 
     this.animId = window.requestAnimationFrame(this.animate.bind(this));
@@ -34,15 +39,15 @@ class App {
   animate() {
     this.frame++;
     this.animId = window.requestAnimationFrame(this.animate.bind(this));
-    this.ctx.clearRect(0, 0, this.stageWidth, this.stageHeight);
-    this.ctx.fillStyle = "black";
-    this.ctx.fillRect(0, 0, this.stageWidth, this.stageHeight);
 
     let animOffset = 0;
     for (let i = 0; i < this.anims.length; i++) {
       let anim = this.anims[i];
       let animEndFrame = animOffset + anim.getFrames();
-      if (this.frame <= animEndFrame) {
+      if (this.frame <= animEndFrame && !(anim instanceof Keep)) {
+        this.ctx.clearRect(0, 0, this.stageWidth, this.stageHeight);
+        this.ctx.fillStyle = "black";
+        this.ctx.fillRect(0, 0, this.stageWidth, this.stageHeight);   
         anim.redraw(this.ctx, this.frame - animOffset);
         break;
       }

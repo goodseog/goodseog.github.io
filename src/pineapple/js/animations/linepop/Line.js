@@ -3,7 +3,7 @@ import { FRAMES } from "./LinePop.js";
 import Coord from "../../Coordinate.js";
 
 export default class Line {
-  constructor(start0, start1, end0, end1, color) {
+  constructor(start0, start1, end0, end1, color, strokeZoom) {
     let sP0 = new vec2D(start0[0], start0[1]);
     let sP1 = new vec2D(start1[0], start1[1]);
 
@@ -24,11 +24,10 @@ export default class Line {
     this.lengthRatio = eArmLen / sArmLen; // 1 to this.zoom
     this.vel = eCenter.subtract(sCenter).divide(FRAMES);
 
-    this.angleVel = (sArm.unit().y < eArm.unit().y ? +1 : -1) * sArm.angleTo(eArm) / FRAMES;
+    this.angleVel = ((sArm.unit().y < eArm.unit().y ? +1 : -1) * sArm.angleTo(eArm)) / FRAMES;
     this.color = color;
+    this.strokeZoom = strokeZoom;
   }
-
-  
 
   redraw(ctx, frame) {
     ctx.beginPath();
@@ -44,13 +43,17 @@ export default class Line {
     ctx.moveTo(s.x, s.y);
     ctx.lineTo(e.x, e.y);
     ctx.lineCap = "round";
-    ctx.lineWidth = 1 * zoomSize;
+    if (this.strokeZoom !== undefined) {
+      ctx.lineWidth = 1 + ((this.strokeZoom - 1) * easeIn(frame)) / FRAMES;
+    } else {
+      ctx.lineWidth = zoomSize;
+    }
     ctx.strokeStyle = this.color;
     ctx.stroke();
   }
 }
 
 function easeIn(frame) {
-    let easingLevel = 4;
-    return (frame**(easingLevel + 1)) / (FRAMES**easingLevel);
+  let easingLevel = 4;
+  return frame ** (easingLevel + 1) / FRAMES ** easingLevel;
 }
