@@ -2,7 +2,6 @@ import LinePop from "./animations/linepop/LinePop.js";
 import Waves from "./animations/waves/Waves.js";
 import Coord from "./Coordinate.js";
 
-
 let app;
 class App {
   constructor() {
@@ -14,10 +13,7 @@ class App {
     window.addEventListener("resize", this.resize.bind(this), false);
     this.resize();
 
-    this.anims = [
-      new Waves(), 
-      new LinePop()
-    ];
+    this.anims = [new Waves(), new LinePop()];
     this.endFrame = this.anims.map((anim) => anim.getFrames()).reduce((a, b) => a + b);
 
     this.animId = window.requestAnimationFrame(this.animate.bind(this));
@@ -30,9 +26,8 @@ class App {
   resize() {
     this.stageWidth = Math.min(document.body.clientWidth, (document.body.clientHeight / 16) * 9);
     this.stageHeight = document.body.clientHeight;
-    this.canvas.width = this.stageWidth * this.pixelRatio;
-    this.canvas.height = this.stageHeight * this.pixelRatio;
-    this.ctx.scale(this.pixelRatio, this.pixelRatio);
+    this.canvas.width = this.stageWidth;
+    this.canvas.height = this.stageHeight;
     Coord.resize(this.stageWidth, this.stageHeight);
   }
 
