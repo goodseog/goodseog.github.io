@@ -1,27 +1,29 @@
 import Line from "./Line.js";
 import * as Colors from "../../Colors.js";
+import { ApplePoints as AP } from "../../Data.js";
 
 export const FRAMES = 1300;
+const EPS = 1e-08;
 
 export default class LinePop {
   constructor() {
     this.lines = [
-      new Line([0.0689, 0.3167], [0.1267, 0.3167], [3, 10], [8, 6], Colors.LIGHTGREEN),
-      new Line([0.0278, 0.2778], [0.1222, 0.2778], [-2, 8], [8, -2], Colors.LIGHTGREEN),
-      new Line([0, 0.2389], [0.1, 0.2389], [-6, -3], [3, -7], Colors.LIGHTGREEN),
-      new Line([-0.0111, 0.2], [0.0611, 0.2], [6, -10], [8, -3], Colors.LIGHTGREEN),
-      new Line([-0.2111, 0.1333], [0.2167, 0.1333], [-4, -6], [-5, +6], Colors.LIGHTGREEN),
-      new Line([-0.2444, 0.0889], [0.2611, 0.0889], [6, 8], [3, -8], Colors.YELLOW),
-      new Line([-0.2667, 0.0444], [0.2711, 0.0444], [-3, -6], [-8, 10], Colors.YELLOW),
-      new Line([-0.2744, 0], [0.2744, 0], [-6, 0], [0, -6], Colors.ORANGE),
-      new Line([-0.2722, -0.0444], [0.2722, -0.0444], [-6, 20], [10, -3], Colors.ORANGE),
-      new Line([-0.2578, -0.1333], [0.2611, -0.1333], [-6, -6], [2, -10], Colors.RED),
-      new Line([-0.24, -0.1778], [0.24, -0.1778], [-8, -1], [2, 7], Colors.PURPLE),
-      new Line([-0.2167, -0.2222], [0.2167, -0.2222], [-10, -20], [6, 0], Colors.PURPLE),
-      new Line([-0.1867, -0.2667], [0.1867, -0.2667], [-1, -8], [10, 1], Colors.BLUE),
-      new Line([-0.1444, -0.3111], [-0.0667, -0.3111], [-10, 0], [3, -20], Colors.BLUE),
-      new Line([0.0778, -0.3111], [0.1444, -0.3111], [-3, 40], [10, -5], Colors.BLUE),
-      new Line([-0.2656, -0.0889], [0.2656, -0.0889], [0.21669, 0.13329], [0.2167, 0.1333], Colors.RED, 15),
+      new Line(AP[0][0], AP[0][1], [3, 10], [8, 6], Colors.LIGHTGREEN),
+      new Line(AP[1][0], AP[1][1], [-2, 8], [8, -2], Colors.LIGHTGREEN),
+      new Line(AP[2][0], AP[2][1], [-6, -3], [3, -7], Colors.LIGHTGREEN),
+      new Line(AP[3][0], AP[3][1], [6, -10], [8, -3], Colors.LIGHTGREEN),
+      new Line(AP[4][0], AP[4][1], [-4, -6], [-5, +6], Colors.LIGHTGREEN),
+      new Line(AP[5][0], AP[5][1], [6, 8], [3, -8], Colors.YELLOW),
+      new Line(AP[6][0], AP[6][1], [-3, -6], [-8, 10], Colors.YELLOW),
+      new Line(AP[7][0], AP[7][1], [-10, 0], [0, -10], Colors.ORANGE, 70),
+      new Line(AP[8][0], AP[8][1], [-6, 20], [10, -3], Colors.ORANGE),
+      new Line(AP[9][0], AP[9][1], AP[4][1].map(x => x - EPS), AP[4][1], Colors.RED, 15),
+      new Line(AP[10][0], AP[10][1], [-6, -6], [2, -10], Colors.RED),
+      new Line(AP[11][0], AP[11][1], [-8, -1], [2, 7], Colors.PURPLE),
+      new Line(AP[12][0], AP[12][1], [-10, -20], [6, 0], Colors.PURPLE),
+      new Line(AP[13][0], AP[13][1], [-1, -8], [10, 1], Colors.BLUE),
+      new Line(AP[14][0], AP[14][1], [-10, 0], [3, -20], Colors.BLUE),
+      new Line(AP[15][0], AP[15][1], [-3, 40], [10, -5], Colors.BLUE),
     ];
   }
 

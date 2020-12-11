@@ -2,6 +2,8 @@ import { vec2D } from "/static/js/Vector.js";
 import Coord from "../../Coordinate.js";
 import { EDGES, FRAMES } from "./Waves.js";
 
+const WAVE_HEIGHT = 15;
+
 export default class Wave {
   constructor(start, end, color, pointCnt) {
     this.start = new vec2D(start[0], start[1]);
@@ -32,7 +34,7 @@ export default class Wave {
     this.points.forEach((point, idx) => {
       a = s.multiply((pcnt - idx + 1) / (pcnt + 2));
       b = e.multiply((idx + 1) / (pcnt + 2));
-      next = a.add(b).subtract(new vec2D(0, point[frame] * 15));
+      next = a.add(b).subtract(new vec2D(0, point[frame] * WAVE_HEIGHT));
       cx = (prev.x + next.x) / 2;
       cy = (prev.y + next.y) / 2;
       ctx.quadraticCurveTo(prev.x, prev.y, cx, cy);

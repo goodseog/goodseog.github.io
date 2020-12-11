@@ -1,28 +1,29 @@
 import Wave from "./Wave.js";
 import * as Colors from "../../Colors.js";
+import { ApplePoints as AP } from "../../Data.js";
 
 export const EDGES = 6;
-export const FRAMES = 180;
+export const FRAMES = 130;
 
 export default class Waves {
   constructor() {
     this.waves = [
-      new Wave([0.0689, 0.3167], [0.1267, 0.3167]    , Colors.LIGHTGREEN, 4),
-      new Wave([0.0278, 0.2778], [0.1222, 0.2778]    , Colors.LIGHTGREEN, 4),
-      new Wave([0, 0.2389], [0.1, 0.2389]            , Colors.LIGHTGREEN, 4),
-      new Wave([-0.0111, 0.2], [0.0611, 0.2]         , Colors.LIGHTGREEN, 4),
-      new Wave([-0.2111, 0.1333], [0.2167, 0.1333]   , Colors.LIGHTGREEN, 8),
-      new Wave([-0.2444, 0.0889], [0.2611, 0.0889]   , Colors.YELLOW, 8),
-      new Wave([-0.2667, 0.0444], [0.2711, 0.0444]   , Colors.YELLOW, 9),
-      new Wave([-0.2744, 0], [0.2744, 0]             , Colors.ORANGE, 9),
-      new Wave([-0.2722, -0.0444], [0.2722, -0.0444] , Colors.ORANGE, 9),
-      new Wave([-0.2656, -0.0889], [0.2656, -0.0889] , Colors.RED, 8),
-      new Wave([-0.2578, -0.1333], [0.2611, -0.1333] , Colors.RED, 8),
-      new Wave([-0.24, -0.1778], [0.24, -0.1778]     , Colors.PURPLE, 8),
-      new Wave([-0.2167, -0.2222], [0.2167, -0.2222] , Colors.PURPLE, 7),
-      new Wave([-0.1867, -0.2667], [0.1867, -0.2667] , Colors.BLUE, 6),
-      new Wave([-0.1444, -0.3111], [-0.0667, -0.3111], Colors.BLUE, 3),
-      new Wave([0.0778, -0.3111], [0.1444, -0.3111]  , Colors.BLUE, 3),
+      new Wave(AP[0][0], AP[0][1], Colors.LIGHTGREEN, 4),
+      new Wave(AP[1][0], AP[1][1], Colors.LIGHTGREEN, 4),
+      new Wave(AP[2][0], AP[2][1], Colors.LIGHTGREEN, 4),
+      new Wave(AP[3][0], AP[3][1], Colors.LIGHTGREEN, 4),
+      new Wave(AP[4][0], AP[4][1], Colors.LIGHTGREEN, 8),
+      new Wave(AP[5][0], AP[5][1], Colors.YELLOW, 8),
+      new Wave(AP[6][0], AP[6][1], Colors.YELLOW, 9),
+      new Wave(AP[7][0], AP[7][1], Colors.ORANGE, 9),
+      new Wave(AP[8][0], AP[8][1], Colors.ORANGE, 9),
+      new Wave(AP[9][0], AP[9][1], Colors.RED, 8),
+      new Wave(AP[10][0], AP[10][1], Colors.RED, 8),
+      new Wave(AP[11][0], AP[11][1], Colors.PURPLE, 8),
+      new Wave(AP[12][0], AP[12][1], Colors.PURPLE, 7),
+      new Wave(AP[13][0], AP[13][1], Colors.BLUE, 6),
+      new Wave(AP[14][0], AP[14][1], Colors.BLUE, 3),
+      new Wave(AP[15][0], AP[15][1], Colors.BLUE, 3),
     ];
   }
 
