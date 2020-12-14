@@ -4,9 +4,7 @@ import Keep from "./animations/keep/Keep.js";
 import Coord from "./Coordinate.js";
 import Snakes from "./animations/snake/Snakes.js";
 
-import { vec2D } from "/static/js/Vector.js";
-
-let app;
+import {vec2D} from "/static/js/Vector.js"
 class App {
   constructor() {
     this.frame = -1;
@@ -18,10 +16,11 @@ class App {
     this.resize();
 
     this.anims = [
-      // new Waves(),
-      new LinePop(),
-      new Keep(1000),
-      new Snakes(),
+      //
+      // new Waves(6, 132),
+      // new LinePop(660),
+      new Snakes(100),
+      // new Keep(1000)
     ];
     this.endFrame = this.anims.map((anim) => anim.getFrames()).reduce((a, b) => a + b);
 
@@ -44,8 +43,6 @@ class App {
     this.frame++;
     this.animId = window.requestAnimationFrame(this.animate.bind(this));
 
-    
-
     let animOffset = 0;
     for (let i = 0; i < this.anims.length; i++) {
       let anim = this.anims[i];
@@ -53,13 +50,13 @@ class App {
       if (this.frame <= animEndFrame && !(anim instanceof Keep)) {
         this.ctx.clearRect(0, 0, this.stageWidth, this.stageHeight);
         this.ctx.fillStyle = "black";
-        this.ctx.fillRect(0, 0, this.stageWidth, this.stageHeight);   
-        
+        this.ctx.fillRect(0, 0, this.stageWidth, this.stageHeight);
+
         // Background image
-        // let center = Coord.getPos(new vec2D(0, 0))
-        // let image = new Image()
-        // image.src = "/src/pineapple/apple.png"
-        // this.ctx.drawImage(image, center.x - 75, center.y - 75, 150, 150);
+        let center = Coord.getPos(new vec2D(0, 0))
+        let image = new Image()
+        image.src = "/src/pineapple/apple.png"
+        this.ctx.drawImage(image, center.x - 90, center.y - 90, 180, 180);
 
         anim.redraw(this.ctx, this.frame - animOffset);
         break;
@@ -74,5 +71,5 @@ class App {
 }
 
 window.onload = () => {
-  app = new App();
+  new App();
 };

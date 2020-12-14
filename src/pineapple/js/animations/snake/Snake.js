@@ -1,26 +1,25 @@
 import Coord from "../../Coordinate.js";
 import { vec2D } from "/static/js/Vector.js";
-import * as Colors from "../../Colors.js"
-import { FRAME_PER_POINT } from "./Snakes.js";
+import * as Colors from "../../Colors.js";
 
 export default class Snake {
-  constructor(points) {
+  constructor(points, length) {
     this.points = points;
-    console.log(this.points);
+    this.length = length;
+    this.front = 0;
+    this.rear = 0;    
   }
 
   redraw(ctx, frame) {
     ctx.beginPath();
-
+    ctx.lineCap = "round";
+    ctx.lineWidth = 10;
+    ctx.strokeStyle = Colors.RED;
     ctx.moveTo(...Coord.getPos(new vec2D(...this.points[0])).toArray());
-
-    this.points.forEach(point => {
+    this.points.forEach((point) => {
       ctx.lineTo(...Coord.getPos(new vec2D(...point)).toArray());
     });
     
-    ctx.lineCap = "round";
-    ctx.lineWidth = 15;
-    ctx.strokeStyle = Colors.RED;
     ctx.stroke();
   }
 }

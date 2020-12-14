@@ -1,17 +1,16 @@
 import { vec2D } from "/static/js/Vector.js";
 import Coord from "../../Coordinate.js";
-import { EDGES, FRAMES } from "./Waves.js";
 
 const WAVE_HEIGHT = 15;
 
 export default class Wave {
-  constructor(start, end, color, pointCnt) {
+  constructor(edges, framesPerEdge, start, end, color, pointCnt) {
     this.start = new vec2D(start[0], start[1]);
     this.end = new vec2D(end[0], end[1]);
     this.color = color;
     this.points = [];
     for (let i = 0; i < pointCnt; i++) {
-      this.points.push(movingPoint(EDGES, FRAMES));
+      this.points.push(movingPoint(edges, framesPerEdge));
     }
   }
 
@@ -52,6 +51,7 @@ export default class Wave {
 }
 
 function movingPoint(edges, frames) {
+  console.log(edges, frames);
   let heights = [];
   let curr = 0.0;
   for (let edge = 0; edge < edges; edge++) {
