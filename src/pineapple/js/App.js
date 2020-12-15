@@ -4,7 +4,7 @@ import Keep from "./animations/keep/Keep.js";
 import Coord from "./Coordinate.js";
 import Snakes from "./animations/snake/Snakes.js";
 
-import {vec2D} from "/static/js/Vector.js"
+import { vec2D } from "/static/js/Vector.js";
 class App {
   constructor() {
     this.frame = -1;
@@ -53,10 +53,10 @@ class App {
         this.ctx.fillRect(0, 0, this.stageWidth, this.stageHeight);
 
         // Background image
-        let center = Coord.getPos(new vec2D(0, 0))
-        let image = new Image()
-        image.src = "/src/pineapple/apple.png"
-        this.ctx.drawImage(image, center.x - 90, center.y - 90, 180, 180);
+        // let center = Coord.getPos(new vec2D(0, 0))
+        // let image = new Image()
+        // image.src = "/src/pineapple/apple.png"
+        // this.ctx.drawImage(image, center.x - 90, center.y - 90, 180, 180);
 
         anim.redraw(this.ctx, this.frame - animOffset);
         break;
