@@ -12,14 +12,16 @@ export default class Snake {
     this.points = smoothing(this.points, this.frames - this.start);
 
     this.colors = [];
-    let eachFrames = parseInt(frames / (gradient.length - 1));
+    let eachFrames = parseInt((this.frames - this.start) / (gradient.length - 1));
     for (let i = 0; i < gradient.length - 1; i++) {
       this.colors = this.colors.concat(Colors.gradient(gradient[i], gradient[i + 1], eachFrames));
     }
 
     let lineDashSum = lineDash.reduce((a,b) => a + b);
     const cumsum = ((sum) => (value) => (sum += value))(0);
-    lineDash = lineDash.map(cumsum).map((len) => parseInt(len / lineDashSum * frames));
+    lineDash = lineDash
+      .map(cumsum)
+      .map((len) => parseInt((len / lineDashSum) * (this.frames - this.start)));
     for (let i = 0; i < lineDash.length; i += 2) {
       let start = lineDash[i]
       let end = lineDash[i+1]
@@ -27,6 +29,7 @@ export default class Snake {
         this.colors[j] = "transparent"
       }
     }
+    console.log(this.colors)
   }
 
   redraw(ctx, frame) {
@@ -37,6 +40,12 @@ export default class Snake {
         ctx.arc(p.at.x, p.at.y, 3, 0, 2 * Math.PI);
         ctx.fillStyle = this.colors[currFrame - 1 - idx];
         ctx.fill();
+        if(idx == currFrame-1){
+          ctx.beginPath();
+          ctx.arc(p.at.x, p.at.y, 4, 0, 2 * Math.PI);
+          ctx.lineWidth = 2
+          ctx.stroke()
+        }
       })
     }
   }
@@ -54,7 +63,6 @@ function smoothing(points, frames) {
   let totalDist = lineDistCumsum[lineDistCumsum.length - 1];
   let stops = Array.from(new Array(frames).keys()).map(
     (idx) => totalDist * easeBoth(idx, frames - 1)
-    // (idx) => totalDist * parametricBlend(idx, frames - 1)
   );
 
   stops = stops.map((stop) => {

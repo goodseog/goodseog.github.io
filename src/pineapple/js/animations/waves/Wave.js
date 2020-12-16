@@ -51,7 +51,6 @@ export default class Wave {
 }
 
 function movingPoint(edges, frames) {
-  console.log(edges, frames);
   let heights = [];
   let curr = 0.0;
   for (let edge = 0; edge < edges; edge++) {
