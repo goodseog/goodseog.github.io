@@ -7,13 +7,13 @@ export default class Snakes {
     this.frames = frames;
     this.snakes = [
       //
-      new Snake(frames, 0, AS.slice(0, 26), 8, [
-        [0.0, Colors.PURPLE],
-        [0.2, Colors.RED],
-        [1.0, Colors.ORANGE],
-      ]),
-      // new Snake(ASL.lower),
-      // new Snake(ASL.upper),
+      new Snake(
+        frames,
+        0,
+        AS.slice(0, 26),
+        [60, 15, 80, 10, 1, 15, 80],
+        [Colors.ORANGE, Colors.RED, Colors.PURPLE, Colors.BLUE, Colors.LIGHTGREEN]
+      ),
     ];
   }
 

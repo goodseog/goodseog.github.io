@@ -17,13 +17,12 @@ class App {
 
     this.anims = [
       //
-      // new Waves(6, 132),
-      // new LinePop(660),
-      new Snakes(100),
-      // new Keep(1000)
+      new Waves(6, 33),
+      new LinePop(200),
+      new Snakes(200),
+      
     ];
     this.endFrame = this.anims.map((anim) => anim.getFrames()).reduce((a, b) => a + b);
-
     this.animId = window.requestAnimationFrame(this.animate.bind(this));
   }
 
