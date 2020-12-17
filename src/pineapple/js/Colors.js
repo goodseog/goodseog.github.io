@@ -17,3 +17,23 @@ export function gradient(start, end, count){
     return `rgb(${r}, ${g}, ${b})`
   })
 }
+
+export function getColorAt(colors, ratio) {
+  let step = 1 / (colors.length - 1);
+  let cursor = 0;
+  while (!(cursor * step <= ratio && ratio < (cursor + 1) * step)) cursor++;
+
+  let newRatio = (ratio - cursor * step) / step;
+  let start = colors[cursor]
+    .slice(4, -1)
+    .split(",")
+    .map((str) => parseInt(str));
+  let end = colors[cursor + 1]
+    .slice(4, -1)
+    .split(",")
+    .map((str) => parseInt(str));
+  let r = start[0] * (1 - newRatio) + end[0] * newRatio;
+  let g = start[1] * (1 - newRatio) + end[1] * newRatio;
+  let b = start[2] * (1 - newRatio) + end[2] * newRatio;
+  return `rgb(${r}, ${g}, ${b})`;
+}

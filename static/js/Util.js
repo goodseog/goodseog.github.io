@@ -24,3 +24,8 @@ export function getRandomColor() {
   }
   return color;
 }
+
+export function cumsum(arr) {
+  let cumsumfunc = ((sum) => (num) => (sum += num))(0);
+  return arr.map(cumsumfunc);
+}

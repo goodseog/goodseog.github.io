@@ -12,7 +12,12 @@ export default (function () {
       ratio = stageWidth / 2;
     },
     getPos: function (vec) {
-      return new vec2D(width / 2 + vec.x * ratio, height / 2 - vec.y * ratio);
+      if(vec instanceof Array){
+        return new vec2D(width / 2 + vec[0] * ratio, height / 2 - vec[1] * ratio);
+      } else if( vec instanceof vec2D) {
+        return new vec2D(width / 2 + vec.x * ratio, height / 2 - vec.y * ratio);
+      }
+      return undefined;
     },
   };
 })();
