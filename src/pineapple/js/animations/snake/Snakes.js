@@ -11,7 +11,7 @@ export default class Snakes {
         frames,
         0,
         AS.slice(0, 28),
-        [80, 15, 80, 10, 2, 12, 80],
+        [80, 15, 80, 10, 1, 12, 81],
         [Colors.ORANGE, Colors.RED, Colors.PURPLE, Colors.BLUE, Colors.LIGHTGREEN]
       ),
       new Snake(

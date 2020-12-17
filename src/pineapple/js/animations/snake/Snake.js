@@ -2,8 +2,6 @@ import Coord from "../../Coordinate.js";
 import { vec2D } from "/static/js/Vector.js";
 import * as Colors from "../../Colors.js";
 
-
-
 export default class Snake {
   constructor(frames, start, points, lineDash, gradient) {
     this.frames = frames;
@@ -17,36 +15,38 @@ export default class Snake {
       this.colors = this.colors.concat(Colors.gradient(gradient[i], gradient[i + 1], eachFrames));
     }
 
-    let lineDashSum = lineDash.reduce((a,b) => a + b);
+    let lineDashSum = lineDash.reduce((a, b) => a + b);
     const cumsum = ((sum) => (value) => (sum += value))(0);
     lineDash = lineDash
       .map(cumsum)
       .map((len) => parseInt((len / lineDashSum) * (this.frames - this.start)));
     for (let i = 0; i < lineDash.length; i += 2) {
-      let start = lineDash[i]
-      let end = lineDash[i+1]
+      let start = lineDash[i];
+      let end = lineDash[i + 1];
       for (let j = start; j < end; j++) {
-        this.colors[j] = "transparent"
+        this.colors[j] = "transparent";
       }
     }
-    console.log(this.colors)
   }
 
   redraw(ctx, frame) {
     let currFrame = frame - this.start;
     if (currFrame >= 0) {
-      this.points.slice(0, currFrame+1).forEach((p, idx) => {
-        ctx.beginPath();
-        ctx.arc(p.at.x, p.at.y, 3, 0, 2 * Math.PI);
-        ctx.fillStyle = this.colors[currFrame - 1 - idx];
-        ctx.fill();
-        if(idx == currFrame-1){
+      this.points.slice(0, currFrame + 1).forEach((p, idx) => {
+        if (this.colors[currFrame - idx] != "transparent") {
           ctx.beginPath();
-          ctx.arc(p.at.x, p.at.y, 4, 0, 2 * Math.PI);
-          ctx.lineWidth = 2
-          ctx.stroke()
+          ctx.arc(p.at.x, p.at.y, 3, 0, 2 * Math.PI);
+          ctx.fillStyle = this.colors[currFrame - idx];
+          ctx.fill();
+          if (idx == currFrame || idx == 0) {
+            ctx.beginPath();
+            ctx.arc(p.at.x, p.at.y, 4, 0, 2 * Math.PI);
+            ctx.strokeStyle = "black";
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
         }
-      })
+      });
     }
   }
 }
@@ -56,7 +56,7 @@ function smoothing(points, frames) {
     let p0 = points[i];
     return p0.subtract(p1).length();
   });
-  
+
   const cumsum = ((sum) => (value) => (sum += value))(0);
   let lineDistCumsum = lineDists.map(cumsum);
   lineDistCumsum.unshift(-1e-10);

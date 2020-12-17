@@ -1,4 +1,4 @@
-import LinePop from "./animations/linepop/LinePop.js";
+import PopWaves from "./animations/waves/PopWaves.js";
 import Waves from "./animations/waves/Waves.js";
 import Keep from "./animations/keep/Keep.js";
 import Coord from "./Coordinate.js";
@@ -17,11 +17,10 @@ class App {
 
     this.anims = [
       //
-      // new Waves(6, 33),
-      // new LinePop(200),
+      new Waves(6, 33),
+      new PopWaves(200),
       new Snakes(200),
-      new Keep(100),
-      
+      new Keep(1000),
     ];
     this.endFrame = this.anims.map((anim) => anim.getFrames()).reduce((a, b) => a + b);
     this.animId = window.requestAnimationFrame(this.animate.bind(this));
@@ -47,7 +46,7 @@ class App {
     for (let i = 0; i < this.anims.length; i++) {
       let anim = this.anims[i];
       let animEndFrame = animOffset + anim.getFrames();
-      if (this.frame <= animEndFrame && !(anim instanceof Keep)) {
+      if (this.frame < animEndFrame && !(anim instanceof Keep)) {
         this.ctx.clearRect(0, 0, this.stageWidth, this.stageHeight);
         this.ctx.fillStyle = "black";
         this.ctx.fillRect(0, 0, this.stageWidth, this.stageHeight);

@@ -2,7 +2,7 @@ import Line from "./Line.js";
 import * as Colors from "../../Colors.js";
 import { ApplePoints as AP } from "../../Data.js";
 
-export default class LinePop {
+export default class PopWaves {
   constructor(frames) {
     this.frames = frames;
     this.lines = [
