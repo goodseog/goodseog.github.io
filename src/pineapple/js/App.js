@@ -17,8 +17,8 @@ class App {
 
     this.anims = [
       //
-      // new Waves(6, 33),
-      // new PopWaves(200),
+      new Waves(6, 33),
+      new PopWaves(200),
       new Snakes(100, 50, 500),
       // new PopSnakes(1000),
     ];
@@ -48,7 +48,7 @@ class App {
       let animEndFrame = animOffset + anim.getFrames();
       if (this.frame < animEndFrame && !(anim instanceof Keep)) {
         this.ctx.clearRect(0, 0, this.stageWidth, this.stageHeight);
-        this.ctx.fillStyle = "white";
+        this.ctx.fillStyle = "black";
         this.ctx.fillRect(0, 0, this.stageWidth, this.stageHeight);
 
         // Background image

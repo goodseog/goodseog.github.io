@@ -10,3 +10,29 @@ html, body {
   text-align: center;
   background-color: black;
 }
+
+#text {
+  position: absolute;
+  top: 80%;
+  left: 2%;
+  color: white;
+}
+
+h1 {
+  font-size: 23px;
+  text-align: left;
+}
+
+h2 {
+  font-size: 18px;
+  font-weight: 300;
+  text-align: left;
+}
+
+a:link {
+  color: white;
+}
+
+a:visited {
+  color: yellow;
+}
