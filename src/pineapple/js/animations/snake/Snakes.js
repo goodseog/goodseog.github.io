@@ -13,7 +13,7 @@ export default class Snakes {
     this.snakesDrawStart = [
       0,
       parseInt(drawFrames * 0.56),
-      parseInt(drawFrames * 0.8),
+      parseInt(drawFrames * 0.78),
       parseInt(drawFrames * 0.61),
     ];
     this.snakesDrawLineDash = [
