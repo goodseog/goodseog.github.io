@@ -19,7 +19,7 @@ class App {
       //
       new Waves(6, 33),
       new PopWaves(200),
-      new Snakes(150, 50, 300),
+      new Snakes(200, 50, 300),
       // new PopSnakes(1000),
     ];
     this.endFrame = this.anims.map((anim) => anim.getFrames()).reduce((a, b) => a + b);
@@ -60,12 +60,6 @@ class App {
         this.ctx.clearRect(0, 0, this.stageWidth, this.stageHeight);
         this.ctx.fillStyle = "black";
         this.ctx.fillRect(0, 0, this.stageWidth, this.stageHeight);
-
-        // Background image
-        // let center = Coord.getPos(new vec2D(0, 0))
-        // let image = new Image()
-        // image.src = "/src/pineapple/apple.png"
-        // this.ctx.drawImage(image, center.x - 90, center.y - 90, 180, 180);
 
         anim.redraw(this.ctx, this.frame - animOffset);
         break;

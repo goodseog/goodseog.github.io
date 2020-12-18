@@ -50,10 +50,10 @@ export default class Snake {
     }
   }
 
-  redraw(ctx) {
+  redraw(ctx, zoom=1.0) {
     // console.log(this.positions)
     // this.positions.map((pos) => this.getPoint(pos));
-    let draws = this.positions.map((pos) => this.getPoint(pos))    
+    let draws = this.positions.map((pos) => this.getPoint(pos))
     draws.forEach((p, idx) => {
       let color = this.colors[idx];
       if (color !== "transparent") {
