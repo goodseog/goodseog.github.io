@@ -19,7 +19,7 @@ class App {
       //
       new Waves(6, 33),
       new PopWaves(200),
-      new Snakes(100, 50, 500),
+      new Snakes(150, 50, 300),
       // new PopSnakes(1000),
     ];
     this.endFrame = this.anims.map((anim) => anim.getFrames()).reduce((a, b) => a + b);
@@ -31,8 +31,15 @@ class App {
   }
 
   resize() {
-    this.stageWidth = Math.min(document.body.clientWidth, (document.body.clientHeight / 16) * 9);
+    this.stageWidth = document.body.clientWidth;
     this.stageHeight = document.body.clientHeight;
+
+    if ((this.stageWidth / 9) * 16 < this.stageHeight) {
+      this.stageHeight = (this.stageWidth / 9) * 16;
+    } else if ((this.stageHeight / 16) * 9 < this.stageWidth) {
+      this.stageWidth = (this.stageHeight / 16) * 9;
+    }
+
     this.canvas.width = this.stageWidth;
     this.canvas.height = this.stageHeight;
     Coord.resize(this.stageWidth, this.stageHeight);
