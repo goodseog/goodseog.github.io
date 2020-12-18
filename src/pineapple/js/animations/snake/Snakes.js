@@ -9,22 +9,64 @@ export default class Snakes {
     this.keepFrames = keepFrames;
     this.popFrames = popFrames;
 
+    this.snakesDrawSpeed = [+1, -1, +1, +1];
+    this.snakesDrawStart = [
+      0,
+      parseInt(drawFrames * 0.56),
+      parseInt(drawFrames * 0.8),
+      parseInt(drawFrames * 0.61),
+    ];
+    this.snakesDrawLineDash = [
+      [60, 10, 67, 10, 3, 10, 70, 0],
+      [4, 1, 4],
+      [1],
+      [1, 1],
+    ]
+    this.snakesPopSpeed = +0.2;
+    // this.snakesDraw
+    this.preprocessing();
+
     this.snakes = [
       new Snake(
         ASB.map((point) => Coord.getPos(point)), // path
-        3, // start point from
-        [66, 10, 77, 10, 2, 10, 60], // [218] by real length
+        0, // start point from
+        this.snakesDrawLineDash[0],
         [Colors.ORANGE, Colors.RED, Colors.PURPLE, Colors.BLUE, Colors.LIGHTGREEN]
       ),
       new Snake(
         ASB.map((point) => Coord.getPos(point)), // path
-        3, // start point from
-        [40, 13, 50], // by real length
+        0, // start point from
+        this.snakesDrawLineDash[1], // by real length
         [Colors.ORANGE, Colors.YELLOW, Colors.LIGHTGREEN]
+      ),      
+      new Snake(
+        ASL.map((point) => Coord.getPos(point)), // path
+        0, // start point from
+        this.snakesDrawLineDash[2], // by real length
+        [Colors.LIGHTGREEN, Colors.YELLOW]
+      ),
+      new Snake(
+        ASL.map((point) => Coord.getPos(point)), // path
+        0, // start point from
+        this.snakesDrawLineDash[3], // by real length
+        [Colors.BLUE, Colors.LIGHTGREEN]
       ),
     ];
-    this.snakesDrawStart = [0, parseInt(drawFrames * 0.4)];
-    this.snakesDrawSpeed = [1.1, -1.06];
+  }
+
+  preprocessing(){
+    const RATIO = 0.39;
+    let height = Coord.getHeight();
+    this.snakesDrawSpeed = this.snakesDrawSpeed.map(
+      (speed) => (speed * RATIO * height) / this.drawFrames
+    );
+    this.snakesDrawLineDash = this.snakesDrawLineDash.map((lineDash, idx) => {
+      let totalLine = lineDash.reduce((a, b) => a + b);
+      return lineDash.map(
+        (dash) => (dash / totalLine) * (this.drawFrames - this.snakesDrawStart[idx])
+      );
+    });
+    this.snakesPopSpeed = (this.snakesPopSpeed * RATIO * height) / this.drawFrames;
   }
 
   getFrames() {
@@ -48,7 +90,7 @@ export default class Snakes {
       this.snakes.forEach((snake) => snake.redraw(ctx, frame));
     } 
     else {
-      this.snakes.forEach((snake) => snake.move(0.2));
+      this.snakes.forEach((snake, idx) => snake.move(this.snakesPopSpeed));
       this.snakes.forEach((snake) => snake.redraw(ctx, frame));
     }
   }

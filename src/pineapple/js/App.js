@@ -19,7 +19,7 @@ class App {
       //
       // new Waves(6, 33),
       // new PopWaves(200),
-      new Snakes(200, 100, 200),
+      new Snakes(100, 50, 500),
       // new PopSnakes(1000),
     ];
     this.endFrame = this.anims.map((anim) => anim.getFrames()).reduce((a, b) => a + b);
@@ -31,7 +31,7 @@ class App {
   }
 
   resize() {
-    this.stageWidth = Math.min(document.body.clientWidth, (document.body.clientHeight / 16) * 9);
+    this.stageWidth = (document.body.clientHeight / 16) * 9;
     this.stageHeight = document.body.clientHeight;
     this.canvas.width = this.stageWidth;
     this.canvas.height = this.stageHeight;
@@ -48,7 +48,7 @@ class App {
       let animEndFrame = animOffset + anim.getFrames();
       if (this.frame < animEndFrame && !(anim instanceof Keep)) {
         this.ctx.clearRect(0, 0, this.stageWidth, this.stageHeight);
-        this.ctx.fillStyle = "black";
+        this.ctx.fillStyle = "white";
         this.ctx.fillRect(0, 0, this.stageWidth, this.stageHeight);
 
         // Background image

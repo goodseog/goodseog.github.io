@@ -19,10 +19,12 @@ export function gradient(start, end, count){
 }
 
 export function getColorAt(colors, ratio) {
+  if (ratio < 0) return colors[0];
+  if (ratio >= 1) return colors[colors.length - 1];
+
   let step = 1 / (colors.length - 1);
   let cursor = 0;
   while (!(cursor * step <= ratio && ratio < (cursor + 1) * step)) cursor++;
-
   let newRatio = (ratio - cursor * step) / step;
   let start = colors[cursor]
     .slice(4, -1)

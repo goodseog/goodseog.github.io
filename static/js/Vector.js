@@ -42,9 +42,16 @@ vec2D.prototype = {
     return this.divide(this.length());
   },
   toAngles: function () {
-    return {
-      phi: Math.asin(this.y / this.length()),
-    };
+    let angle = Math.asin(this.y / this.length());
+    if (this.x >= 0 && this.y >= 0) {
+      return angle;
+    } else if (this.x <= 0 && this.y >= 0) {
+      return Math.PI - angle;
+    } else if (this.x <= 0 && this.y <= 0) {
+      return Math.PI - angle;
+    } else if (this.x >= 0 && this.y <= 0) {
+      return 2 * Math.PI + angle;
+    }
   },
   angleTo: function (a) {
     return Math.acos(this.dot(a) / (this.length() * a.length()));
