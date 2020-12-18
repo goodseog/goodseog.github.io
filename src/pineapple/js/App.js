@@ -34,14 +34,17 @@ class App {
     this.stageWidth = document.body.clientWidth;
     this.stageHeight = document.body.clientHeight;
 
+    let top = 0;
     if ((this.stageWidth / 9) * 16 < this.stageHeight) {
       this.stageHeight = (this.stageWidth / 9) * 16;
+      top = 0.5 * (document.body.clientHeight - this.stageHeight);
     } else if ((this.stageHeight / 16) * 9 < this.stageWidth) {
       this.stageWidth = (this.stageHeight / 16) * 9;
     }
 
     this.canvas.width = this.stageWidth;
     this.canvas.height = this.stageHeight;
+    this.canvas.style.top = "" + top + "px";
     Coord.resize(this.stageWidth, this.stageHeight);
   }
 
