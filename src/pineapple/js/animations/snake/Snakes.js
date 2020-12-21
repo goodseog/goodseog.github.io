@@ -22,7 +22,7 @@ export default class Snakes {
       [1],
       [1, 1],
     ]
-    this.snakesPopSpeed = +0.2;
+    this.snakesPopSpeed = +0.5;
     // this.snakesDraw
     this.preprocessing();
 
@@ -75,8 +75,8 @@ export default class Snakes {
 
   redraw(ctx, frame) {
     if (frame == 0) {
-      this.zooms = [1, 1, 1, 1, 1, 1];
-      this.zoomChange = [-2.5, -1.5, -0.5, +0.5, +1.5, +2.5]
+      this.zooms = [1, 1, 1, 1, 1];
+      this.zoomChange = [-1.5, -0.5, +0.5, +1.5, +2.5]
       this.snakes.forEach((snake) => snake.init());
     }
 
@@ -93,10 +93,10 @@ export default class Snakes {
     } 
     else {
       this.snakes.forEach((snake) => snake.move(this.snakesPopSpeed));
-      this.zooms.forEach(zoom =>
-        this.snakes.forEach((snake) => snake.redraw(ctx, zoom))
+      this.zooms.forEach((zoom) =>
+        this.snakes.forEach((snake) => zoom < 15 && snake.redraw(ctx, zoom))
       );
-      this.zooms = this.zooms.map((zoom, idx) => zoom * (1 + this.zoomChange[idx] * 0.003));
+      this.zooms = this.zooms.map((zoom, idx) => zoom * (1 + this.zoomChange[idx] * 0.03));
     }
   }
 }

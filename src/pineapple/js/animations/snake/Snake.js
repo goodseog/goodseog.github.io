@@ -52,37 +52,50 @@ export default class Snake {
     // this.positions.map((pos) => this.getPoint(pos));
     zoom = zoom || 1.0;
     let center = Coord.getPos([0, 0]);
-    let draws = this.positions
+    let points = this.positions
       .map((pos) => this.getPoint(pos))
       .map((pos) => pos.subtract(center).multiply(zoom).add(center));
+    this.drawPoints(ctx, points, zoom)
+  }
 
-    
-
-    draws.forEach((p, idx) => {
+  drawPoints(ctx, points, zoom){
+    points.forEach((p, idx) => {
       let color = this.colors[idx];
-      if (color !== "transparent") {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, pointRadius, 0, 2 * Math.PI);
-        ctx.fillStyle = color || Colors.ORANGE;
-        ctx.fill();
-
+      if (!(idx & 1) && color !== "transparent") {
         if (idx == 0 || idx == this.positions.length - 1 || this.colors[idx - 1] == "transparent") {
-          this.drawArc(ctx, [p.x, p.y, pointRadius + lineWidth / 2, 0, 2 * Math.PI]);
+          this.drawArc(ctx, [p.x, p.y, pointRadius * zoom + lineWidth / 2, 0, 2 * Math.PI]);
         } else {
-          let prev = draws[idx - 1];
+          let prev = points[idx - 1];
           let angle = p.subtract(prev).toAngles();
           let args = [
             p.x,
             p.y,
-            pointRadius + lineWidth / 2,
+            pointRadius * zoom + lineWidth / 2,
             angle - Math.PI / 2,
             angle + Math.PI / 2,
           ];
           this.drawArc(ctx, args);
         }
+
+        if (idx < points.length - 1) {
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(points[idx + 1].x, points[idx + 1].y);
+          ctx.lineWidth = 2 * pointRadius * zoom;
+          ctx.lineCap = "round"
+          ctx.strokeStyle = color || Colors.ORANGE;
+          ctx.stroke();
+        } else {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, pointRadius * zoom, 0, 2 * Math.PI);
+          ctx.fillStyle = color || Colors.ORANGE;
+          ctx.fill();
+        }
+
       }
     });
   }
+
   drawArc(ctx, args) {
     ctx.beginPath();
     ctx.arc(...args);

@@ -17,8 +17,8 @@ class App {
 
     this.anims = [
       //
-      new Waves(6, 33),
-      new PopWaves(200),
+      // new Waves(6, 33),
+      // new PopWaves(200),
       new Snakes(200, 50, 300),
       // new PopSnakes(1000),
     ];
