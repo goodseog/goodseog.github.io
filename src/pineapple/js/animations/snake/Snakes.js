@@ -23,28 +23,28 @@ export default class Snakes {
 
     this.snakes = [
       new Snake(
-        ASB.map((point) => Coord.getPos(point)), // path
+        ASB, // path
         0, // start point from
         this.snakesDrawLineDash[0],
         [Colors.ORANGE, Colors.RED, Colors.PURPLE, Colors.BLUE, Colors.LIGHTGREEN],
         "shift"
       ),
       new Snake(
-        ASB.map((point) => Coord.getPos(point)), // path
+        ASB, // path
         0, // start point from
         this.snakesDrawLineDash[1], // by real length
         [Colors.ORANGE, Colors.YELLOW, Colors.LIGHTGREEN],
         "pop"
       ),
       new Snake(
-        ASL.map((point) => Coord.getPos(point)), // path
+        ASL, // path
         0, // start point from
         this.snakesDrawLineDash[2], // by real length
         [Colors.LIGHTGREEN, Colors.YELLOW],
         "shift"
       ),
       new Snake(
-        ASL.map((point) => Coord.getPos(point)), // path
+        ASL, // path
         0, // start point from
         this.snakesDrawLineDash[3], // by real length
         [Colors.BLUE, Colors.LIGHTGREEN],

@@ -19,6 +19,14 @@ export default (function () {
       }
       return undefined;
     },
+    scale : function(vec){
+      if (vec instanceof Array) {
+        return new vec2D(vec[0] * ratio, - vec[1] * ratio);
+      } else if (vec instanceof vec2D) {
+        return new vec2D(vec.x * ratio, - vec.y * ratio);
+      }
+      return undefined;
+    },
     getHeight: function () {
       return height;
     },

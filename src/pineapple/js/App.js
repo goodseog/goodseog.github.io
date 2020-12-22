@@ -3,8 +3,10 @@ import Waves from "./animations/waves/Waves.js";
 import Keep from "./animations/keep/Keep.js";
 import Coord from "./Coordinate.js";
 import Snakes from "./animations/snake/Snakes.js";
+import Mosaic from "./animations/mosaic/Mosaic.js";
 
 import { vec2D } from "/static/js/Vector.js";
+
 class App {
   constructor() {
     this.frame = -1;
@@ -17,9 +19,10 @@ class App {
 
     this.anims = [
       //
-      new Waves(6, 33),
-      new PopWaves(200),
-      new Snakes(200, 50, 300),
+      // new Waves(6, 33),
+      // new PopWaves(200),
+      // new Snakes(200, 50, 300),
+      new Mosaic(300, 500, 200),
     ];
     this.endFrame = this.anims.map((anim) => anim.getFrames()).reduce((a, b) => a + b);
     this.animId = window.requestAnimationFrame(this.animate.bind(this));

@@ -6,7 +6,7 @@ const pointRadius = 3.5;
 const lineWidth = 1.5;
 export default class Snake {
   constructor(paths, start, lineDash, gradient, endStyle) {
-    this.paths = paths;
+    this.paths = paths.map((path) => Coord.getPos(path));
     this.start = start;
     this.endStyle = endStyle;
 
