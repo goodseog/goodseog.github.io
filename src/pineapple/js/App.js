@@ -17,8 +17,8 @@ class App {
 
     this.anims = [
       //
-      // new Waves(6, 33),
-      // new PopWaves(200),
+      new Waves(6, 33),
+      new PopWaves(200),
       new Snakes(200, 50, 300),
     ];
     this.endFrame = this.anims.map((anim) => anim.getFrames()).reduce((a, b) => a + b);
