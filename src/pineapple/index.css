@@ -17,7 +17,7 @@ canvas {
 }
 
 #text {
-  font-family: sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   position: absolute;
   top: 80%;
   left: 2%;
