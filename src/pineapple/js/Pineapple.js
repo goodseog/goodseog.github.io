@@ -7,7 +7,9 @@ import Mosaic from "./animations/mosaic/Mosaic.js";
 
 import { vec2D } from "/static/js/Vector.js";
 
-class App {
+let app;
+
+class Pineapple {
   constructor() {
     this.frame = -1;
     this.canvas = document.querySelector("#canvas");
@@ -19,12 +21,14 @@ class App {
 
     this.anims = [
       //
-      // new Waves(6, 33),
-      // new PopWaves(200),
-      // new Snakes(200, 50, 300),
-      new Mosaic(300, 500, 200),
+      new Waves(6, 33),
+      new PopWaves(200),
+      new Snakes(200, 50, 300),
+      new Mosaic(400, 200, 0),
     ];
-    this.endFrame = this.anims.map((anim) => anim.getFrames()).reduce((a, b) => a + b);
+    this.endFrame = this.anims
+      .map((anim) => anim.getFrames())
+      .reduce((a, b) => a + b);
     this.animId = window.requestAnimationFrame(this.animate.bind(this));
   }
 
@@ -63,6 +67,7 @@ class App {
         this.ctx.fillStyle = "black";
         this.ctx.fillRect(0, 0, this.stageWidth, this.stageHeight);
 
+        // this.drawImage(Coord.getHeight()/ 8.44);
         anim.redraw(this.ctx, this.frame - animOffset);
         break;
       }
@@ -73,8 +78,25 @@ class App {
       this.frame = -1;
     }
   }
+
+  drawImage(size) {
+    let image = new Image(100, 100);
+    image.src = "/static/img/apple.png";
+    this.ctx.drawImage(
+      image,
+      this.stageWidth / 2 - size,
+      this.stageHeight / 2 - size,
+      size * 2,
+      size * 2
+    );
+  }
+}
+
+window.onresize = () => {
+  app.onStop();
+  app = new Pineapple();
 }
 
 window.onload = () => {
-  new App();
+  app = new Pineapple();
 };
