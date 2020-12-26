@@ -1,15 +1,17 @@
 import Coord from "../../Coordinate.js";
 import { easeInOutSine, easeInPower } from "/static/js/Animation.js";
 import { vec2D } from "/static/js/Vector.js";
+import { addOpacity } from "../../Colors.js";
 
 export default class Complex {
-  constructor(appear, stay, disappear, position, size, color) {
+  constructor(appear, stay, disappear, position, size, color, delay) {
     this.appear = appear;
     this.stay = stay;
     this.disappear = disappear;
     this.position = Coord.getPos(position);
     this.size = Coord.scale([0, size]).length();
     this.color = color;
+    this.delay = delay;
   }
 
   redraw(ctx, frame) {
@@ -20,6 +22,13 @@ export default class Complex {
       this.drawComplexObj(ctx, curSize, grd);
     } else if (frame < this.appear + this.stay) {
       this.drawComplexObj(ctx, this.size, this.color);
+    } else {
+      let progress = (frame - this.appear - this.stay) / this.disappear;
+      let x = progress - this.delay;
+      let opacity = x < 0 ? 1 : Math.max(1 - (2 * x) ** 0.5, 0);
+      let zoom = x < 0 ? 1 : Math.exp(-x);
+      let size = this.size * zoom;
+      this.drawComplexObj(ctx, size, addOpacity(this.color, opacity));
     }
   }
 
@@ -32,7 +41,7 @@ export default class Complex {
 
     let pow = 3;
     let colorStart = 1.0 - easeInPower(progress, pow);
-    let colorEnd = colorStart + easeInPower(1-colorStart, pow);
+    let colorEnd = colorStart + easeInPower(1 - colorStart, pow);
 
     grd.addColorStop(0.0, trans);
     grd.addColorStop(Math.max(0, colorStart - 0.3), trans);
@@ -56,33 +65,33 @@ export default class Complex {
     p = this.drawArcc(ctx, p, size, +0.1, false);
     p = this.drawLine(ctx, p, size, -0.1);
     p = this.drawArcc(ctx, p, size, +0.03, true);
-    p = this.drawLine(ctx, p, size, +0.23);
-    p = this.drawArcc(ctx, p, size, +0.04, false);
+    p = this.drawLine(ctx, p, size, +0.22);
+    p = this.drawArcc(ctx, p, size, +0.06, false);
     p = this.drawLine(ctx, p, size, -0.06);
-    p = this.drawArcc(ctx, p, size, +0.06, true);
+    p = this.drawArcc(ctx, p, size, +0.04, true);
     p = this.drawLine(ctx, p, size, +0.08);
     p = this.drawArcc(ctx, p, size, +0.06, false);
-    p = this.drawLine(ctx, p, size, -0.2);
+    p = this.drawLine(ctx, p, size, -0.19);
     p = this.drawArcc(ctx, p, size, +0.03, true);
     p = this.drawLine(ctx, p, size, +0.16);
     p = this.drawArcc(ctx, p, size, +0.08, false);
-    p = this.drawLine(ctx, p, size, -0.4);
+    p = this.drawLine(ctx, p, size, -0.3);
     p = this.drawArcc(ctx, p, size, +0.04, true);
-    p = this.drawLine(ctx, p, size, +0.1);
+    p = this.drawLine(ctx, p, size, +0.22);
     p = this.drawArcc(ctx, p, size, +0.08, false);
-    p = this.drawLine(ctx, p, size, -0.14);
+    p = this.drawLine(ctx, p, size, -0.15);
     p = this.drawArcc(ctx, p, size, +0.04, true);
-    p = this.drawLine(ctx, p, size, +0.14);
+    p = this.drawLine(ctx, p, size, +0.04);
     p = this.drawArcc(ctx, p, size, +0.08, false);
-    p = this.drawLine(ctx, p, size, -0.48);
+    p = this.drawLine(ctx, p, size, -0.58);
     p = this.drawArcc(ctx, p, size, -0.12, false);
-    p = this.drawLine(ctx, p, size, +0.06);
-    p = this.drawArcc(ctx, p, size, -0.03, true);
-    p = this.drawLine(ctx, p, size, -0.2);
-    p = this.drawArcc(ctx, p, size, -0.08, false);
-    p = this.drawLine(ctx, p, size, +0.06);
+    p = this.drawLine(ctx, p, size, +0.07);
     p = this.drawArcc(ctx, p, size, -0.04, true);
-    p = this.drawLine(ctx, p, size, -0.2);
+    p = this.drawLine(ctx, p, size, -0.28);
+    p = this.drawArcc(ctx, p, size, -0.08, false);
+    p = this.drawLine(ctx, p, size, +0.12);
+    p = this.drawArcc(ctx, p, size, -0.04, true);
+    p = this.drawLine(ctx, p, size, -0.19);
     p = this.drawArcc(ctx, p, size, -0.08, false);
     p = this.drawLine(ctx, p, size, +0.04);
     p = this.drawArcc(ctx, p, size, -0.03, true);
