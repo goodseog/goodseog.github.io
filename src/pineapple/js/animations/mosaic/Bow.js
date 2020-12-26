@@ -1,6 +1,6 @@
 import { easeInOutSine } from "/static/js/Animation.js";
-import RoundLine from "./RoundLine.js";
 import Coord from "../../Coordinate.js";
+import * as Colors from "../../Colors.js";
 
 export default class Bow {
   constructor(
@@ -44,24 +44,41 @@ export default class Bow {
       this.drawArcs(ctx, start, end, this.lineWidth * progress);
     } else if (frame - this.appear < this.stay) {
       let progress = (frame - this.appear) / this.stay;
-      let totalMove = [0, 0];
-      this.shifting.forEach((move, idx) => {
-        let ratio = Math.min(
-          1,
-          Math.max(progress * this.shifting.length - idx, 0)
-        );
-        ratio = easeInOutSine(ratio);
-        totalMove[0] += ratio * move[0];
-        totalMove[1] += ratio * move[1];
-      });
-      totalMove = Coord.scale(totalMove);
+      let totalMove = this.getTotalMove(progress);
       let start = this.p0.add(totalMove);
       let end = this.p1.add(totalMove);
       this.drawArcs(ctx, start, end, this.lineWidth);
+    } else {
+      let progress = (frame - this.appear - this.stay) / this.disappear;
+      let totalMove = this.getTotalMove(1.0);
+      let start = this.p0.add(totalMove);
+      let end = this.p1.add(totalMove);
+      let opacity = 1 - progress;
+      let lineWidth = this.lineWidth * (1 - progress);
+      start = start
+        .multiply(1 - progress)
+        .add(this.appearAt.multiply(progress));
+      end = end.multiply(1 - progress).add(this.appearAt.multiply(progress));
+      this.drawArcs(ctx, start, end, lineWidth, frame, opacity);
     }
   }
 
-  drawArcs(ctx, start, end, lineWidth) {
+  getTotalMove(progress) {
+    let totalMove = [0, 0];
+    this.shifting.forEach((move, idx) => {
+      let ratio = Math.min(
+        1,
+        Math.max(progress * this.shifting.length - idx, 0)
+      );
+      ratio = easeInOutSine(ratio);
+      totalMove[0] += ratio * move;
+      totalMove[1] += ratio * move;
+    });
+    totalMove = Coord.scale(totalMove);
+    return totalMove;
+  }
+
+  drawArcs(ctx, start, end, lineWidth, opacity = 1.0) {
     let ratios = [0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5];
     if (!this.upper) {
       ratios = ratios.map((ratio) => Math.abs(ratio - 0.5) + 0.5);
@@ -70,8 +87,8 @@ export default class Bow {
     ratios.forEach((ratio) => {
       ctx.beginPath();
       ctx.lineCap = "round";
-      ctx.strokeStyle = this.strokeStyle;
-      ctx.lineWidth = lineWidth * Coord.getHeight() / 600;
+      ctx.strokeStyle = Colors.addOpacity(this.strokeStyle, opacity);
+      ctx.lineWidth = (lineWidth * Coord.getHeight()) / 600;
       ctx.moveTo(...start.toArray());
 
       ctx.quadraticCurveTo(

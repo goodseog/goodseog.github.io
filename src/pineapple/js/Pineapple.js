@@ -21,10 +21,10 @@ class Pineapple {
 
     this.anims = [
       //
-      new Waves(6, 33),
-      new PopWaves(200),
-      new Snakes(200, 50, 300),
-      new Mosaic(400, 200, 0),
+      new Waves(6, 100),
+      new PopWaves(600),
+      new Snakes(500, 100, 400),
+      new Mosaic(400, 600, 400),
     ];
     this.endFrame = this.anims
       .map((anim) => anim.getFrames())
@@ -95,7 +95,7 @@ class Pineapple {
 window.onresize = () => {
   app.onStop();
   app = new Pineapple();
-}
+};
 
 window.onload = () => {
   app = new Pineapple();
