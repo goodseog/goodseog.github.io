@@ -5,7 +5,9 @@ import Coord from "./Coordinate.js";
 import Snakes from "./animations/snake/Snakes.js";
 import Mosaic from "./animations/mosaic/Mosaic.js";
 
+
 import { vec2D } from "/static/js/Vector.js";
+import Popping from "./animations/popping/Popping.js";
 
 let app;
 
@@ -21,10 +23,12 @@ class Pineapple {
 
     this.anims = [
       //
-      new Waves(6, 100),
-      new PopWaves(600),
-      new Snakes(500, 100, 400),
-      new Mosaic(400, 600, 400),
+      // new Waves(6, 33),
+      // new PopWaves(600),
+      // new Snakes(500, 100, 400),
+      // new Mosaic(400, 600, 400),
+
+      new Popping(400, 400),
     ];
     this.endFrame = this.anims
       .map((anim) => anim.getFrames())

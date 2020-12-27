@@ -52,3 +52,8 @@ export function getColorAt(colors, ratio) {
   let b = start[2] * (1 - newRatio) + end[2] * newRatio;
   return `rgb(${r}, ${g}, ${b})`;
 }
+
+export function getRandomColor() {
+  let colors = [RED, ORANGE, YELLOW, LIGHTGREEN, BLUE, PURPLE];
+  return colors[Math.floor(Math.random() * colors.length)];
+}

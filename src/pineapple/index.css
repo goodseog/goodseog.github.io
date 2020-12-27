@@ -13,7 +13,8 @@ html, body {
 }
 
 canvas {
-  position: relative;
+  left: 100px;
+  position: absolute;
 }
 
 #text {
@@ -22,6 +23,7 @@ canvas {
   top: 80%;
   left: 2%;
   color: white;
+  z-index: 100;
 }
 
 h1 {
