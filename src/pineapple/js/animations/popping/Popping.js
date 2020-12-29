@@ -92,7 +92,7 @@ export default class Popping {
 
     this.addBallBoundary(this.world, ASB);
     this.addBallBoundary(this.world, ASL);
-    this.meteor = Bodies.circle(w / 2, h - 10, 20, {
+    this.meteor = Bodies.circle(w / 2, h - 10, 30 * h / 800, {
       render: {
         fillStyle: "black",
       },
@@ -102,11 +102,12 @@ export default class Popping {
 
   addRandomBalls(world, pos, count) {
     let c = Coords.getPos([0, 0]);
+    let height = Coords.getHeight();
     World.add(
       world,
       Composites.stack(c.x * pos[0], c.y * pos[1], count, count, 0, 0, function (x, y) {
         let color = Colors.getRandomColor();
-        let circle = Bodies.circle(x, y, 5 * Math.random() + 2, {
+        let circle = Bodies.circle(x, y, ((5 * Math.random() + 2) * height) / 800, {
           render: {
             fillStyle: color,
             strokeStyle: "black",
