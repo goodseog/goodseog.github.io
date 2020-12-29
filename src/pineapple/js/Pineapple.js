@@ -50,7 +50,6 @@ class Pineapple {
     this.left = (document.body.clientWidth - this.stageWidth) / 2;
 
     let display = document.querySelector("#display");
-    console.log(display);
     display.style.width = `${this.stageWidth}px`;
     display.style.height = `${this.stageHeight}px`;
     display.style.top = `${this.top}px`;

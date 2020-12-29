@@ -1,4 +1,4 @@
-import { AppleSnakeBody, AppleSnakeBody as ASB, AppleSnakeLeaf as ASL } from "../../Data.js";
+import { AppleSnakeBody as ASB, AppleSnakeLeaf as ASL } from "../../Data.js";
 import Coords from "../../Coordinate.js";
 import * as Colors from "../../Colors.js";
 
