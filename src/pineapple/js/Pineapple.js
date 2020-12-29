@@ -22,10 +22,10 @@ class Pineapple {
 
     this.anims = [
       //
-      // new Waves(6, 33),
-      // new PopWaves(600),
-      // new Snakes(500, 100, 400),
-      // new Mosaic(200, 400, 200),
+      new Waves(6, 33),
+      new PopWaves(300),
+      new Snakes(300, 100, 300),
+      new Mosaic(200, 300, 200),
       new Popping(400, 300),
     ];
     this.endFrame = this.anims.map((anim) => anim.getFrames()).reduce((a, b) => a + b);
