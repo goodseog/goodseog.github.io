@@ -59,6 +59,9 @@ vec2D.prototype = {
   toArray: function (n) {
     return [this.x, this.y].slice(0, n || 2);
   },
+  toJson: function(){
+    return {x: this.x, y: this.y}
+  },
   clone: function () {
     return new vec2D(this.x, this.y);
   },

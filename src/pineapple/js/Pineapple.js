@@ -6,6 +6,7 @@ import Snakes from "./animations/snake/Snakes.js";
 import Mosaic from "./animations/mosaic/Mosaic.js";
 
 import { vec2D } from "/static/js/Vector.js";
+import Popping from "./animations/popping/Popping.js";
 
 let app;
 
@@ -21,14 +22,13 @@ class Pineapple {
 
     this.anims = [
       //
-      new Waves(6, 100),
-      new PopWaves(600),
-      new Snakes(500, 100, 400),
-      new Mosaic(400, 600, 400),
+      new Waves(6, 33),
+      new PopWaves(300),
+      new Snakes(300, 100, 300),
+      new Mosaic(200, 300, 200),
+      new Popping(400, 300),
     ];
-    this.endFrame = this.anims
-      .map((anim) => anim.getFrames())
-      .reduce((a, b) => a + b);
+    this.endFrame = this.anims.map((anim) => anim.getFrames()).reduce((a, b) => a + b);
     this.animId = window.requestAnimationFrame(this.animate.bind(this));
   }
 
@@ -40,17 +40,26 @@ class Pineapple {
     this.stageWidth = document.body.clientWidth;
     this.stageHeight = document.body.clientHeight;
 
-    let top = 0;
+    this.top = 0;
     if ((this.stageWidth / 9) * 16 < this.stageHeight) {
       this.stageHeight = (this.stageWidth / 9) * 16;
-      top = 0.5 * (document.body.clientHeight - this.stageHeight);
+      this.top = 0.5 * (document.body.clientHeight - this.stageHeight);
     } else if ((this.stageHeight / 16) * 9 < this.stageWidth) {
       this.stageWidth = (this.stageHeight / 16) * 9;
     }
+    this.left = (document.body.clientWidth - this.stageWidth) / 2;
+
+    let display = document.querySelector("#display");
+    console.log(display);
+    display.style.width = `${this.stageWidth}px`;
+    display.style.height = `${this.stageHeight}px`;
+    display.style.top = `${this.top}px`;
+    display.style.left = `${this.left}px`;
 
     this.canvas.width = this.stageWidth;
     this.canvas.height = this.stageHeight;
-    this.canvas.style.top = "" + top + "px";
+    this.canvas.style.top = `0px`;
+    this.canvas.style.left = `0px`;
     Coord.resize(this.stageWidth, this.stageHeight);
   }
 
@@ -82,13 +91,7 @@ class Pineapple {
   drawImage(size) {
     let image = new Image(100, 100);
     image.src = "/static/img/apple.png";
-    this.ctx.drawImage(
-      image,
-      this.stageWidth / 2 - size,
-      this.stageHeight / 2 - size,
-      size * 2,
-      size * 2
-    );
+    this.ctx.drawImage(image, this.stageWidth / 2 - size, this.stageHeight / 2 - size, size * 2, size * 2);
   }
 }
 
