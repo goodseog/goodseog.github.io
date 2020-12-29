@@ -1,8 +1,4 @@
-import {
-  AppleSnakeBody,
-  AppleSnakeBody as ASB,
-  AppleSnakeLeaf as ASL,
-} from "../../Data.js";
+import { AppleSnakeBody, AppleSnakeBody as ASB, AppleSnakeLeaf as ASL } from "../../Data.js";
 import Coords from "../../Coordinate.js";
 import * as Colors from "../../Colors.js";
 
@@ -19,6 +15,7 @@ export default class Popping {
     this.appear = appear;
     this.disappear = disappear;
     this.convexs = [];
+    this.element = document.querySelector("#display");
   }
 
   getFrames() {
@@ -29,34 +26,39 @@ export default class Popping {
     if (frame == 0) {
       this.setupWorld();
     } else if (frame === parseInt(this.appear * 0.1)) {
-      this.addRandomBalls(this.world, [0.75, 0.94], 12);
+      this.addRandomBalls(this.world, [0.75, 0.94], 6);
       console.log("pop");
     } else if (frame === parseInt(this.appear * 0.2)) {
-      this.addRandomBalls(this.world, [1.0, 0.94], 12);
-      this.addRandomBalls(this.world, [1.03, 0.78], 3); // leaf
+      this.addRandomBalls(this.world, [1.0, 0.94], 6);
+      this.addRandomBalls(this.world, [1.03, 0.78], 2); // leaf
       console.log("pop");
     } else if (frame === parseInt(this.appear * 0.4)) {
-      this.addRandomBalls(this.world, [0.875, 0.89], 12);
-      this.addRandomBalls(this.world, [1.031, 0.78], 3); // leaf
+      this.addRandomBalls(this.world, [0.875, 0.89], 6);
+      this.addRandomBalls(this.world, [1.031, 0.78], 2); // leaf
       console.log("pop");
     } else if (frame === parseInt(this.appear * 0.6)) {
-      this.addRandomBalls(this.world, [0.73, 0.89], 12);
-      this.addRandomBalls(this.world, [1.033, 0.78], 3); // leaf
+      this.addRandomBalls(this.world, [0.73, 0.89], 6);
+      this.addRandomBalls(this.world, [1.033, 0.78], 2); // leaf
       console.log("pop");
     } else if (frame === parseInt(this.appear * 0.7)) {
-      this.addRandomBalls(this.world, [1.0, 0.89], 12);
+      this.addRandomBalls(this.world, [1.0, 0.89], 6);
       console.log("pop");
-    } else if (frame > this.appear) {
+    } else if (frame === this.appear) {
       this.engine.timing.timeScale = 1.0;
-      this.convexs.forEach((convex) =>
-        Matter.Composite.remove(this.world, convex)
-      );
-    } else if (frame === this.getFrames() - 1) {
-      document.body.removeChild(this.render.canvas);
+      this.convexs.forEach((convex) => Matter.Composite.remove(this.world, convex));
+
+      World.add(this.world, this.meteor);
+    }
+    if (frame == this.getFrames() - 1) {
+      console.log("flush");
+      console.log(this.element);
+      console.log(this.render.canvas);
+
       World.clear(this.world);
       Engine.clear(this.engine);
       Render.stop(this.render);
       Runner.stop(this.runner);
+      this.element.removeChild(this.render.canvas);
       this.render.canvas.remove();
       this.render.canvas = null;
       this.render.context = null;
@@ -64,13 +66,16 @@ export default class Popping {
   }
 
   setupWorld() {
+    let w = Coords.getWidth();
+    let h = Coords.getHeight();
+
     this.convex = [];
     this.engine = Engine.create();
     this.engine.timing.timeScale = 0.2;
     this.world = this.engine.world;
 
     this.render = Render.create({
-      element: document.body,
+      element: this.element,
       engine: this.engine,
       options: {
         width: Coords.getWidth(),
@@ -87,36 +92,34 @@ export default class Popping {
 
     this.addBallBoundary(this.world, ASB);
     this.addBallBoundary(this.world, ASL);
+    this.meteor = Bodies.circle(w / 2, h - 10, 20, {
+      render: {
+        fillStyle: "black",
+      },
+    });
+    Body.setVelocity(this.meteor, { x: 0, y: -15 });
   }
 
   addRandomBalls(world, pos, count) {
     let c = Coords.getPos([0, 0]);
     World.add(
       world,
-      Composites.stack(
-        c.x * pos[0],
-        c.y * pos[1],
-        count,
-        count,
-        0,
-        0,
-        function (x, y) {
-          let color = Colors.getRandomColor();
-          let circle = Bodies.circle(x, y, 4 * Math.random() + 1, {
-            render: {
-              fillStyle: color,
-              strokeStyle: "black",
-              lineWidth: 1,
-            },
-          });
-          let vel = {
-            x: 4 * (Math.random() - 0.5),
-            y: 4 * (Math.random() - 0.5),
-          };
-          Body.setVelocity(circle, vel);
-          return circle;
-        }
-      )
+      Composites.stack(c.x * pos[0], c.y * pos[1], count, count, 0, 0, function (x, y) {
+        let color = Colors.getRandomColor();
+        let circle = Bodies.circle(x, y, 5 * Math.random() + 2, {
+          render: {
+            fillStyle: color,
+            strokeStyle: "black",
+            lineWidth: 1,
+          },
+        });
+        let vel = {
+          x: 4 * (Math.random() - 0.5),
+          y: 4 * (Math.random() - 0.5),
+        };
+        Body.setVelocity(circle, vel);
+        return circle;
+      })
     );
   }
 
