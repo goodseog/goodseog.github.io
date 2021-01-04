@@ -92,7 +92,7 @@ export default class Popping {
 
     this.addBallBoundary(this.world, ASB);
     this.addBallBoundary(this.world, ASL);
-    this.meteor = Bodies.circle(w / 2, h - 10, 30 * h / 800, {
+    this.meteor = Bodies.circle(w / 2, h - 10, (30 * h) / 800, {
       render: {
         fillStyle: "black",
       },

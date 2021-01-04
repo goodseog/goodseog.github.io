@@ -59,8 +59,8 @@ vec2D.prototype = {
   toArray: function (n) {
     return [this.x, this.y].slice(0, n || 2);
   },
-  toJson: function(){
-    return {x: this.x, y: this.y}
+  toJson: function () {
+    return { x: this.x, y: this.y };
   },
   clone: function () {
     return new vec2D(this.x, this.y);
@@ -175,11 +175,7 @@ vec3D.prototype = {
     return this.x * v.x + this.y * v.y + this.z * v.z;
   },
   cross: function (v) {
-    return new vec3D(
-      this.y * v.z - this.z * v.y,
-      this.z * v.x - this.x * v.z,
-      this.x * v.y - this.y * v.x
-    );
+    return new vec3D(this.y * v.z - this.z * v.y, this.z * v.x - this.x * v.z, this.x * v.y - this.y * v.x);
   },
   length: function () {
     return Math.sqrt(this.dot(this));
