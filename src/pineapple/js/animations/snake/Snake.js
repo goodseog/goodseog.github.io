@@ -14,7 +14,7 @@ export default class Snake {
     this.pathLenCumsum = this.paths
       .slice(1)
       .concat(this.paths.slice(0, 1))
-      .map((p, idx) => this.paths[idx].subtract(p).length())
+      .map((p, idx) => this.paths[idx].sub(p).length())
       .map(cumsum);
 
     cumsum = ((sum) => (num) => (sum += num))(0);
@@ -66,7 +66,7 @@ export default class Snake {
     let center = Coord.getPos([0, 0]);
     let points = this.positions
       .map((pos) => this.getPoint(pos))
-      .map((pos) => pos.subtract(center).multiply(zoom).add(center));
+      .map((pos) => pos.sub(center).mul(zoom).add(center));
     this.drawPoints(ctx, points, zoom);
   }
 
@@ -87,7 +87,7 @@ export default class Snake {
           this.drawArc(ctx, args, zoom);
         } else {
           let prev = points[idx - 1];
-          let angle = p.subtract(prev).toAngles();
+          let angle = p.sub(prev).toAngle();
           let args = [
             p.x,
             p.y,
@@ -131,6 +131,6 @@ export default class Snake {
         ? pos / this.pathLenCumsum[0]
         : (pos - this.pathLenCumsum[sidx - 1]) /
           (this.pathLenCumsum[sidx] - this.pathLenCumsum[sidx - 1]);
-    return this.paths[sidx].multiply(1 - ratio).add(this.paths[eidx].multiply(ratio));
+    return this.paths[sidx].mul(1 - ratio).add(this.paths[eidx].mul(ratio));
   }
 }

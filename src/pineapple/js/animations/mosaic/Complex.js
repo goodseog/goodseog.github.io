@@ -120,7 +120,7 @@ export default class Complex {
     let dx = size * ratio;
     let down = dx >= 0;
     let move = new vec2D(dx, dx);
-    let center = p.add(move.multiply(0.5));
+    let center = p.add(move.mul(0.5));
     let startAngle = down ? Math.PI * 1.25 : Math.PI * 0.25;
     let endAngle = down ? Math.PI * 0.25 : Math.PI * 1.25;
     p = p.add(move);

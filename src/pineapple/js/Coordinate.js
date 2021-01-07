@@ -24,7 +24,7 @@ export default (function () {
     },
     getZoom: function (vec, zoom) {
       let center = this.getPos([0, 0]);
-      return vec.subtract(center).multiply(zoom).add(center);
+      return vec.sub(center).mul(zoom).add(center);
     },
     scale: function (vec) {
       if (vec instanceof Array) {

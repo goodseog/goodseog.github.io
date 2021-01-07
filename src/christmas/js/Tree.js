@@ -32,11 +32,11 @@ export default class Tree {
     let genBranchesLR = (i, LR) => {
       let ratio = i / (branchCount[level] + 3);
       let newStartTime = startTime + (animateTime - startTime) * ratio;
-      let newStart = start.add(direction.multiply(ratio + branchStartJitter * myRand()));
+      let newStart = start.add(direction.mul(ratio + branchStartJitter * myRand()));
       let newDir = direction
         .rotate(LR * branchAngle + myRand() * branchAngleJitter)
         .unit()
-        .multiply(branch2stem * scaler(1 - ratio) * direction.length());
+        .mul(branch2stem * scaler(1 - ratio) * direction.length());
       return this.genBranches(newStartTime, newStart, newDir, level + 1);
     };
 
@@ -77,11 +77,11 @@ class Branch {
     progress = Math.min(progress, 1.0);
 
     let vert = new vec2D(this.direction.y, -this.direction.x);
-    vert = vert.multiply(stemRatio * progress);
+    vert = vert.mul(stemRatio * progress);
 
-    let bot0 = this.start.subtract(vert);
+    let bot0 = this.start.sub(vert);
     let bot1 = this.start.add(vert);
-    let top = this.start.add(this.direction.multiply(progress));
+    let top = this.start.add(this.direction.mul(progress));
 
     ctx.beginPath();
     ctx.moveTo(bot0.x, bot0.y);

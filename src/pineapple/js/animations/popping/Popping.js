@@ -142,17 +142,17 @@ export default class Popping {
         let thick = 7;
         let p1 = bodies[idx];
         let norm = p1
-          .subtract(p0)
+          .sub(p0)
           .unit()
-          .multiply(thick / 2)
+          .mul(thick / 2)
           .rotate(-0.5 * Math.PI);
-        let c = p0.multiply(0.5).add(p1.multiply(0.5)).add(norm.multiply(1.5));
+        let c = p0.mul(0.5).add(p1.mul(0.5)).add(norm.mul(1.5));
 
         let verts = [
-          p1.multiply(1.5).subtract(p0.multiply(0.5)).toJson(),
-          p0.multiply(1.5).subtract(p1.multiply(0.5)).toJson(),
-          p0.add(norm.multiply(thick / 2)).toJson(),
-          p1.add(norm.multiply(thick / 2)).toJson(),
+          p1.mul(1.5).sub(p0.mul(0.5)).toDict(),
+          p0.mul(1.5).sub(p1.mul(0.5)).toDict(),
+          p0.add(norm.mul(thick / 2)).toDict(),
+          p1.add(norm.mul(thick / 2)).toDict(),
         ];
         let convex = Bodies.fromVertices(c.x, c.y, verts, options);
         this.convexs.push(convex);

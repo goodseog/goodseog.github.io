@@ -7,7 +7,7 @@ export default class Wall {
     this.end = new vec2D(x2, y2);
     this.color = color;
 
-    var vec = this.end.subtract(this.start);
+    var vec = this.end.sub(this.start);
     this.a = vec.y;
     this.b = -vec.x;
     this.c = -(this.a * x1 + this.b * y1);
@@ -18,7 +18,7 @@ export default class Wall {
     this.start = new vec2D(x1, y1);
     this.end = new vec2D(x2, y2);
 
-    var vec = this.end.subtract(this.start);
+    var vec = this.end.sub(this.start);
     this.a = vec.y;
     this.b = -vec.x;
     this.c = -(this.a * x1 + this.b * y1);

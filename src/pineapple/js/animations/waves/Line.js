@@ -11,11 +11,11 @@ export default class Line {
     let eP0 = new vec2D(end0[0], end0[1]);
     let eP1 = new vec2D(end1[0], end1[1]);
 
-    let sCenter = sP0.multiply(0.5).add(sP1.multiply(0.5));
-    let eCenter = eP0.multiply(0.5).add(eP1.multiply(0.5));
+    let sCenter = sP0.mul(0.5).add(sP1.mul(0.5));
+    let eCenter = eP0.mul(0.5).add(eP1.mul(0.5));
 
-    let sArm = sP0.subtract(sCenter);
-    let eArm = eP0.subtract(eCenter);
+    let sArm = sP0.sub(sCenter);
+    let eArm = eP0.sub(eCenter);
 
     let sArmLen = sArm.length();
     let eArmLen = eArm.length();
@@ -23,7 +23,7 @@ export default class Line {
     this.center = sCenter;
     this.arm = sArm;
     this.lengthRatio = eArmLen / sArmLen; // 1 to this.zoom
-    this.vel = eCenter.subtract(sCenter).divide(this.frames);
+    this.vel = eCenter.sub(sCenter).div(this.frames);
 
     this.angleVel = ((sArm.unit().y < eArm.unit().y ? +1 : -1) * sArm.angleTo(eArm)) / this.frames;
     this.color = color;
@@ -32,11 +32,11 @@ export default class Line {
 
   redraw(ctx, frame) {
     ctx.beginPath();
-    let drawCenter = this.center.add(this.vel.multiply(this.easeIn(frame)));
+    let drawCenter = this.center.add(this.vel.mul(this.easeIn(frame)));
     let zoomSize = 1 + ((this.lengthRatio - 1) * this.easeIn(frame)) / this.frames;
-    let drawArm = this.arm.rotate(-this.angleVel * this.easeIn(frame)).multiply(zoomSize);
+    let drawArm = this.arm.rotate(-this.angleVel * this.easeIn(frame)).mul(zoomSize);
     let drawStart = drawCenter.add(drawArm);
-    let drawEnd = drawCenter.subtract(drawArm);
+    let drawEnd = drawCenter.sub(drawArm);
 
     let s = Coord.getPos(drawStart);
     let e = Coord.getPos(drawEnd);

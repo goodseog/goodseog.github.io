@@ -23,20 +23,20 @@ export default class RoundLine {
     let gen = 2 * Math.random() - 1;
     let height = Coord.getHeight();
     this.appearAt = this.p0
-      .multiply(0.5)
-      .add(this.p1.multiply(0.5))
-      .add(new vec2D(1, -1).multiply((gen * height) / 25));
+      .mul(0.5)
+      .add(this.p1.mul(0.5))
+      .add(new vec2D(1, -1).mul((gen * height) / 25));
 
     this.lineWidth = lineWidth;
     this.strokeStyle = strokeStyle;
     this.shifting = shifting;
     this.anim = Math.random() < 1 / 2 ? "fadeout" : "zoomout";
-    this.popDir = vec2D.randomDirection();
+    this.popDir = vec2D.random();
     this.popZoom = 1.01;
 
     if (this.strokeStyle === Colors.ORANGE) {
-      this.grd0 = this.p0.multiply(2).add(this.p1.multiply(-1));
-      this.grd1 = this.p0.multiply(-1).add(this.p1.multiply(2));
+      this.grd0 = this.p0.mul(2).add(this.p1.mul(-1));
+      this.grd1 = this.p0.mul(-1).add(this.p1.mul(2));
       this.stop = (Math.random() + 1) / 3;
     }
   }
@@ -48,11 +48,11 @@ export default class RoundLine {
     if (frame < this.appear) {
       let progress = easeInOutSine((frame + 0.01) / this.appear);
       let start = this.p0
-        .multiply(progress)
-        .add(this.appearAt.multiply(1 - progress));
+        .mul(progress)
+        .add(this.appearAt.mul(1 - progress));
       let end = this.p1
-        .multiply(progress)
-        .add(this.appearAt.multiply(1 - progress));
+        .mul(progress)
+        .add(this.appearAt.mul(1 - progress));
       this.drawLine(ctx, start, end, this.lineWidth * progress, frame);
     } else if (frame - this.appear < this.stay) {
       let progress = (frame - this.appear) / this.stay;
@@ -76,11 +76,11 @@ export default class RoundLine {
           opacity = 1;
           lineWidth = this.lineWidth * (1 - progress);
           start = start
-            .multiply(1 - progress)
-            .add(this.appearAt.multiply(progress));
+            .mul(1 - progress)
+            .add(this.appearAt.mul(progress));
           end = end
-            .multiply(1 - progress)
-            .add(this.appearAt.multiply(progress));
+            .mul(1 - progress)
+            .add(this.appearAt.mul(progress));
           break;
       }
       this.drawLine(ctx, start, end, lineWidth, frame, opacity);

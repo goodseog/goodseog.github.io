@@ -31,9 +31,9 @@ export default class Wave {
     ctx.moveTo(prev.x, prev.y);
     let a, b, next, cx, cy;
     this.points.forEach((point, idx) => {
-      a = s.multiply((pcnt - idx + 1) / (pcnt + 2));
-      b = e.multiply((idx + 1) / (pcnt + 2));
-      next = a.add(b).subtract(new vec2D(0, point[frame] * WAVE_HEIGHT));
+      a = s.mul((pcnt - idx + 1) / (pcnt + 2));
+      b = e.mul((idx + 1) / (pcnt + 2));
+      next = a.add(b).sub(new vec2D(0, point[frame] * WAVE_HEIGHT));
       cx = (prev.x + next.x) / 2;
       cy = (prev.y + next.y) / 2;
       ctx.quadraticCurveTo(prev.x, prev.y, cx, cy);

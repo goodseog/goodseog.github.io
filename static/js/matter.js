@@ -952,12 +952,12 @@ module.exports = Vector;
     };
 
     /**
-     * Subtracts the two vectors.
+     * subs the two vectors.
      * @method sub
      * @param {vector} vectorA
      * @param {vector} vectorB
      * @param {vector} [output]
-     * @return {vector} A new vector of vectorA and vectorB subtracted
+     * @return {vector} A new vector of vectorA and vectorB subed
      */
     Vector.sub = function(vectorA, vectorB, output) {
         if (!output) output = {};

@@ -1,302 +1,143 @@
-export function vec2D(x, y) {
-  this.x = x || 0;
-  this.y = y || 0;
-}
-
-export function vec3D(x, y) {
-  this.x = x || 0;
-  this.y = y || 0;
-  this.z = z || 0;
-}
-
-vec2D.prototype = {
-  negative: function () {
-    return new vec2D(-this.x, -this.y);
-  },
-  add: function (v) {
-    if (v instanceof vec2D) return new vec2D(this.x + v.x, this.y + v.y);
-    else return new vec2D(this.x + v, this.y + v);
-  },
-  subtract: function (v) {
-    if (v instanceof vec2D) return new vec2D(this.x - v.x, this.y - v.y);
-    else return new vec2D(this.x - v, this.y - v);
-  },
-  multiply: function (v) {
-    if (v instanceof vec2D) return new vec2D(this.x * v.x, this.y * v.y);
-    else return new vec2D(this.x * v, this.y * v);
-  },
-  divide: function (v) {
-    if (v instanceof vec2D) return new vec2D(this.x / v.x, this.y / v.y);
-    else return new vec2D(this.x / v, this.y / v);
-  },
-  equals: function (v) {
-    return this.x == v.x && this.y == v.y;
-  },
-  dot: function (v) {
-    return this.x * v.x + this.y * v.y;
-  },
-  length: function () {
-    return Math.sqrt(this.dot(this));
-  },
-  unit: function () {
-    return this.divide(this.length());
-  },
-  toAngles: function () {
-    let angle = Math.asin(this.y / this.length());
-    if (this.x >= 0 && this.y >= 0) {
-      return angle;
-    } else if (this.x <= 0 && this.y >= 0) {
-      return Math.PI - angle;
-    } else if (this.x <= 0 && this.y <= 0) {
-      return Math.PI - angle;
-    } else if (this.x >= 0 && this.y <= 0) {
-      return 2 * Math.PI + angle;
+export class vec2D {
+    constructor(x = 0, y = 0) {
+        this.x = x;
+        this.y = y;
     }
-  },
-  angleTo: function (a) {
-    return Math.acos(this.dot(a) / (this.length() * a.length()));
-  },
-  toArray: function (n) {
-    return [this.x, this.y].slice(0, n || 2);
-  },
-  toJson: function () {
-    return { x: this.x, y: this.y };
-  },
-  clone: function () {
-    return new vec2D(this.x, this.y);
-  },
-  rotate: function (theta) {
-    let newX = Math.cos(theta) * this.x - Math.sin(theta) * this.y;
-    let newY = Math.sin(theta) * this.x + Math.cos(theta) * this.y;
-    return new vec2D(newX, newY);
-  },
-  init: function (x, y) {
-    this.x = x;
-    this.y = y;
-    return this;
-  },
-};
-
-// ### Static Methods
-// `vec2D.randomDirection()` returns a vec2D with a length of 1 and a
-// statistically uniform direction. `vec2D.lerp()` performs linear
-// interpolation between two vec2Ds.
-vec2D.negative = function (a, b) {
-  b.x = -a.x;
-  b.y = -a.y;
-  return b;
-};
-vec2D.add = function (a, b, c) {
-  if (b instanceof vec2D) {
-    c.x = a.x + b.x;
-    c.y = a.y + b.y;
-  } else {
-    c.x = a.x + b;
-    c.y = a.y + b;
-  }
-  return c;
-};
-vec2D.subtract = function (a, b, c) {
-  if (b instanceof vec2D) {
-    c.x = a.x - b.x;
-    c.y = a.y - b.y;
-  } else {
-    c.x = a.x - b;
-    c.y = a.y - b;
-  }
-  return c;
-};
-vec2D.multiply = function (a, b, c) {
-  if (b instanceof vec2D) {
-    c.x = a.x * b.x;
-    c.y = a.y * b.y;
-  } else {
-    c.x = a.x * b;
-    c.y = a.y * b;
-  }
-  return c;
-};
-vec2D.divide = function (a, b, c) {
-  if (b instanceof vec2D) {
-    c.x = a.x / b.x;
-    c.y = a.y / b.y;
-  } else {
-    c.x = a.x / b;
-    c.y = a.y / b;
-  }
-  return c;
-};
-vec2D.unit = function (a, b) {
-  var length = a.length();
-  b.x = a.x / length;
-  b.y = a.y / length;
-  return b;
-};
-vec2D.fromAngles = function (theta, phi) {
-  return new vec2D(Math.cos(theta) * Math.cos(phi), Math.sin(phi), Math.sin(theta) * Math.cos(phi));
-};
-vec2D.randomDirection = function () {
-  return vec2D.fromAngles(Math.random() * Math.PI * 2, Math.asin(Math.random() * 2 - 1));
-};
-vec2D.lerp = function (a, b, fraction) {
-  return b.subtract(a).multiply(fraction).add(a);
-};
-vec2D.fromArray = function (a) {
-  return new vec2D(a[0], a[1], a[2]);
-};
-vec2D.angleBetween = function (a, b) {
-  return a.angleTo(b);
-};
-
-vec3D.prototype = {
-  negative: function () {
-    return new vec3D(-this.x, -this.y, -this.z);
-  },
-  add: function (v) {
-    if (v instanceof vec3D) return new vec3D(this.x + v.x, this.y + v.y, this.z + v.z);
-    else return new vec3D(this.x + v, this.y + v, this.z + v);
-  },
-  subtract: function (v) {
-    if (v instanceof vec3D) return new vec3D(this.x - v.x, this.y - v.y, this.z - v.z);
-    else return new vec3D(this.x - v, this.y - v, this.z - v);
-  },
-  multiply: function (v) {
-    if (v instanceof vec3D) return new vec3D(this.x * v.x, this.y * v.y, this.z * v.z);
-    else return new vec3D(this.x * v, this.y * v, this.z * v);
-  },
-  divide: function (v) {
-    if (v instanceof vec3D) return new vec3D(this.x / v.x, this.y / v.y, this.z / v.z);
-    else return new vec3D(this.x / v, this.y / v, this.z / v);
-  },
-  equals: function (v) {
-    return this.x == v.x && this.y == v.y && this.z == v.z;
-  },
-  dot: function (v) {
-    return this.x * v.x + this.y * v.y + this.z * v.z;
-  },
-  cross: function (v) {
-    return new vec3D(this.y * v.z - this.z * v.y, this.z * v.x - this.x * v.z, this.x * v.y - this.y * v.x);
-  },
-  length: function () {
-    return Math.sqrt(this.dot(this));
-  },
-  unit: function () {
-    return this.divide(this.length());
-  },
-  min: function () {
-    return Math.min(Math.min(this.x, this.y), this.z);
-  },
-  max: function () {
-    return Math.max(Math.max(this.x, this.y), this.z);
-  },
-  toAngles: function () {
-    return {
-      theta: Math.atan2(this.z, this.x),
-      phi: Math.asin(this.y / this.length()),
-    };
-  },
-  angleTo: function (a) {
-    return Math.acos(this.dot(a) / (this.length() * a.length()));
-  },
-  toArray: function (n) {
-    return [this.x, this.y, this.z].slice(0, n || 3);
-  },
-  clone: function () {
-    return new vec3D(this.x, this.y, this.z);
-  },
-  init: function (x, y, z) {
-    this.x = x;
-    this.y = y;
-    this.z = z;
-    return this;
-  },
-};
-
-vec3D.negative = function (a, b) {
-  b.x = -a.x;
-  b.y = -a.y;
-  b.z = -a.z;
-  return b;
-};
-vec3D.add = function (a, b, c) {
-  if (b instanceof vec3D) {
-    c.x = a.x + b.x;
-    c.y = a.y + b.y;
-    c.z = a.z + b.z;
-  } else {
-    c.x = a.x + b;
-    c.y = a.y + b;
-    c.z = a.z + b;
-  }
-  return c;
-};
-vec3D.subtract = function (a, b, c) {
-  if (b instanceof vec3D) {
-    c.x = a.x - b.x;
-    c.y = a.y - b.y;
-    c.z = a.z - b.z;
-  } else {
-    c.x = a.x - b;
-    c.y = a.y - b;
-    c.z = a.z - b;
-  }
-  return c;
-};
-vec3D.multiply = function (a, b, c) {
-  if (b instanceof vec3D) {
-    c.x = a.x * b.x;
-    c.y = a.y * b.y;
-    c.z = a.z * b.z;
-  } else {
-    c.x = a.x * b;
-    c.y = a.y * b;
-    c.z = a.z * b;
-  }
-  return c;
-};
-vec3D.divide = function (a, b, c) {
-  if (b instanceof vec3D) {
-    c.x = a.x / b.x;
-    c.y = a.y / b.y;
-    c.z = a.z / b.z;
-  } else {
-    c.x = a.x / b;
-    c.y = a.y / b;
-    c.z = a.z / b;
-  }
-  return c;
-};
-vec3D.cross = function (a, b, c) {
-  c.x = a.y * b.z - a.z * b.y;
-  c.y = a.z * b.x - a.x * b.z;
-  c.z = a.x * b.y - a.y * b.x;
-  return c;
-};
-vec3D.unit = function (a, b) {
-  var length = a.length();
-  b.x = a.x / length;
-  b.y = a.y / length;
-  b.z = a.z / length;
-  return b;
-};
-vec3D.fromAngles = function (theta, phi) {
-  return new vec3D(Math.cos(theta) * Math.cos(phi), Math.sin(phi), Math.sin(theta) * Math.cos(phi));
-};
-vec3D.randomDirection = function () {
-  return vec3D.fromAngles(Math.random() * Math.PI * 2, Math.asin(Math.random() * 2 - 1));
-};
-vec3D.min = function (a, b) {
-  return new vec3D(Math.min(a.x, b.x), Math.min(a.y, b.y), Math.min(a.z, b.z));
-};
-vec3D.max = function (a, b) {
-  return new vec3D(Math.max(a.x, b.x), Math.max(a.y, b.y), Math.max(a.z, b.z));
-};
-vec3D.lerp = function (a, b, fraction) {
-  return b.subtract(a).multiply(fraction).add(a);
-};
-vec3D.fromArray = function (a) {
-  return new vec3D(a[0], a[1], a[2]);
-};
-vec3D.angleBetween = function (a, b) {
-  return a.angleTo(b);
-};
+    neg() {
+        return new vec2D(-this.x, -this.y);
+    }
+    add(v) {
+        return new vec2D(this.x + v.x, this.y + v.y);
+    }
+    sub(v) {
+        return new vec2D(this.x - v.x, this.y - v.y);
+    }
+    mul(a) {
+        return new vec2D(this.x * a, this.y * a);
+    }
+    div(a) {
+        return new vec2D(this.x / a, this.y / a);
+    }
+    equals(v) {
+        return this.x == v.x && this.y == v.y;
+    }
+    dot(v) {
+        return this.x * v.x + this.y * v.y;
+    }
+    cross(v) {
+        return this.x * v.y - this.y * v.x;
+    }
+    ccw(v) {
+        return this.cross(v) > 0;
+    }
+    length() {
+        return Math.sqrt(this.dot(this));
+    }
+    unit() {
+        return this.div(this.length());
+    }
+    angleTo(to) {
+        let from = this.unit();
+        to = to.unit();
+        return Math.acos(from.dot(to));
+    }
+    toAngle() {
+        let angle = Math.asin(this.y / this.length());
+        if (this.x >= 0 && this.y >= 0) {
+            return angle;
+        }
+        else if (this.x <= 0 && this.y >= 0) {
+            return Math.PI - angle;
+        }
+        else if (this.x <= 0 && this.y <= 0) {
+            return Math.PI - angle;
+        }
+        else {
+            return 2 * Math.PI + angle;
+        }
+    }
+    rotate(angle) {
+        let [sin, cos] = [Math.sin(angle), Math.cos(angle)];
+        return new vec2D(cos * this.x - sin * this.y, sin * this.x + cos * this.y);
+    }
+    static angleBetween(v0, v1) {
+        return v0.angleTo(v1);
+    }
+    static random() {
+        return new vec2D(Math.random() - 0.5, Math.random() - 0.5).unit();
+    }
+    toArray() {
+        return [this.x, this.y];
+    }
+    toDict() {
+        return { x: this.x, y: this.y };
+    }
+}
+export class vec3D {
+    constructor(x = 0, y = 0, z = 0) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+    neg() {
+        return new vec3D(-this.x, -this.y, -this.z);
+    }
+    add(v) {
+        return new vec3D(this.x + v.x, this.y + v.y, this.z + v.z);
+    }
+    sub(v) {
+        return new vec3D(this.x - v.x, this.y - v.y, this.z - v.z);
+    }
+    multiply(a) {
+        return new vec3D(this.x * a, this.y * a, this.z * a);
+    }
+    div(a) {
+        return new vec3D(this.x / a, this.y / a, this.z / a);
+    }
+    equals(v) {
+        return this.x == v.x && this.y == v.y && this.z == v.z;
+    }
+    dot(v) {
+        return this.x * v.x + this.y * v.y + this.z * v.z;
+    }
+    cross(v) {
+        return new vec3D(this.y * v.z - this.z * v.y, this.z * v.x - this.x * v.z, this.x * v.y - this.y * v.x);
+    }
+    length() {
+        return Math.sqrt(this.dot(this));
+    }
+    unit() {
+        return this.div(this.length());
+    }
+    angleTo(to) {
+        let from = this.unit();
+        to = to.unit();
+        return Math.acos(from.dot(to));
+    }
+    rotate(axis, angle) {
+        let u = axis.unit();
+        let [sin, cos] = [Math.sin(angle), Math.cos(angle)];
+        let mcos = 1 - cos;
+        const [ux, uy, uz] = [u.x, u.y, u.z];
+        const [ux2, uy2, uz2] = [ux * ux, uy * uy, uz * uz];
+        const [uxy, uyz, uzx] = [ux * uy, uy * uz, uz * ux];
+        let mat = [
+            new vec3D(cos + ux2 * mcos, uxy * mcos - uz * sin, uzx * mcos + uy * sin),
+            new vec3D(uxy * mcos + uz * sin, cos + uy2 * mcos, uyz * mcos - ux * sin),
+            new vec3D(uzx * mcos - uy * sin, uyz * mcos + ux * sin, cos + uz2 * mcos),
+        ];
+        return new vec3D(mat[0].dot(this), mat[1].dot(this), mat[2].dot(this));
+    }
+    static angleBetween(v0, v1) {
+        return v0.angleTo(v1);
+    }
+    static random() {
+        return new vec3D(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).unit();
+    }
+    toArray() {
+        return [this.x, this.y, this.z];
+    }
+    toDict() {
+        return { x: this.x, y: this.y, z: this.z };
+    }
+}

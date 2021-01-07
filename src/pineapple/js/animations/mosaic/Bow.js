@@ -22,7 +22,7 @@ export default class Bow {
     this.p1 = Coord.getPos(ap0.map((a) => a + dx));
 
     let ratio = 0.3 + Math.random() * 0.6;
-    this.appearAt = this.p0.multiply(ratio).add(this.p1.multiply(1 - ratio));
+    this.appearAt = this.p0.mul(ratio).add(this.p1.mul(1 - ratio));
 
     this.lineWidth = lineWidth;
     this.strokeStyle = strokeStyle;
@@ -36,11 +36,11 @@ export default class Bow {
     if (frame < this.appear) {
       let progress = easeInOutSine((frame + 0.01) / this.appear);
       let start = this.p0
-        .multiply(progress)
-        .add(this.appearAt.multiply(1 - progress));
+        .mul(progress)
+        .add(this.appearAt.mul(1 - progress));
       let end = this.p1
-        .multiply(progress)
-        .add(this.appearAt.multiply(1 - progress));
+        .mul(progress)
+        .add(this.appearAt.mul(1 - progress));
       this.drawArcs(ctx, start, end, this.lineWidth * progress);
     } else if (frame - this.appear < this.stay) {
       let progress = (frame - this.appear) / this.stay;
@@ -56,9 +56,9 @@ export default class Bow {
       let opacity = 1 - progress;
       let lineWidth = this.lineWidth * (1 - progress);
       start = start
-        .multiply(1 - progress)
-        .add(this.appearAt.multiply(progress));
-      end = end.multiply(1 - progress).add(this.appearAt.multiply(progress));
+        .mul(1 - progress)
+        .add(this.appearAt.mul(progress));
+      end = end.mul(1 - progress).add(this.appearAt.mul(progress));
       this.drawArcs(ctx, start, end, lineWidth, frame, opacity);
     }
   }

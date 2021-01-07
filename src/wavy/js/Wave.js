@@ -16,8 +16,8 @@ export default class Wave {
     this.P = [this.start];
     for (let i = 1; i <= this.freq; i++) {
       let center = this.start.center
-        .multiply(1 - i / (this.freq + 1))
-        .add(this.end.center.multiply(i / (this.freq + 1)));
+        .mul(1 - i / (this.freq + 1))
+        .add(this.end.center.mul(i / (this.freq + 1)));
       this.P.push(new Point(center, this.amp, this.w, this.pi + this.dpi * i));
     }
     this.P.push(this.end);

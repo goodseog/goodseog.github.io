@@ -13,7 +13,7 @@ export function vec3D(x, y) {
 }
 
 // ### Instance Methods
-// The methods `add()`, `subtract()`, `multiply()`, and `divide()` can all
+// The methods `add()`, `sub()`, `multiply()`, and `div()` can all
 // take either a vec2D or a number as an argument.
 vec2D.prototype = {
   negative: function() {
@@ -23,7 +23,7 @@ vec2D.prototype = {
     if (v instanceof vec2D) return new vec2D(this.x + v.x, this.y + v.y);
     else return new vec2D(this.x + v, this.y + v);
   },
-  subtract: function(v) {
+  sub: function(v) {
     if (v instanceof vec2D) return new vec2D(this.x - v.x, this.y - v.y);
     else return new vec2D(this.x - v, this.y - v);
   },
@@ -45,7 +45,7 @@ vec2D.prototype = {
     return Math.sqrt(this.dot(this));
   },
   unit: function() {
-    return this.divide(this.length());
+    return this.div(this.length());
   },
   toAngles: function() {
     return {
@@ -80,7 +80,7 @@ vec2D.add = function(a, b, c) {
   else { c.x = a.x + b; c.y = a.y + b; }
   return c;
 };
-vec2D.subtract = function(a, b, c) {
+vec2D.sub = function(a, b, c) {
   if (b instanceof vec2D) { c.x = a.x - b.x; c.y = a.y - b.y;}
   else { c.x = a.x - b; c.y = a.y - b; }
   return c;
@@ -108,7 +108,7 @@ vec2D.randomDirection = function() {
   return vec2D.fromAngles(Math.random() * Math.PI * 2, Math.asin(Math.random() * 2 - 1));
 };
 vec2D.lerp = function(a, b, fraction) {
-  return b.subtract(a).multiply(fraction).add(a);
+  return b.sub(a).mul(fraction).add(a);
 };
 vec2D.fromArray = function(a) {
   return new vec2D(a[0], a[1], a[2]);
@@ -125,7 +125,7 @@ vec3D.prototype = {
     if (v instanceof vec3D) return new vec3D(this.x + v.x, this.y + v.y, this.z + v.z);
     else return new vec3D(this.x + v, this.y + v, this.z + v);
   },
-  subtract: function(v) {
+  sub: function(v) {
     if (v instanceof vec3D) return new vec3D(this.x - v.x, this.y - v.y, this.z - v.z);
     else return new vec3D(this.x - v, this.y - v, this.z - v);
   },
@@ -154,7 +154,7 @@ vec3D.prototype = {
     return Math.sqrt(this.dot(this));
   },
   unit: function() {
-    return this.divide(this.length());
+    return this.div(this.length());
   },
   min: function() {
     return Math.min(Math.min(this.x, this.y), this.z);
@@ -192,7 +192,7 @@ vec3D.add = function(a, b, c) {
   else { c.x = a.x + b; c.y = a.y + b; c.z = a.z + b; }
   return c;
 };
-vec3D.subtract = function(a, b, c) {
+vec3D.sub = function(a, b, c) {
   if (b instanceof vec3D) { c.x = a.x - b.x; c.y = a.y - b.y; c.z = a.z - b.z; }
   else { c.x = a.x - b; c.y = a.y - b; c.z = a.z - b; }
   return c;
@@ -233,7 +233,7 @@ vec3D.max = function(a, b) {
   return new vec3D(Math.max(a.x, b.x), Math.max(a.y, b.y), Math.max(a.z, b.z));
 };
 vec3D.lerp = function(a, b, fraction) {
-  return b.subtract(a).multiply(fraction).add(a);
+  return b.sub(a).mul(fraction).add(a);
 };
 vec3D.fromArray = function(a) {
   return new vec3D(a[0], a[1], a[2]);
