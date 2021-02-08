@@ -14,7 +14,7 @@ function transX(x) {
 }
 
 function transZ(x) {
-  return Math.abs(x) < 1 ? 70 * (1 - Math.abs(x)) - 40 + "px" : "-40px";
+  return Math.abs(x) < 1 ? 150 * (1 - Math.abs(x)) - 70 + "px" : "-70px";
 }
 
 function rotY(x) {
@@ -36,36 +36,14 @@ const StyledCard = styled.div`
 
 export default function () {
   const cards = [...Array(54).keys()];
-  const [selectedIdx, setSelectedIdx] = useState(0);
-
-  useAnimationFrame((deltaTime) => {
-    setSelectedIdx(selectedIdx + deltaTime / 100);
-  })
+  const [selectedIdx, setSelectedIdx] = useState(11);
 
   return (
     <StyledSlider3D>
-      {cards.map((idx) => (
-        <StyledCard x={idx - selectedIdx}>Card #{idx}</StyledCard>
-      ))}
+      {cards.map((idx) => {
+        let x = idx - selectedIdx;
+        return <StyledCard x={x}>Card #{idx}</StyledCard>;
+      })}
     </StyledSlider3D>
   );
 }
-
-const useAnimationFrame = (callback) => {
-  const requestRef = useRef();
-  const previousTimeRef = useRef();
-
-  const animate = (time) => {
-    if (previousTimeRef.current != undefined) {
-      const deltaTime = time - previousTimeRef.current;
-      callback(deltaTime);
-    }
-    previousTimeRef.current = time;
-    requestRef.current = requestAnimationFrame(animate);
-  };
-
-  useEffect(() => {
-    requestRef.current = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(requestRef.current);
-  }, []);
-};
