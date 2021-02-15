@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const StyledSlider3D = styled.div`
   display: flex;
-  position: relative;
+  position: absolute;
   height: 300px;
   transform-style: preserve-3d;
   perspective: 300px;
@@ -24,10 +24,10 @@ function rotY(x) {
 const StyledCard = styled.div`
   position: absolute;
   display: block;
-  top: 75px;
+  top: 25%;
   left: calc(50% - 50px);
   width: 100px;
-  height: 150px;
+  height: 50%;
   background-color: white;
   border: 1px solid black;
   transform: translateX(${({ x }) => transX(x)}) translateZ(${({ x }) => transZ(x)})
@@ -38,11 +38,20 @@ export default function () {
   const cards = [...Array(54).keys()];
   const [selectedIdx, setSelectedIdx] = useState(11);
 
+
   return (
     <StyledSlider3D>
       {cards.map((idx) => {
         let x = idx - selectedIdx;
-        return <StyledCard x={x}>Card #{idx}</StyledCard>;
+        return (
+          <StyledCard
+            onClick={() => {console.log("hello")}}
+            key={idx}
+            x={x}
+          >
+            Card #{idx}
+          </StyledCard>
+        );
       })}
     </StyledSlider3D>
   );
